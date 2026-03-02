@@ -1,0 +1,99 @@
+<footer class="footer" role="contentinfo">
+  <!-- Footer principal -->
+  <div class="footer__main">
+    <div class="container-amg">
+      <div class="footer__grid">
+        <!-- Colonne logo & description -->
+        <div class="footer__brand">
+          <a routerLink="/" aria-label="AMG Décoration d'Intérieur — Retour à l'accueil">
+            <img
+              ngSrc="/assets/images/logo/logo-white.png"
+              alt="AMG Décoration d'Intérieur"
+              width="160"
+              height="60"
+              class="footer__logo"
+            />
+          </a>
+          <p class="footer__description">
+            Décoratrice d'intérieur 3D certifiée MJM Design Graphic.
+            Je vous aide à créer des espaces qui vous ressemblent,
+            en région parisienne et partout en France.
+          </p>
+          <!-- Réseaux sociaux -->
+          <div class="footer__social" role="list" aria-label="Réseaux sociaux">
+            @for (social of socialLinks; track social.icon) {
+              <a
+                [href]="social.href"
+                target="_blank"
+                rel="noopener noreferrer"
+                [attr.aria-label]="social.label"
+                class="footer__social-link"
+                role="listitem"
+              >
+                <span class="sr-only">{{ social.label }}</span>
+                <span aria-hidden="true" class="footer__social-icon">
+                  @switch (social.icon) {
+                    @case ('instagram') { &#128247; }
+                    @case ('facebook') { f }
+                    @case ('linkedin') { in }
+                    @case ('pinterest') { P }
+                    @case ('behance') { Bē }
+                  }
+                </span>
+              </a>
+            }
+          </div>
+        </div>
+
+        <!-- Colonne navigation -->
+        <div class="footer__nav">
+          <h3 class="footer__title">Navigation</h3>
+          <nav aria-label="Navigation footer">
+            <ul class="footer__links" role="list">
+              <li><a routerLink="/" class="footer__link">Accueil</a></li>
+              <li><a routerLink="/prestations" class="footer__link">Prestations</a></li>
+              <li><a routerLink="/realisations" class="footer__link">Réalisations</a></li>
+              <li><a routerLink="/a-propos" class="footer__link">À Propos</a></li>
+              <li><a routerLink="/contact" class="footer__link">Contact</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <!-- Colonne contact -->
+        <div class="footer__contact">
+          <h3 class="footer__title">Contact</h3>
+          <address class="footer__address">
+            <p>
+              <a href="tel:+33782358132" class="footer__link">
+                07 82 35 81 32
+              </a>
+            </p>
+            <p>
+              <a href="mailto:am.gaury@gmail.com" class="footer__link">
+                am.gaury&#64;gmail.com
+              </a>
+            </p>
+            <p class="footer__location">
+              Île-de-France &amp; toute la France
+            </p>
+          </address>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer bottom -->
+  <div class="footer__bottom">
+    <div class="container-amg footer__bottom-inner">
+      <p class="footer__copyright">
+        &copy; {{ currentYear }} AMG Décoration d'Intérieur — Tous droits réservés
+      </p>
+      <nav aria-label="Liens légaux">
+        <ul class="footer__legal" role="list">
+          <li><a routerLink="/mentions-legales" class="footer__legal-link">Mentions légales</a></li>
+          <li><a routerLink="/conditions-generales-de-services" class="footer__legal-link">CGS</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</footer>

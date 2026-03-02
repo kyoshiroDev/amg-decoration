@@ -1,0 +1,207 @@
+<header class="page-header bg-amg-dark" aria-label="En-tête de page Contact">
+  <div class="container-amg text-center">
+    <p class="page-header__eyebrow">Parlons de votre projet</p>
+    <h1 class="page-header__title">Contact</h1>
+    <span class="divider-gold"></span>
+  </div>
+</header>
+
+<section class="section-padding" aria-label="Formulaire de contact et informations">
+  <div class="container-amg">
+    <div class="contact__grid">
+
+      <!-- Infos contact -->
+      <div class="contact__info">
+        <h2 class="contact__info-title">Prenons contact</h2>
+        <p class="contact__info-text">
+          Vous avez un projet de décoration ? Une question sur mes prestations ?
+          Je vous répondrai dans les <strong>48 heures ouvrées</strong>.
+        </p>
+
+        <address class="contact__details">
+          <div class="contact__detail">
+            <span class="contact__detail-icon" aria-hidden="true">📞</span>
+            <div>
+              <p class="contact__detail-label">Téléphone</p>
+              <a href="tel:+33782358132" class="contact__detail-value">07 82 35 81 32</a>
+            </div>
+          </div>
+          <div class="contact__detail">
+            <span class="contact__detail-icon" aria-hidden="true">✉️</span>
+            <div>
+              <p class="contact__detail-label">Email</p>
+              <a href="mailto:am.gaury@gmail.com" class="contact__detail-value">am.gaury&#64;gmail.com</a>
+            </div>
+          </div>
+          <div class="contact__detail">
+            <span class="contact__detail-icon" aria-hidden="true">📍</span>
+            <div>
+              <p class="contact__detail-label">Zone d'intervention</p>
+              <p class="contact__detail-value">Île-de-France &amp; France entière (à distance)</p>
+            </div>
+          </div>
+        </address>
+
+        <div class="contact__social">
+          <p class="contact__social-title">Me suivre</p>
+          <div class="contact__social-links">
+            <a href="https://www.instagram.com/amgdecorationdinterieur/" target="_blank" rel="noopener noreferrer" class="contact__social-link">Instagram</a>
+            <a href="https://www.behance.net/amandinegaury" target="_blank" rel="noopener noreferrer" class="contact__social-link">Behance</a>
+            <a href="https://www.linkedin.com/in/amandine-gaury-97a263193/" target="_blank" rel="noopener noreferrer" class="contact__social-link">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulaire -->
+      <div class="contact__form-wrapper">
+        <!-- État succès -->
+        @if (submitState() === 'success') {
+          <div class="contact__success" role="alert" aria-live="polite">
+            <div class="contact__success-icon" aria-hidden="true">✅</div>
+            <h2>Message envoyé !</h2>
+            <p>Merci pour votre message. Je vous répondrai dans les 48 heures ouvrées.</p>
+          </div>
+        } @else {
+          <form
+            [formGroup]="form"
+            (ngSubmit)="onSubmit()"
+            class="contact__form"
+            novalidate
+            aria-label="Formulaire de contact"
+          >
+            <!-- Nom -->
+            <div class="form-field">
+              <label for="name" class="form-label">
+                Nom complet <span aria-label="obligatoire">*</span>
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                formControlName="name"
+                class="form-input"
+                [ngClass]="{ 'form-input--error': isFieldInvalid('name') }"
+                autocomplete="name"
+                placeholder="Jean Dupont"
+                [attr.aria-describedby]="isFieldInvalid('name') ? 'name-error' : null"
+                [attr.aria-invalid]="isFieldInvalid('name')"
+              />
+              @if (hasError('name', 'required')) {
+                <p id="name-error" class="form-error" role="alert">Le nom est obligatoire.</p>
+              } @else if (hasError('name', 'minlength')) {
+                <p id="name-error" class="form-error" role="alert">Le nom doit contenir au moins 2 caractères.</p>
+              }
+            </div>
+
+            <!-- Email -->
+            <div class="form-field">
+              <label for="email" class="form-label">
+                Email <span aria-label="obligatoire">*</span>
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                formControlName="email"
+                class="form-input"
+                [ngClass]="{ 'form-input--error': isFieldInvalid('email') }"
+                autocomplete="email"
+                placeholder="jean.dupont@email.com"
+                [attr.aria-describedby]="isFieldInvalid('email') ? 'email-error' : null"
+                [attr.aria-invalid]="isFieldInvalid('email')"
+              />
+              @if (hasError('email', 'required')) {
+                <p id="email-error" class="form-error" role="alert">L'email est obligatoire.</p>
+              } @else if (hasError('email', 'email')) {
+                <p id="email-error" class="form-error" role="alert">Veuillez saisir un email valide.</p>
+              }
+            </div>
+
+            <!-- Téléphone (optionnel) -->
+            <div class="form-field">
+              <label for="phone" class="form-label">Téléphone (optionnel)</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                formControlName="phone"
+                class="form-input"
+                autocomplete="tel"
+                placeholder="06 12 34 56 78"
+              />
+            </div>
+
+            <!-- Message -->
+            <div class="form-field">
+              <label for="message" class="form-label">
+                Votre message <span aria-label="obligatoire">*</span>
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                formControlName="message"
+                class="form-input form-textarea"
+                [ngClass]="{ 'form-input--error': isFieldInvalid('message') }"
+                rows="5"
+                placeholder="Décrivez votre projet (type de pièce, superficie, délai souhaité...)"
+                [attr.aria-describedby]="isFieldInvalid('message') ? 'message-error' : null"
+                [attr.aria-invalid]="isFieldInvalid('message')"
+              ></textarea>
+              @if (hasError('message', 'required')) {
+                <p id="message-error" class="form-error" role="alert">Le message est obligatoire.</p>
+              } @else if (hasError('message', 'minlength')) {
+                <p id="message-error" class="form-error" role="alert">Le message doit contenir au moins 10 caractères.</p>
+              }
+            </div>
+
+            <!-- RGPD -->
+            <div class="form-field form-field--checkbox">
+              <div class="form-checkbox-wrapper">
+                <input
+                  type="checkbox"
+                  id="gdpr"
+                  formControlName="gdprAccepted"
+                  class="form-checkbox"
+                  [ngClass]="{ 'form-checkbox--error': isFieldInvalid('gdprAccepted') }"
+                  [attr.aria-describedby]="isFieldInvalid('gdprAccepted') ? 'gdpr-error' : null"
+                  [attr.aria-invalid]="isFieldInvalid('gdprAccepted')"
+                />
+                <label for="gdpr" class="form-checkbox-label">
+                  J'accepte que mes données soient utilisées pour traiter ma demande de contact,
+                  conformément à la
+                  <a href="/mentions-legales" class="form-link">politique de confidentialité</a>.
+                  <span aria-label="obligatoire">*</span>
+                </label>
+              </div>
+              @if (isFieldInvalid('gdprAccepted')) {
+                <p id="gdpr-error" class="form-error" role="alert">Vous devez accepter les conditions RGPD.</p>
+              }
+            </div>
+
+            <!-- État erreur API -->
+            @if (submitState() === 'error') {
+              <div class="form-api-error" role="alert" aria-live="polite">
+                Une erreur est survenue lors de l'envoi. Veuillez réessayer ou me contacter directement.
+              </div>
+            }
+
+            <!-- Submit -->
+            <button
+              type="submit"
+              class="btn-primary w-full justify-center py-4"
+              [disabled]="submitState() === 'loading'"
+              [attr.aria-busy]="submitState() === 'loading'"
+            >
+              @if (submitState() === 'loading') {
+                <span aria-hidden="true">Envoi en cours...</span>
+                <span class="sr-only">Envoi en cours, veuillez patienter.</span>
+              } @else {
+                Envoyer le message
+              }
+            </button>
+          </form>
+        }
+      </div>
+    </div>
+  </div>
+</section>

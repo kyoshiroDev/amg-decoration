@@ -1,0 +1,49 @@
+.page-header {
+  padding: 8rem 0 4rem;
+
+  &__title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0;
+  }
+}
+
+.legal-content {
+  max-width: 800px;
+  margin: 0 auto;
+
+  h2 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--color-dark);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(196, 168, 130, 0.3);
+  }
+
+  p {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-gray);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+
+    strong {
+      color: var(--color-dark);
+    }
+  }
+
+  a {
+    color: var(--color-gold);
+    text-decoration: underline;
+    transition: color var(--transition-base);
+
+    &:hover {
+      color: var(--color-gold-dark);
+    }
+  }
+}

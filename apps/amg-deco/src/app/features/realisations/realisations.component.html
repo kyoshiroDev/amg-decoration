@@ -1,0 +1,60 @@
+<header class="page-header bg-amg-dark" aria-label="En-tête de page Réalisations">
+  <div class="container-amg text-center">
+    <p class="page-header__eyebrow">Portfolio 3D</p>
+    <h1 class="page-header__title">Réalisations</h1>
+    <span class="divider-gold"></span>
+    <p class="page-header__subtitle">
+      Découvrez mes projets de décoration 3D. Chaque réalisation est unique et
+      pensée pour refléter la personnalité de mes clients.
+    </p>
+  </div>
+</header>
+
+<section class="section-padding" aria-label="Galerie de réalisations">
+  <div class="container-amg">
+    <!-- Filtres -->
+    <div class="realisations__filters" role="group" aria-label="Filtrer par type de pièce">
+      @for (filter of filters; track filter.value) {
+        <button
+          type="button"
+          class="realisations__filter-btn"
+          [ngClass]="{ 'realisations__filter-btn--active': activeFilter() === filter.value }"
+          [attr.aria-pressed]="activeFilter() === filter.value"
+          (click)="setFilter(filter.value)"
+        >
+          {{ filter.label }}
+        </button>
+      }
+    </div>
+
+    <!-- Grille projets -->
+    <div class="realisations__grid" role="list" aria-label="Projets de réalisation">
+      @for (project of filteredProjects(); track project.id) {
+        <article class="realisations__card" role="listitem">
+          @defer (on viewport) {
+            <div class="realisations__card-image-wrapper">
+              <img
+                [ngSrc]="project.images[0]"
+                [alt]="project.title + ' — rendu 3D AMG Décoration d\'Intérieur'"
+                width="800"
+                height="600"
+                class="realisations__card-image"
+              />
+            </div>
+            <div class="realisations__card-overlay" aria-hidden="true">
+              <span class="realisations__card-category">{{ project.roomType }}</span>
+              <h2 class="realisations__card-title">{{ project.title }}</h2>
+              <p class="realisations__card-description">{{ project.description }}</p>
+            </div>
+          } @placeholder {
+            <div class="realisations__skeleton" aria-busy="true" aria-label="Chargement du projet..."></div>
+          }
+        </article>
+      } @empty {
+        <p class="realisations__empty" role="status">
+          Aucun projet dans cette catégorie pour le moment.
+        </p>
+      }
+    </div>
+  </div>
+</section>

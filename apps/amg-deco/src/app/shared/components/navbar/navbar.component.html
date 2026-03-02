@@ -1,0 +1,94 @@
+<nav
+  role="navigation"
+  aria-label="Navigation principale"
+  [ngClass]="{
+    'navbar--scrolled': isScrolled(),
+    'navbar--menu-open': isMenuOpen()
+  }"
+  class="navbar"
+  (keydown)="onKeydown($event)"
+>
+  <div class="container-amg flex items-center justify-between h-20">
+    <!-- Logo -->
+    <a
+      routerLink="/"
+      class="navbar__logo"
+      aria-label="AMG Décoration d'Intérieur — Retour à l'accueil"
+    >
+      <img
+        ngSrc="/assets/images/logo/logo-color.png"
+        alt="AMG Décoration d'Intérieur"
+        width="160"
+        height="60"
+        class="h-14 w-auto"
+        priority
+      />
+    </a>
+
+    <!-- Navigation desktop -->
+    <ul class="navbar__links" role="list">
+      @for (link of navLinks; track link.path) {
+        <li>
+          <a
+            [routerLink]="link.path"
+            routerLinkActive="navbar__link--active"
+            [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+            [attr.aria-current]="null"
+            class="navbar__link"
+          >
+            {{ link.label }}
+          </a>
+        </li>
+      }
+    </ul>
+
+    <!-- CTA Desktop -->
+    <a routerLink="/contact" class="btn-primary hidden lg:inline-flex">
+      Prendre rendez-vous
+    </a>
+
+    <!-- Burger Button -->
+    <button
+      type="button"
+      class="navbar__burger"
+      [attr.aria-expanded]="isMenuOpen()"
+      aria-controls="mobile-menu"
+      [attr.aria-label]="menuAriaLabel()"
+      (click)="toggleMenu()"
+    >
+      <span class="navbar__burger-line" [ngClass]="{ 'rotate-45 translate-y-2': isMenuOpen() }"></span>
+      <span class="navbar__burger-line" [ngClass]="{ 'opacity-0': isMenuOpen() }"></span>
+      <span class="navbar__burger-line" [ngClass]="{ '-rotate-45 -translate-y-2': isMenuOpen() }"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div
+    id="mobile-menu"
+    class="navbar__mobile-menu"
+    [ngClass]="{ 'navbar__mobile-menu--open': isMenuOpen() }"
+    role="region"
+    aria-label="Menu mobile"
+  >
+    <ul class="navbar__mobile-links" role="list">
+      @for (link of navLinks; track link.path) {
+        <li>
+          <a
+            [routerLink]="link.path"
+            routerLinkActive="navbar__mobile-link--active"
+            [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+            class="navbar__mobile-link"
+            (click)="closeMenu()"
+          >
+            {{ link.label }}
+          </a>
+        </li>
+      }
+      <li>
+        <a routerLink="/contact" class="btn-primary w-full text-center mt-4" (click)="closeMenu()">
+          Prendre rendez-vous
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

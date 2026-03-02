@@ -1,0 +1,274 @@
+<!-- ─── 1. Hero Slider ─────────────────────────────────────────────────────── -->
+<amg-hero-slider [slides]="heroSlides" />
+
+<!-- ─── 2. À Propos Preview ───────────────────────────────────────────────── -->
+<section class="section-padding bg-amg-cream" aria-labelledby="about-title">
+  <div class="container-amg">
+    <div class="home-about__grid">
+      <div class="home-about__image-wrapper">
+        <img
+          ngSrc="/assets/images/about/amandine.webp"
+          alt="Amandine Gaury, décoratrice d'intérieur 3D certifiée MJM Design Graphic"
+          width="600"
+          height="750"
+          class="home-about__image"
+        />
+        <div class="home-about__badge" aria-hidden="true">
+          <span>Certifiée</span>
+          <strong>MJM Design Graphic</strong>
+        </div>
+      </div>
+
+      <div class="home-about__content">
+        <amg-section-title
+          eyebrow="Qui suis-je ?"
+          title="Amandine Gaury"
+          subtitle="Décoratrice d'intérieur 3D passionnée, je vous accompagne dans la création d'espaces qui vous ressemblent, avec des rendus 3D photoréalistes pour tout visualiser avant de commencer."
+          align="left"
+        />
+        <p class="text-section-subtitle mb-8">
+          Certifiée MJM Design Graphic, j'interviens en région parisienne et partout
+          en France pour transformer vos idées en projets concrets. Mon approche 3D
+          vous permet d'éviter les erreurs coûteuses et de vous projeter avec précision
+          dans votre futur intérieur.
+        </p>
+        <a routerLink="/a-propos" class="btn-outline">
+          En savoir plus sur moi
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 3. Missions & Valeurs ─────────────────────────────────────────────── -->
+<section class="section-padding" aria-labelledby="missions-title">
+  <div class="container-amg">
+    <amg-section-title
+      eyebrow="Mon engagement"
+      title="Mes missions et mes valeurs"
+      subtitle="Un accompagnement personnalisé, du premier échange jusqu'à la livraison de votre book déco."
+    />
+    <div class="home-missions__grid">
+      <div class="home-missions__card">
+        <img
+          ngSrc="/assets/images/services/moodboard-chambre.webp"
+          alt="Moodboard de décoration - ambiance chambre"
+          width="600"
+          height="450"
+          class="home-missions__image"
+        />
+        <div class="home-missions__card-content">
+          <h3>Créativité &amp; Écoute</h3>
+          <p>Chaque projet commence par une immersion dans votre univers pour créer un espace qui vous correspond parfaitement.</p>
+        </div>
+      </div>
+      <div class="home-missions__card">
+        <img
+          ngSrc="/assets/images/services/planche-mobilier.webp"
+          alt="Planche mobilier et matériaux pour décoration 3D"
+          width="600"
+          height="450"
+          class="home-missions__image"
+        />
+        <div class="home-missions__card-content">
+          <h3>Précision &amp; Expertise 3D</h3>
+          <p>Des rendus photoréalistes qui vous permettent de valider chaque détail avant de prendre vos décisions d'achat.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 4. Réalisations Preview ───────────────────────────────────────────── -->
+<section class="section-padding bg-amg-dark" aria-labelledby="realisations-title">
+  <div class="container-amg">
+    <amg-section-title
+      eyebrow="Portfolio"
+      title="Mes réalisations"
+      subtitle="Découvrez quelques-uns de mes projets 3D récents."
+    />
+    <div class="home-realisations__grid">
+      @for (project of projects().slice(0, 4); track project.id) {
+        <div class="home-realisations__card">
+          @defer (on viewport) {
+            <img
+              [ngSrc]="project.images[0]"
+              [alt]="project.title"
+              width="800"
+              height="600"
+              class="home-realisations__image"
+            />
+            <div class="home-realisations__card-overlay">
+              <h3>{{ project.title }}</h3>
+              <span class="home-realisations__card-tag">{{ project.roomType }}</span>
+            </div>
+          } @placeholder {
+            <div class="home-realisations__skeleton" aria-busy="true" aria-label="Chargement..."></div>
+          }
+        </div>
+      }
+    </div>
+    <div class="text-center mt-12">
+      <a routerLink="/realisations" class="btn-outline text-white border-white hover:bg-white hover:text-amg-dark">
+        Voir toutes les réalisations
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 5. Prestations Preview ────────────────────────────────────────────── -->
+<section class="section-padding" aria-labelledby="services-title">
+  <div class="container-amg">
+    <div class="home-services__inner">
+      <amg-section-title
+        eyebrow="Services"
+        title="Mes prestations"
+        subtitle="Du conseil déco aux plans 3D photoréalistes, je propose des formules adaptées à tous vos besoins et budgets."
+        align="left"
+      />
+      <div class="home-services__cta">
+        <a routerLink="/prestations" class="btn-primary">
+          Voir les prestations
+        </a>
+      </div>
+    </div>
+    <div class="home-services__grid">
+      <div class="home-services__card">
+        <div class="home-services__card-icon" aria-hidden="true">📐</div>
+        <h3>Book Esquisses &amp; Conseils</h3>
+        <p>Esquisses dessinées et conseils personnalisés pour votre projet.</p>
+        <strong class="home-services__price">À partir de 480€</strong>
+      </div>
+      <div class="home-services__card home-services__card--featured">
+        <div class="home-services__card-icon" aria-hidden="true">🏠</div>
+        <h3>Book Déco 3D</h3>
+        <p>Le rendu 3D photoréaliste pour tout visualiser avant d'acheter.</p>
+        <strong class="home-services__price">À partir de 520€</strong>
+      </div>
+      <div class="home-services__card">
+        <div class="home-services__card-icon" aria-hidden="true">🪑</div>
+        <h3>Meuble Sur-Mesure</h3>
+        <p>Conception 3D de votre meuble unique, adapté à votre espace.</p>
+        <strong class="home-services__price">À partir de 400€</strong>
+      </div>
+      <div class="home-services__card">
+        <div class="home-services__card-icon" aria-hidden="true">🏢</div>
+        <h3>Offre Professionnels</h3>
+        <p>Solution pour investisseurs et agents immobiliers.</p>
+        <strong class="home-services__price">À partir de 149€</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 6. Témoignages ────────────────────────────────────────────────────── -->
+<section class="section-padding bg-amg-cream" aria-labelledby="testimonials-title">
+  <div class="container-amg">
+    <amg-section-title
+      eyebrow="Avis clients"
+      title="Ils me font confiance"
+    />
+
+    @if (testimonials().length > 0 && currentTestimonial()) {
+      <div
+        class="testimonials__slider"
+        role="region"
+        aria-label="Témoignages clients"
+        aria-roledescription="carousel"
+      >
+        <div aria-live="polite" aria-atomic="true">
+          <blockquote class="testimonials__quote">
+            <div class="testimonials__stars" aria-label="{{ currentTestimonial().rating }} étoiles sur 5" role="img">
+              @for (_ of [].constructor(currentTestimonial().rating); track $index) {
+                <span aria-hidden="true">★</span>
+              }
+            </div>
+            <p class="testimonials__text">"{{ currentTestimonial().text }}"</p>
+            <footer class="testimonials__author">
+              — <cite>{{ currentTestimonial().name }}</cite>
+            </footer>
+          </blockquote>
+        </div>
+
+        <div class="testimonials__controls" role="tablist" aria-label="Navigation des témoignages">
+          <button
+            type="button"
+            class="testimonials__control"
+            (click)="previousTestimonial()"
+            aria-label="Témoignage précédent"
+          >
+            ←
+          </button>
+
+          @for (t of testimonials(); track t.id; let i = $index) {
+            <button
+              type="button"
+              role="tab"
+              class="testimonials__dot"
+              [class.testimonials__dot--active]="i === activeTestimonial()"
+              [attr.aria-selected]="i === activeTestimonial()"
+              [attr.aria-label]="'Témoignage de ' + t.name"
+              (click)="goToTestimonial(i)"
+            ></button>
+          }
+
+          <button
+            type="button"
+            class="testimonials__control"
+            (click)="nextTestimonial()"
+            aria-label="Témoignage suivant"
+          >
+            →
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ─── 7. Citation ───────────────────────────────────────────────────────── -->
+<section class="home-quote" aria-label="Citation inspirante">
+  <div class="container-amg">
+    <figure>
+      <blockquote class="home-quote__text">
+        "Le bon design est aussi peu design que possible."
+      </blockquote>
+      <figcaption class="home-quote__author">— Dieter Rams</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ─── 8. Avantages 3D ───────────────────────────────────────────────────── -->
+<section class="section-padding" aria-labelledby="advantages-title">
+  <div class="container-amg">
+    <amg-section-title
+      eyebrow="Pourquoi le 3D ?"
+      title="Les avantages de la décoration 3D"
+    />
+    <div class="home-advantages__grid">
+      @for (advantage of advantages; track advantage.title) {
+        <div class="home-advantages__card">
+          <div class="home-advantages__icon" aria-hidden="true">{{ advantage.icon }}</div>
+          <h3 class="home-advantages__title">{{ advantage.title }}</h3>
+          <p class="home-advantages__text">{{ advantage.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ─── 9. Instagram Feed ─────────────────────────────────────────────────── -->
+<amg-instagram-feed />
+
+<!-- ─── 10. CTA Contact ───────────────────────────────────────────────────── -->
+<section class="home-cta" aria-labelledby="cta-title">
+  <div class="container-amg text-center">
+    <h2 id="cta-title" class="home-cta__title">Un projet ? Une question ?</h2>
+    <p class="home-cta__subtitle">
+      Parlons de votre projet de décoration. Je vous répondrai dans les 48h.
+    </p>
+    <a routerLink="/contact" class="btn-primary text-lg px-12 py-4">
+      Contactez-moi
+    </a>
+  </div>
+</section>

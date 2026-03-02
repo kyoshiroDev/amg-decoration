@@ -1,0 +1,102 @@
+<header class="page-header bg-amg-dark" aria-label="En-tête de page À Propos">
+  <div class="container-amg text-center">
+    <p class="page-header__eyebrow">L'agence</p>
+    <h1 class="page-header__title">À Propos</h1>
+    <span class="divider-gold"></span>
+  </div>
+</header>
+
+<section class="section-padding" aria-labelledby="about-main-title">
+  <div class="container-amg">
+    <div class="about__grid">
+      <!-- Image -->
+      <div class="about__image-wrapper">
+        <img
+          ngSrc="/assets/images/about/amandine.webp"
+          alt="Amandine Gaury, décoratrice d'intérieur 3D certifiée MJM Design Graphic"
+          width="600"
+          height="750"
+          class="about__image"
+          priority
+        />
+        <div class="about__image-badge" aria-hidden="true">
+          <p>Certifiée</p>
+          <strong>MJM Design Graphic</strong>
+          <p>Paris</p>
+        </div>
+      </div>
+
+      <!-- Contenu -->
+      <div class="about__content">
+        <amg-section-title
+          eyebrow="Qui suis-je ?"
+          title="Amandine Gaury"
+          subtitle="Décoratrice d'intérieur 3D passionnée, basée en région parisienne."
+          align="left"
+        />
+
+        <div class="about__bio">
+          <p>
+            Passionnée de design depuis toujours, j'ai décidé de transformer cette passion
+            en métier. Après avoir obtenu ma certification à l'école MJM Design Graphic
+            à Paris — l'une des écoles les plus reconnues dans le domaine de l'art et du design —
+            j'ai fondé AMG Décoration d'Intérieur pour accompagner mes clients dans la création
+            d'espaces qui leur ressemblent.
+          </p>
+          <p>
+            Ma spécialité ? Les rendus 3D photoréalistes. Cette approche unique me permet
+            de vous montrer à quoi ressemblera votre intérieur <strong>avant même d'acheter
+            le moindre meuble</strong>. Vous visualisez, vous validez, puis vous agissez —
+            sans mauvaises surprises.
+          </p>
+          <p>
+            J'interviens principalement en région parisienne, mais grâce au travail à distance,
+            j'accompagne des clients partout en France. Chaque projet est unique, chaque client
+            est différent, et c'est précisément ce qui rend ce métier si passionnant.
+          </p>
+        </div>
+
+        <!-- Certifications -->
+        <div class="about__certifications">
+          <h2 class="about__certifications-title">Formation &amp; Compétences</h2>
+          <ul class="about__certifications-list" role="list">
+            @for (cert of certifications; track cert) {
+              <li class="about__certification-item">
+                <span class="about__cert-bullet" aria-hidden="true">●</span>
+                {{ cert }}
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Valeurs -->
+<section class="section-padding bg-amg-cream" aria-labelledby="values-title">
+  <div class="container-amg">
+    <amg-section-title
+      eyebrow="Ma philosophie"
+      title="Ce qui me guide"
+      subtitle="Des valeurs fortes au service de vos projets."
+    />
+    <div class="about__values-grid">
+      <div class="about__value-card">
+        <div class="about__value-icon" aria-hidden="true">👁️</div>
+        <h3>Vision</h3>
+        <p>Chaque espace raconte une histoire. Je vous aide à écrire la vôtre avec cohérence et esthétisme.</p>
+      </div>
+      <div class="about__value-card">
+        <div class="about__value-icon" aria-hidden="true">🤝</div>
+        <h3>Écoute</h3>
+        <p>Votre projet commence par votre parole. Je prends le temps de comprendre vos besoins et vos envies.</p>
+      </div>
+      <div class="about__value-card">
+        <div class="about__value-icon" aria-hidden="true">✅</div>
+        <h3>Précision</h3>
+        <p>Des rendus 3D photoréalistes pour des décisions éclairées. La précision est au cœur de ma démarche.</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,100 @@
+<section
+  class="hero-slider"
+  aria-label="Galerie de réalisations"
+  aria-roledescription="carousel"
+  (mouseenter)="pauseSlider()"
+  (mouseleave)="resumeSlider()"
+  (focusin)="pauseSlider()"
+  (focusout)="resumeSlider()"
+>
+  <!-- Slides -->
+  <div class="hero-slider__track" aria-live="polite" aria-atomic="false">
+    @for (slide of slides(); track slide.id; let i = $index) {
+      <div
+        class="hero-slider__slide"
+        role="group"
+        aria-roledescription="slide"
+        [attr.aria-label]="'Visuel ' + (i + 1) + ' sur ' + totalSlides()"
+        [attr.aria-hidden]="i !== activeSlide()"
+        [ngClass]="{ 'hero-slider__slide--active': i === activeSlide() }"
+      >
+        <img
+          [ngSrc]="slide.src"
+          [alt]="slide.alt"
+          class="hero-slider__image"
+          [priority]="i === 0"
+          width="2048"
+          height="1152"
+        />
+        <!-- Overlay gradient -->
+        <div class="hero-slider__overlay" aria-hidden="true"></div>
+      </div>
+    }
+  </div>
+
+  <!-- Contenu hero -->
+  <div class="hero-slider__content">
+    <div class="container-amg">
+      <p class="hero-slider__eyebrow">Décoratrice d'intérieur 3D certifiée MJM</p>
+      <h1 class="hero-slider__title">
+        Transformez votre intérieur<br />
+        <em>en 3D, avant les travaux</em>
+      </h1>
+      <p class="hero-slider__subtitle">
+        Visualisez votre futur intérieur avec un rendu 3D photoréaliste.<br class="hidden md:block" />
+        Économisez du temps, de l'argent et évitez les mauvaises surprises.
+      </p>
+      <div class="hero-slider__actions">
+        <a routerLink="/prestations" class="btn-primary">
+          Découvrir les prestations
+        </a>
+        <a routerLink="/contact" class="btn-outline text-white border-white hover:bg-white hover:text-amg-dark">
+          Prendre rendez-vous
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contrôles (uniquement côté client après init) -->
+  @if (isInitialized() && totalSlides() > 1) {
+    <!-- Bouton précédent -->
+    <button
+      type="button"
+      class="hero-slider__control hero-slider__control--prev"
+      (click)="previousSlide()"
+      aria-label="Visuel précédent"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+        <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <!-- Bouton suivant -->
+    <button
+      type="button"
+      class="hero-slider__control hero-slider__control--next"
+      (click)="nextSlide()"
+      aria-label="Visuel suivant"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+        <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <!-- Indicateurs -->
+    <div class="hero-slider__indicators" role="tablist" aria-label="Sélection du visuel">
+      @for (slide of slides(); track slide.id; let i = $index) {
+        <button
+          type="button"
+          role="tab"
+          class="hero-slider__indicator"
+          [ngClass]="{ 'hero-slider__indicator--active': i === activeSlide() }"
+          [attr.aria-selected]="i === activeSlide()"
+          [attr.aria-label]="'Visuel ' + (i + 1)"
+          [attr.aria-current]="i === activeSlide() ? 'true' : null"
+          (click)="goToSlide(i)"
+        ></button>
+      }
+    </div>
+  }
+</section>

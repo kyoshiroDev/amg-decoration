@@ -1,0 +1,178 @@
+// Tailwind CSS directives
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// ─── Variables CSS globales ─────────────────────────────────────────────────
+:root {
+  --color-gold: #C4A882;
+  --color-gold-light: #D4BC9A;
+  --color-gold-dark: #A8916A;
+  --color-dark: #1A1A1A;
+  --color-dark-secondary: #2D2D2D;
+  --color-gray: #6B6B6B;
+  --color-gray-light: #F5F5F5;
+  --color-cream: #FAF8F5;
+  --color-white: #FFFFFF;
+
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Lato', 'Helvetica Neue', sans-serif;
+
+  --transition-base: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+}
+
+// ─── Reset & Base ────────────────────────────────────────────────────────────
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-dark);
+  background-color: var(--color-white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ─── Accessibilité ───────────────────────────────────────────────────────────
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 0 0 4px 4px;
+  transition: top var(--transition-base);
+
+  &:focus {
+    top: 0;
+  }
+}
+
+// Focus visible global
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+// ─── Typographie ─────────────────────────────────────────────────────────────
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  color: var(--color-dark);
+}
+
+// ─── Composants utilitaires ───────────────────────────────────────────────────
+@layer components {
+  .container-amg {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-8 py-3 bg-amg-gold text-white font-body font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:bg-amg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amg-gold focus-visible:ring-offset-2;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-8 py-3 border-2 border-amg-gold text-amg-gold font-body font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:bg-amg-gold hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amg-gold focus-visible:ring-offset-2;
+  }
+
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+
+  .text-section-title {
+    @apply font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-amg-dark;
+  }
+
+  .text-section-subtitle {
+    @apply font-body text-amg-gray text-lg leading-relaxed;
+  }
+
+  .divider-gold {
+    @apply block w-16 h-0.5 bg-amg-gold mx-auto my-4;
+  }
+}
+
+// ─── Animations ──────────────────────────────────────────────────────────────
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+// ─── Reduced motion ──────────────────────────────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// ─── Scrollbar ───────────────────────────────────────────────────────────────
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-gray-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 3px;
+
+  &:hover {
+    background: var(--color-gold-dark);
+  }
+}
+
+// ─── Images ──────────────────────────────────────────────────────────────────
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// ─── CTA section (partagée entre home et services) ───────────────────────────
+.home-cta {
+  background: linear-gradient(135deg, var(--color-gold-dark) 0%, var(--color-gold) 100%);
+  padding: 5rem 0;
+
+  &__title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.75rem, 3vw, 2.75rem);
+    font-weight: 700;
+    color: var(--color-white);
+    margin-bottom: 1rem;
+  }
+
+  &__subtitle {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2.5rem;
+  }
+}

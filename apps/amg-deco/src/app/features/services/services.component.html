@@ -1,0 +1,115 @@
+<!-- Page Header -->
+<header class="page-header bg-amg-dark" aria-label="En-tête de page Prestations">
+  <div class="container-amg text-center">
+    <p class="page-header__eyebrow">Décoration 3D</p>
+    <h1 class="page-header__title">Prestations</h1>
+    <span class="divider-gold"></span>
+    <p class="page-header__subtitle">
+      Des formules adaptées à tous vos projets de décoration, de la simple pièce
+      à l'appartement complet.
+    </p>
+  </div>
+</header>
+
+<!-- Services Cards -->
+<section class="section-padding" aria-label="Liste des prestations">
+  <div class="container-amg">
+    <div class="services-grid">
+      @for (service of services(); track service.id) {
+        <article class="service-card" [id]="'service-' + service.id">
+          @if (service.image) {
+            <div class="service-card__image-wrapper">
+              @defer (on viewport) {
+                <img
+                  [ngSrc]="service.image!"
+                  [alt]="'Illustration pour la prestation ' + service.title"
+                  width="600"
+                  height="400"
+                  class="service-card__image"
+                />
+              } @placeholder {
+                <div class="service-card__skeleton"></div>
+              }
+            </div>
+          }
+
+          <div class="service-card__content">
+            <div class="service-card__header">
+              <h2 class="service-card__title">{{ service.title }}</h2>
+              @if (service.subtitle) {
+                <p class="service-card__subtitle">{{ service.subtitle }}</p>
+              }
+            </div>
+
+            <p class="service-card__description">{{ service.description }}</p>
+
+            <!-- Inclusions -->
+            <div class="service-card__includes">
+              <h3 class="service-card__includes-title">Ce qui est inclus :</h3>
+              <ul class="service-card__includes-list" role="list">
+                @for (item of service.includes; track item) {
+                  <li class="service-card__includes-item">
+                    <span aria-hidden="true" class="service-card__check">✓</span>
+                    {{ item }}
+                  </li>
+                }
+              </ul>
+            </div>
+
+            <!-- Tarifs -->
+            <div class="service-card__offers" aria-label="Tarifs">
+              @for (offer of service.offers; track offer.id) {
+                <div class="service-card__offer">
+                  <span class="service-card__offer-label">{{ offer.label }}</span>
+                  <span class="service-card__offer-price">{{ offer.price }}€</span>
+                </div>
+              }
+            </div>
+
+            @if (service.note) {
+              <p class="service-card__note" role="note">{{ service.note }}</p>
+            }
+
+            <a routerLink="/contact" class="btn-primary mt-6">
+              Demander un devis
+            </a>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Processus en 6 étapes -->
+<section class="section-padding bg-amg-cream" aria-labelledby="process-title">
+  <div class="container-amg">
+    <amg-section-title
+      eyebrow="Comment ça marche ?"
+      title="Mon processus en 6 étapes"
+      subtitle="Un accompagnement transparent et structuré, de la prise de contact à la livraison de votre book déco."
+    />
+
+    <ol class="process-timeline" role="list" aria-label="Étapes du processus">
+      @for (step of processSteps; track step.number) {
+        <li class="process-step">
+          <div class="process-step__number" aria-hidden="true">{{ step.number }}</div>
+          <div class="process-step__content">
+            <h3 class="process-step__title">{{ step.title }}</h3>
+            <p class="process-step__description">{{ step.description }}</p>
+          </div>
+        </li>
+      }
+    </ol>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="home-cta" aria-label="Appel à l'action">
+  <div class="container-amg text-center">
+    <h2 class="home-cta__title">Prêt(e) à transformer votre intérieur ?</h2>
+    <p class="home-cta__subtitle">Contactez-moi pour discuter de votre projet.</p>
+    <a routerLink="/contact" class="btn-primary text-lg px-12 py-4">
+      Demander un devis gratuit
+    </a>
+  </div>
+</section>
