@@ -32,15 +32,12 @@
       @for (project of filteredProjects(); track project.id) {
         <article class="realisations__card" role="listitem">
           @defer (on viewport) {
-            <div class="realisations__card-image-wrapper">
-              <img
-                [ngSrc]="project.images[0]"
-                [alt]="project.title + ' — rendu 3D AMG Décoration d\'Intérieur'"
-                width="800"
-                height="600"
-                class="realisations__card-image"
-              />
-            </div>
+            <img
+              [ngSrc]="project.images[0]"
+              [alt]="project.title + ' — rendu 3D AMG Décoration d\'Intérieur'"
+              fill
+              class="realisations__card-image"
+            />
             <div class="realisations__card-overlay" aria-hidden="true">
               <span class="realisations__card-category">{{ project.roomType }}</span>
               <h2 class="realisations__card-title">{{ project.title }}</h2>

@@ -9,8 +9,8 @@
         <img
           ngSrc="/assets/images/about/amandine.webp"
           alt="Amandine Gaury, décoratrice d'intérieur 3D certifiée MJM Design Graphic"
-          width="600"
-          height="750"
+          width="800"
+          height="800"
           class="home-about__image"
         />
         <div class="home-about__badge" aria-hidden="true">
@@ -50,26 +50,28 @@
     />
     <div class="home-missions__grid">
       <div class="home-missions__card">
-        <img
-          ngSrc="/assets/images/services/moodboard-chambre.webp"
-          alt="Moodboard de décoration - ambiance chambre"
-          width="600"
-          height="450"
-          class="home-missions__image"
-        />
+        <div class="home-missions__image-wrapper">
+          <img
+            ngSrc="/assets/images/services/moodboard-chambre.webp"
+            alt="Moodboard de décoration - ambiance chambre"
+            fill
+            class="home-missions__image"
+          />
+        </div>
         <div class="home-missions__card-content">
           <h3>Créativité &amp; Écoute</h3>
           <p>Chaque projet commence par une immersion dans votre univers pour créer un espace qui vous correspond parfaitement.</p>
         </div>
       </div>
       <div class="home-missions__card">
-        <img
-          ngSrc="/assets/images/services/planche-mobilier.webp"
-          alt="Planche mobilier et matériaux pour décoration 3D"
-          width="600"
-          height="450"
-          class="home-missions__image"
-        />
+        <div class="home-missions__image-wrapper">
+          <img
+            ngSrc="/assets/images/services/planche-mobilier.webp"
+            alt="Planche mobilier et matériaux pour décoration 3D"
+            fill
+            class="home-missions__image"
+          />
+        </div>
         <div class="home-missions__card-content">
           <h3>Précision &amp; Expertise 3D</h3>
           <p>Des rendus photoréalistes qui vous permettent de valider chaque détail avant de prendre vos décisions d'achat.</p>
@@ -86,6 +88,7 @@
       eyebrow="Portfolio"
       title="Mes réalisations"
       subtitle="Découvrez quelques-uns de mes projets 3D récents."
+      variant="dark"
     />
     <div class="home-realisations__grid">
       @for (project of projects().slice(0, 4); track project.id) {
@@ -94,8 +97,7 @@
             <img
               [ngSrc]="project.images[0]"
               [alt]="project.title"
-              width="800"
-              height="600"
+              fill
               class="home-realisations__image"
             />
             <div class="home-realisations__card-overlay">
@@ -139,7 +141,7 @@
         <p>Esquisses dessinées et conseils personnalisés pour votre projet.</p>
         <strong class="home-services__price">À partir de 480€</strong>
       </div>
-      <div class="home-services__card home-services__card--featured">
+      <div class="home-services__card">
         <div class="home-services__card-icon" aria-hidden="true">🏠</div>
         <h3>Book Déco 3D</h3>
         <p>Le rendu 3D photoréaliste pour tout visualiser avant d'acheter.</p>

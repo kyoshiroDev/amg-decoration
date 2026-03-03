@@ -4,12 +4,11 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  background-color: transparent;
-  transition: background-color 400ms ease, box-shadow 400ms ease;
+  background-color: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(8px);
+  transition: box-shadow 400ms ease;
 
   &--scrolled {
-    background-color: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(8px);
     box-shadow: var(--shadow-sm);
   }
 
@@ -39,7 +38,7 @@
   }
 
   &__link {
-    font-family: var(--font-body);
+    font-family: var(--font-body), serif;
     font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: 0.08em;

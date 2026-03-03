@@ -25,6 +25,11 @@
             "glob": "favicon.ico",
             "input": "apps/amg-deco/src",
             "output": ""
+          },
+          {
+            "glob": "robots.txt",
+            "input": "apps/amg-deco/src",
+            "output": ""
           }
         ],
         "styles": ["apps/amg-deco/src/styles.scss"],

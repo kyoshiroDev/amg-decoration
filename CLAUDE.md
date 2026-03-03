@@ -695,6 +695,68 @@ export class SeoService {
 - Format **WebP** pour toutes les images. Fournir aussi `<picture>` avec fallback JPEG si besoin.
 - Dimensions d'export recommandées : 2048×1152 (hero), 800×600 (galerie), 400×400 (portraits).
 
+### Règles NgOptimizedImage — Éviter les erreurs NG02952
+
+#### Mode `width`/`height` (dimensions fixes)
+
+Les attributs `width` et `height` **doivent correspondre exactement au ratio intrinsèque** de l'image physique, pas à la taille d'affichage.
+
+```html
+<!-- image physique 974×972 (ratio ~1:1) -->
+<!-- ✅ Correct -->
+<img ngSrc="/assets/images/logo/logo-white.png" width="160" height="160" alt="Logo" />
+
+<!-- ❌ Faux ratio → NG02952 -->
+<img ngSrc="/assets/images/logo/logo-white.png" width="160" height="60" alt="Logo" />
+```
+
+**Vérifier le ratio réel de chaque image avant d'écrire les attributs.** Si l'image doit s'afficher dans des dimensions différentes de son ratio natif, utiliser le mode `fill` à la place.
+
+#### Mode `fill` (images dans un conteneur positionné)
+
+Utiliser `fill` quand l'image doit remplir son conteneur ou quand le ratio d'affichage diffère du ratio natif (ex : image 16:9 affichée dans une carte carrée).
+
+```html
+<!-- ✅ Correct — fill -->
+<img ngSrc="/assets/images/hero/hero-1.webp" alt="..." fill class="mon-image" />
+```
+
+**Conditions obligatoires pour le mode `fill` :**
+
+1. **Le parent direct doit être positionné** (`position: relative`, `absolute` ou `fixed`) et avoir des dimensions explicites (height fixe, aspect-ratio, ou inset: 0 dans un ancêtre positionné).
+
+2. **La classe CSS de l'image doit déclarer le positionnement** — pendant l'hydratation SSR, Angular supprime temporairement les styles inline qu'il injecte (`position: absolute; top: 0; left: 0; width: 100%; height: 100%`). Si ces propriétés ne sont pas aussi dans la classe CSS, Angular détecte une hauteur nulle (`NG02952: height of fill-mode image is zero`).
+
+```scss
+// ✅ OBLIGATOIRE pour toute image en mode fill
+.mon-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  // autres propriétés...
+}
+
+// ❌ Insuffisant — provoque NG02952 après hydratation SSR
+.mon-image {
+  object-fit: cover;
+}
+```
+
+3. **Les wrappers intermédiaires entre le conteneur positionné et l'image** doivent aussi être `position: absolute; inset: 0` (pas `position: relative; height: 100%` qui est instable en contexte grid/flex).
+
+**Tableau de décision — quel mode choisir ?**
+
+| Situation | Mode recommandé |
+|-----------|----------------|
+| Image avec ratio fixe connu (logo, portrait) | `width`/`height` = ratio natif de l'image |
+| Image dans une carte à `aspect-ratio` CSS | `fill` |
+| Image hero plein écran | `fill` |
+| Image dont le ratio d'affichage ≠ ratio natif | `fill` |
+| Image décorative avec dimensions libres | `fill` dans un wrapper |
+
 ### Lazy loading des composants
 
 - Chaque feature est lazy-loadée via le router.

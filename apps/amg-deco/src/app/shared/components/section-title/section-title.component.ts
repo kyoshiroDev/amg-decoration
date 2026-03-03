@@ -1,17 +1,16 @@
-import { Component, ChangeDetectionStrategy, input } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
 
 @Component({
   selector: 'amg-section-title',
   standalone: true,
-  imports: [NgClass],
+  imports: [],
   template: `
-    <div class="section-title" [ngClass]="'section-title--' + align()">
+    <div [class]="containerClass()">
       @if (eyebrow()) {
         <p class="section-title__eyebrow">{{ eyebrow() }}</p>
       }
       <h2 class="section-title__heading">{{ title() }}</h2>
-      <span class="divider-gold" [ngClass]="{ 'mx-0': align() === 'left' }"></span>
+      <span [class]="dividerClass()"></span>
       @if (subtitle()) {
         <p class="section-title__subtitle">{{ subtitle() }}</p>
       }
@@ -29,7 +28,7 @@ import { NgClass } from '@angular/common';
       font-weight: 700;
       letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: var(--color-gold);
+      color: var(--color-gold-accessible);
       margin-bottom: 0.75rem;
     }
 
@@ -55,6 +54,19 @@ import { NgClass } from '@angular/common';
       margin-left: auto;
       margin-right: auto;
     }
+
+    /* Variante fond sombre */
+    .section-title--on-dark .section-title__eyebrow {
+      color: var(--color-gold);
+    }
+
+    .section-title--on-dark .section-title__heading {
+      color: var(--color-white);
+    }
+
+    .section-title--on-dark .section-title__subtitle {
+      color: rgba(255, 255, 255, 0.85);
+    }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -63,4 +75,15 @@ export class SectionTitleComponent {
   readonly title = input.required<string>();
   readonly subtitle = input<string>('');
   readonly align = input<'left' | 'center' | 'right'>('center');
+  readonly variant = input<'light' | 'dark'>('light');
+
+  readonly containerClass = computed(() => {
+    const classes = ['section-title', `section-title--${this.align()}`];
+    if (this.variant() === 'dark') classes.push('section-title--on-dark');
+    return classes.join(' ');
+  });
+
+  readonly dividerClass = computed(() =>
+    this.align() === 'left' ? 'divider-gold mx-0' : 'divider-gold'
+  );
 }

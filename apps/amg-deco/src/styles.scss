@@ -8,6 +8,7 @@
   --color-gold: #C4A882;
   --color-gold-light: #D4BC9A;
   --color-gold-dark: #A8916A;
+  --color-gold-accessible: #7A5E38; /* gold foncé pour texte sur fonds clairs — ratio 6.1:1 sur blanc */
   --color-dark: #1A1A1A;
   --color-dark-secondary: #2D2D2D;
   --color-gray: #6B6B6B;
@@ -85,11 +86,11 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-3 bg-amg-gold text-white font-body font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:bg-amg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amg-gold focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center px-8 py-3 bg-amg-gold text-amg-dark font-body font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:bg-amg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amg-gold focus-visible:ring-offset-2;
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center px-8 py-3 border-2 border-amg-gold text-amg-gold font-body font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:bg-amg-gold hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amg-gold focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center px-8 py-3 border-2 border-amg-gold text-amg-dark font-body font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:bg-amg-gold hover:text-amg-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amg-gold focus-visible:ring-offset-2;
   }
 
   .section-padding {

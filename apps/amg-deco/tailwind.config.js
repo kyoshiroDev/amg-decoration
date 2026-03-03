@@ -11,6 +11,7 @@ module.exports = {
         'amg-gold': '#C4A882',
         'amg-gold-light': '#D4BC9A',
         'amg-gold-dark': '#A8916A',
+        'amg-gold-accessible': '#7A5E38',
         'amg-dark': '#1A1A1A',
         'amg-dark-secondary': '#2D2D2D',
         'amg-gray': '#6B6B6B',
