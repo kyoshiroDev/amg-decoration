@@ -5,6 +5,7 @@
   "scripts": {
     "start": "nx serve amg-deco",
     "build": "nx build amg-deco",
+    "vercel-build": "nx build amg-deco --configuration=production",
     "test": "nx test amg-deco"
   },
   "private": true,

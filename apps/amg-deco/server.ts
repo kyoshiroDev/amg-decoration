@@ -11,9 +11,7 @@ export function app(): express.Express {
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
 
-  const commonEngine = new CommonEngine({
-    allowedHosts: ['localhost', '127.0.0.1', 'amgdecorationdinterieur.com'],
-  });
+  const commonEngine = new CommonEngine();
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
@@ -105,4 +103,10 @@ function run(): void {
   });
 }
 
-run();
+// Ne pas appeler listen() sur Vercel (environnement serverless)
+if (!process.env['VERCEL']) {
+  run();
+}
+
+// Export pour Vercel — l'app Express est le handler serverless
+export default app();
