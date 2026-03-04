@@ -105,7 +105,7 @@
               <span class="home-realisations__card-tag">{{ project.roomType }}</span>
             </div>
           } @placeholder {
-            <div class="home-realisations__skeleton" aria-busy="true" aria-label="Chargement..."></div>
+            <div class="home-realisations__placeholder" aria-busy="true" aria-label="Chargement..."></div>
           }
         </div>
       }
@@ -192,7 +192,7 @@
           </blockquote>
         </div>
 
-        <div class="testimonials__controls" role="tablist" aria-label="Navigation des témoignages">
+        <div class="testimonials__controls">
           <button
             type="button"
             class="testimonials__control"
@@ -202,17 +202,19 @@
             ←
           </button>
 
-          @for (t of testimonials(); track t.id; let i = $index) {
-            <button
-              type="button"
-              role="tab"
-              class="testimonials__dot"
-              [class.testimonials__dot--active]="i === activeTestimonial()"
-              [attr.aria-selected]="i === activeTestimonial()"
-              [attr.aria-label]="'Témoignage de ' + t.name"
-              (click)="goToTestimonial(i)"
-            ></button>
-          }
+          <div role="tablist" aria-label="Navigation des témoignages">
+            @for (t of testimonials(); track t.id; let i = $index) {
+              <button
+                type="button"
+                role="tab"
+                class="testimonials__dot"
+                [class.testimonials__dot--active]="i === activeTestimonial()"
+                [attr.aria-selected]="i === activeTestimonial()"
+                [attr.aria-label]="'Témoignage de ' + t.name"
+                (click)="goToTestimonial(i)"
+              ></button>
+            }
+          </div>
 
           <button
             type="button"
