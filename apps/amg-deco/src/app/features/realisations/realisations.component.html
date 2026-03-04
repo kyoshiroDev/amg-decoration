@@ -44,7 +44,7 @@
               <p class="realisations__card-description">{{ project.description }}</p>
             </div>
           } @placeholder {
-            <div class="realisations__skeleton" aria-busy="true" aria-label="Chargement du projet..."></div>
+            <div class="realisations__skeleton" role="status" aria-busy="true" aria-label="Chargement du projet..."></div>
           }
         </article>
       } @empty {

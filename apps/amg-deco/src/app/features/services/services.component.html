@@ -56,7 +56,7 @@
             </div>
 
             <!-- Tarifs -->
-            <div class="service-card__offers" aria-label="Tarifs">
+            <div class="service-card__offers" role="group" aria-label="Tarifs">
               @for (offer of service.offers; track offer.id) {
                 <div class="service-card__offer">
                   <span class="service-card__offer-label">{{ offer.label }}</span>
