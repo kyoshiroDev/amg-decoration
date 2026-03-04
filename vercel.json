@@ -5,24 +5,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "headers": {
-        "X-Content-Type-Options": "nosniff",
-        "X-Frame-Options": "DENY",
-        "Referrer-Policy": "strict-origin-when-cross-origin"
-      },
-      "continue": true
-    },
-    {
-      "src": "/assets/(.*)",
-      "headers": { "Cache-Control": "public, max-age=31536000, immutable" },
-      "continue": true
-    },
-    {
-      "src": "/(.*\\.(?:js|css|woff2|woff|ttf|webp|png|jpg|ico|svg))",
-      "headers": { "Cache-Control": "public, max-age=31536000, immutable" },
-      "continue": true
-    },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+      "dest": "/index.html"
+    }
   ]
 }
