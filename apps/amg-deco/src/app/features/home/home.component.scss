@@ -334,16 +334,30 @@
   }
 
   &__dot {
-    width: 10px;
-    height: 10px;
+    // Zone tactile min 24×24px — WCAG 2.5.8 AA
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: transparent;
     border: none;
     cursor: pointer;
     padding: 0;
     transition: all var(--transition-base);
 
-    &--active {
+    &::before {
+      content: '';
+      display: block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.2);
+      transition: all var(--transition-base);
+    }
+
+    &--active::before {
       background-color: var(--color-gold);
       transform: scale(1.3);
     }
