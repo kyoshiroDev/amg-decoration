@@ -20,29 +20,30 @@
             en région parisienne et partout en France.
           </p>
           <!-- Réseaux sociaux -->
-          <div class="footer__social" role="list" aria-label="Réseaux sociaux">
+          <ul class="footer__social" aria-label="Réseaux sociaux">
             @for (social of socialLinks; track social.icon) {
-              <a
-                [href]="social.href"
-                target="_blank"
-                rel="noopener noreferrer"
-                [attr.aria-label]="social.label"
-                class="footer__social-link"
-                role="listitem"
-              >
-                <span class="sr-only">{{ social.label }}</span>
-                <span aria-hidden="true" class="footer__social-icon">
-                  @switch (social.icon) {
-                    @case ('instagram') { &#128247; }
-                    @case ('facebook') { f }
-                    @case ('linkedin') { in }
-                    @case ('pinterest') { P }
-                    @case ('behance') { Bē }
-                  }
-                </span>
-              </a>
+              <li>
+                <a
+                  [href]="social.href"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  [attr.aria-label]="social.label"
+                  class="footer__social-link"
+                >
+                  <span class="sr-only">{{ social.label }}</span>
+                  <span aria-hidden="true" class="footer__social-icon">
+                    @switch (social.icon) {
+                      @case ('instagram') { &#128247; }
+                      @case ('facebook') { f }
+                      @case ('linkedin') { in }
+                      @case ('pinterest') { P }
+                      @case ('behance') { Bē }
+                    }
+                  </span>
+                </a>
+              </li>
             }
-          </div>
+          </ul>
         </div>
 
         <!-- Colonne navigation -->
