@@ -1,0 +1,91 @@
+<div class="testimonials-page">
+  <div class="page-header">
+    <h1 class="page-title">Témoignages</h1>
+    @if (!isAdding()) {
+      <button type="button" class="btn btn-gold" (click)="startAdd()">+ Nouveau</button>
+    }
+  </div>
+
+  @if (errorMsg()) {
+    <div class="alert alert-error" role="alert">{{ errorMsg() }}</div>
+  }
+
+  <!-- Form -->
+  @if (isAdding()) {
+    <div class="card form-card">
+      <h2 class="form-title">{{ editingId() ? 'Modifier le témoignage' : 'Nouveau témoignage' }}</h2>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="name">Nom <span aria-hidden="true">*</span></label>
+            <input id="name" type="text" formControlName="name" />
+          </div>
+          <div class="form-group">
+            <label for="rating">Note</label>
+            <select id="rating" formControlName="rating">
+              @for (r of ratingOptions; track r) {
+                <option [value]="r">{{ r }} étoile{{ r > 1 ? 's' : '' }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label for="text">Texte <span aria-hidden="true">*</span></label>
+            <textarea id="text" formControlName="text" rows="4"></textarea>
+          </div>
+          <div class="form-group full-width">
+            <label for="avatar_url">URL avatar (optionnel)</label>
+            <input id="avatar_url" type="url" formControlName="avatar_url" placeholder="https://..." />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" (click)="cancelForm()">Annuler</button>
+          <button type="submit" class="btn btn-gold" [disabled]="state() === 'loading'">
+            @if (state() === 'loading') { Sauvegarde… } @else { Sauvegarder }
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+
+  <!-- List -->
+  <div class="card">
+    <table class="data-table" aria-label="Liste des témoignages">
+      <thead>
+        <tr>
+          <th scope="col">Nom</th>
+          <th scope="col">Note</th>
+          <th scope="col">Texte</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (t of testimonials(); track t.id) {
+          <tr>
+            <td>{{ t.name }}</td>
+            <td>
+              <span class="stars" aria-label="{{ t.rating }} étoiles sur 5">
+                @for (s of starsArray(t.rating); track $index) { ★ }
+              </span>
+            </td>
+            <td class="text-cell">{{ t.text }}</td>
+            <td class="actions">
+              <button type="button" class="btn btn-outline btn-sm" (click)="startEdit(t)">Modifier</button>
+              <button type="button" class="btn btn-danger btn-sm" (click)="requestDelete(t.id)">Supprimer</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="4" class="empty-state">Aucun témoignage.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (confirmDeleteId()) {
+    <cms-confirm-dialog
+      title="Supprimer le témoignage"
+      message="Cette action est irréversible."
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    />
+  }
+</div>

@@ -1,0 +1,98 @@
+<div class="project-form">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEdit() ? 'Modifier le projet' : 'Nouveau projet' }}</h1>
+    <a routerLink="/projets" class="btn btn-outline">← Retour</a>
+  </div>
+
+  @if (state() === 'error') {
+    <div class="alert alert-error" role="alert">{{ errorMessage() }}</div>
+  }
+  @if (state() === 'success') {
+    <div class="alert alert-success" role="alert">Projet sauvegardé avec succès !</div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="card form-card">
+    <div class="form-grid">
+      <div class="form-group full-width">
+        <label for="title">Titre <span aria-hidden="true">*</span></label>
+        <input
+          id="title"
+          type="text"
+          formControlName="title"
+          [class.error]="form.get('title')!.invalid && form.get('title')!.touched"
+        />
+      </div>
+
+      <div class="form-group full-width">
+        <label for="description">Description <span aria-hidden="true">*</span></label>
+        <textarea
+          id="description"
+          formControlName="description"
+          rows="4"
+          [class.error]="form.get('description')!.invalid && form.get('description')!.touched"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="category">Catégorie <span aria-hidden="true">*</span></label>
+        <select id="category" formControlName="category">
+          @for (cat of categories; track cat) {
+            <option [value]="cat">{{ cat }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="roomType">Type de pièce <span aria-hidden="true">*</span></label>
+        <input
+          id="roomType"
+          type="text"
+          formControlName="roomType"
+          placeholder="Ex: Salon, Chambre, Terrasse..."
+        />
+      </div>
+    </div>
+
+    <!-- Images existantes -->
+    @if (existingImages().length) {
+      <div class="form-group">
+        <label>Images actuelles</label>
+        <div class="existing-images">
+          @for (img of existingImages(); track img) {
+            <div class="existing-img-wrap">
+              <img [src]="img" alt="Image existante" width="80" height="60" />
+              <button
+                type="button"
+                class="remove-img-btn"
+                (click)="removeExistingImage(img)"
+                aria-label="Retirer cette image"
+              >×</button>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Upload nouvelles images -->
+    <div class="form-group">
+      <label>Ajouter des images</label>
+      <cms-image-uploader
+        label="Glisser des images ici"
+        [multiple]="true"
+        (filesSelected)="onFilesSelected($event)"
+      />
+    </div>
+
+    <div class="form-actions">
+      <a routerLink="/projets" class="btn btn-outline">Annuler</a>
+      <button
+        type="submit"
+        class="btn btn-gold"
+        [disabled]="state() === 'loading'"
+      >
+        @if (state() === 'loading') { Sauvegarde… }
+        @else { Sauvegarder }
+      </button>
+    </div>
+  </form>
+</div>

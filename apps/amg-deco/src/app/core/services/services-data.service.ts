@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
-import { Service } from '../../models/service.model';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Observable, of, from, defer } from 'rxjs';
+import { shareReplay, map, catchError } from 'rxjs/operators';
+import { SupabaseService, Service } from '@amg/data-access';
 
-const SERVICES_DATA: Service[] = [
+const SERVICES_FALLBACK: Service[] = [
   {
     id: '1',
     title: 'Book Esquisses & Conseils Déco',
@@ -82,11 +83,37 @@ const SERVICES_DATA: Service[] = [
 
 /**
  * @service ServicesDataService
- * @description Accès aux données des prestations AMG.
+ * @description Accès aux données des prestations AMG depuis Supabase.
+ * SSR-safe : utilise les données statiques côté serveur, Supabase côté client.
  */
 @Injectable({ providedIn: 'root' })
 export class ServicesDataService {
-  private readonly services$ = of(SERVICES_DATA).pipe(shareReplay(1));
+  private readonly supabase = inject(SupabaseService);
+  private readonly platformId = inject(PLATFORM_ID);
+
+  private readonly services$: Observable<Service[]> = defer(() => {
+    if (!isPlatformBrowser(this.platformId)) {
+      return of(SERVICES_FALLBACK);
+    }
+    return from(
+      this.supabase.from('services').select('*').order('order_index')
+    ).pipe(
+      map(({ data, error }) => {
+        if (error || !data?.length) return SERVICES_FALLBACK;
+        return data.map((row: Record<string, unknown>) => ({
+          id: row['id'] as string,
+          title: row['title'] as string,
+          subtitle: row['subtitle'] as string | undefined,
+          description: row['description'] as string,
+          includes: (row['includes'] as string[]) ?? [],
+          offers: (row['offers'] as Service['offers']) ?? [],
+          image: row['image'] as string | undefined,
+          note: row['note'] as string | undefined,
+        }));
+      }),
+      catchError(() => of(SERVICES_FALLBACK))
+    );
+  }).pipe(shareReplay(1));
 
   getAll$(): Observable<Service[]> {
     return this.services$;

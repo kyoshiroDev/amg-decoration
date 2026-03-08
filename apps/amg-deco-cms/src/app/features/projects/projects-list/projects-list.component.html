@@ -1,0 +1,74 @@
+<div class="projects-list">
+  <div class="page-header">
+    <h1 class="page-title">Projets</h1>
+    <a routerLink="/projets/nouveau" class="btn btn-gold">+ Nouveau projet</a>
+  </div>
+
+  @if (deleteError()) {
+    <div class="alert alert-error" role="alert">{{ deleteError() }}</div>
+  }
+
+  <div class="card">
+    <table class="data-table" aria-label="Liste des projets">
+      <thead>
+        <tr>
+          <th scope="col">Image</th>
+          <th scope="col">Titre</th>
+          <th scope="col">Catégorie</th>
+          <th scope="col">Pièce</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (project of projects(); track project.id) {
+          <tr>
+            <td>
+              @if (project.images[0]) {
+                <img
+                  [src]="project.images[0]"
+                  [alt]="project.title"
+                  class="thumb"
+                  width="60"
+                  height="45"
+                />
+              } @else {
+                <span class="no-img" aria-label="Pas d'image">—</span>
+              }
+            </td>
+            <td>{{ project.title }}</td>
+            <td><span class="badge badge-gold">{{ project.category }}</span></td>
+            <td>{{ project.roomType }}</td>
+            <td>
+              <div class="actions">
+                <a
+                  [routerLink]="'/projets/' + project.id"
+                  class="btn btn-outline btn-sm"
+                  [attr.aria-label]="'Modifier ' + project.title"
+                >Modifier</a>
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                  (click)="requestDelete(project.id)"
+                  [attr.aria-label]="'Supprimer ' + project.title"
+                >Supprimer</button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="5" class="empty-state">Aucun projet pour l'instant.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (confirmDeleteId()) {
+    <cms-confirm-dialog
+      title="Supprimer le projet"
+      message="Cette action est irréversible. Le projet sera définitivement supprimé."
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    />
+  }
+</div>

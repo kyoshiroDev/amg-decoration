@@ -1,0 +1,128 @@
+.services-editor { max-width: 900px; }
+
+.page-title {
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 2px;
+    background: var(--color-gold);
+    margin-top: 0.5rem;
+  }
+}
+
+.services-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.service-card {
+  padding: 1.75rem;
+}
+
+.service-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.service-title {
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+}
+
+.service-subtitle {
+  font-size: 0.85rem;
+  color: var(--color-gold);
+  margin-bottom: 0.75rem;
+}
+
+.service-desc {
+  font-size: 0.9rem;
+  color: var(--color-gray);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.service-offers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.offer-badge {
+  background: rgba(196, 168, 130, 0.1);
+  color: var(--color-gold);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+}
+
+.edit-btn { font-size: 0.75rem; }
+
+.field-legend {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-gray);
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.includes-section, .offers-section {
+  border: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inc-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  input { flex: 1; }
+}
+
+.offer-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 0.5rem;
+  align-items: center;
+
+  .offer-label { flex: 1; }
+  .offer-price { width: 90px; }
+  .offer-unit { width: 80px; }
+}
+
+.remove-btn {
+  background: none;
+  border: 1px solid var(--color-gray-light);
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+  color: var(--color-gray);
+  font-size: 1rem;
+  line-height: 1;
+  &:hover { background: var(--color-error); color: white; border-color: var(--color-error); }
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-gray-light);
+}
+
+.btn-sm { padding: 0.35rem 0.75rem; font-size: 0.75rem; }

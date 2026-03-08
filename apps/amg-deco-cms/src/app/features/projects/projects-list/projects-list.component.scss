@@ -1,0 +1,58 @@
+:host {
+  display: flex;
+  width: 100%;
+}
+
+.projects-list {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 2px;
+    background: var(--color-gold);
+    margin-top: 0.5rem;
+  }
+}
+
+.thumb {
+  border-radius: 4px;
+  object-fit: cover;
+  display: block;
+}
+
+.no-img { color: var(--color-gray); }
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.btn-sm {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--color-gray);
+  padding: 2rem !important;
+  font-style: italic;
+}
