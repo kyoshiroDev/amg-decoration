@@ -9,6 +9,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { SeoService } from '../../core/services/seo.service';
 import { ContactService } from '../../core/services/contact.service';
+import { ContactFormSchema } from '@amg/data-access';
 
 type SubmitState = 'idle' | 'loading' | 'success' | 'error';
 
@@ -50,17 +51,24 @@ export class ContactComponent implements OnInit {
       return;
     }
 
+    const formValue = this.form.value;
+    const parsed = ContactFormSchema.safeParse({
+      name: formValue.name,
+      email: formValue.email,
+      phone: formValue.phone ?? undefined,
+      message: formValue.message,
+      gdprAccepted: formValue.gdprAccepted,
+    });
+
+    if (!parsed.success) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
     this.submitState.set('loading');
 
-    const formValue = this.form.value;
     this.contactService
-      .submitContact$({
-        name: formValue.name!,
-        email: formValue.email!,
-        phone: formValue.phone ?? undefined,
-        message: formValue.message!,
-        gdprAccepted: formValue.gdprAccepted!,
-      })
+      .submitContact$(parsed.data)
       .subscribe({
         next: () => {
           this.submitState.set('success');

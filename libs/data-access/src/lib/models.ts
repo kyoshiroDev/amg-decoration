@@ -1,51 +1,69 @@
-// Re-export des modèles partagés entre le site principal et le CMS
+import { z } from 'zod';
 
-export type ProjectCategory =
-  | 'salon'
-  | 'chambre'
-  | 'cuisine'
-  | 'terrasse'
-  | 'bureau'
-  | 'autre';
+export const ProjectCategorySchema = z.enum(['salon', 'chambre', 'cuisine', 'terrasse', 'bureau', 'autre']);
+export type ProjectCategory = z.infer<typeof ProjectCategorySchema>;
 
-export interface Project {
-  id: string;
-  slug: string;
-  title: string;
-  description: string;
-  images: string[];
-  category: ProjectCategory;
-  roomType: string;
-}
+export const ProjectSchema = z.object({
+  id: z.string(),
+  slug: z.string(),
+  title: z.string(),
+  description: z.string(),
+  images: z.array(z.string()),
+  category: ProjectCategorySchema,
+  roomType: z.string(),
+});
+export type Project = z.infer<typeof ProjectSchema>;
 
-export interface ServiceOffer {
-  id: string;
-  label: string;
-  price: number;
-  unit?: string;
-}
+export const ServiceOfferSchema = z.object({
+  id: z.string(),
+  label: z.string(),
+  price: z.number(),
+  unit: z.string().optional(),
+});
+export type ServiceOffer = z.infer<typeof ServiceOfferSchema>;
 
-export interface Service {
-  id: string;
-  title: string;
-  subtitle?: string;
-  description: string;
-  includes: string[];
-  offers: ServiceOffer[];
-  image?: string;
-  note?: string;
-  order_index?: number;
-}
+export const ServiceSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  subtitle: z.string().optional(),
+  description: z.string(),
+  includes: z.array(z.string()),
+  offers: z.array(ServiceOfferSchema),
+  image: z.string().optional(),
+  note: z.string().optional(),
+  order_index: z.number().optional(),
+});
+export type Service = z.infer<typeof ServiceSchema>;
 
-export interface Testimonial {
-  id: string;
-  name: string;
-  avatar?: string;
-  avatar_url?: string;
-  text: string;
-  rating: number;
-}
+export const TestimonialSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  avatar: z.string().optional(),
+  avatar_url: z.string().optional(),
+  text: z.string(),
+  rating: z.number().min(1).max(5),
+});
+export type Testimonial = z.infer<typeof TestimonialSchema>;
 
+export const ContactFormSchema = z.object({
+  name: z.string().min(2),
+  email: z.string().email(),
+  phone: z.string().optional(),
+  message: z.string().min(10),
+  gdprAccepted: z.literal(true),
+});
+export type ContactForm = z.infer<typeof ContactFormSchema>;
+
+export const SeoConfigSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  url: z.string(),
+  image: z.string().optional(),
+  jsonLd: z.record(z.string(), z.unknown()).optional(),
+});
+export type SeoConfig = z.infer<typeof SeoConfigSchema>;
+
+// Interfaces supplémentaires utilisées par le CMS (non migrées vers Zod)
 export interface InstagramPost {
   id: string;
   image_url: string;
@@ -58,12 +76,4 @@ export interface SiteContent {
   key: string;
   value: string;
   updated_at?: string;
-}
-
-export interface ContactForm {
-  name: string;
-  email: string;
-  phone?: string;
-  message: string;
-  gdprAccepted: boolean;
 }
