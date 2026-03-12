@@ -2,7 +2,6 @@ import { Component, ChangeDetectionStrategy, input, computed } from '@angular/co
 
 @Component({
   selector: 'amg-section-title',
-  standalone: true,
   imports: [],
   template: `
     <div [class]="containerClass()">

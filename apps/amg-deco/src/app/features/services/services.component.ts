@@ -9,7 +9,6 @@ import { Service } from '@amg/data-access';
 
 @Component({
   selector: 'amg-services',
-  standalone: true,
   imports: [SectionTitleComponent, NgOptimizedImage, RouterLink],
   templateUrl: './services.component.html',
   styleUrl: './services.component.scss',

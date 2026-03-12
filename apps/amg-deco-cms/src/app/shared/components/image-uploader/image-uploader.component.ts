@@ -12,7 +12,6 @@ export interface UploadedImage {
 
 @Component({
   selector: 'cms-image-uploader',
-  standalone: true,
   imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './image-uploader.component.html',

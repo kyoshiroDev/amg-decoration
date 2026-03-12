@@ -32,7 +32,6 @@ interface NavLink {
  */
 @Component({
   selector: 'amg-navbar',
-  standalone: true,
   imports: [RouterLink, RouterLinkActive, NgClass, NgOptimizedImage],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',

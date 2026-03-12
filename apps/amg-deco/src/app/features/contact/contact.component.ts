@@ -15,7 +15,6 @@ type SubmitState = 'idle' | 'loading' | 'success' | 'error';
 
 @Component({
   selector: 'amg-contact',
-  standalone: true,
   imports: [ReactiveFormsModule, NgClass],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',

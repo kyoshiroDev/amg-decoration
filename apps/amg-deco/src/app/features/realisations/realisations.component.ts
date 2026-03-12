@@ -16,7 +16,6 @@ type FilterCategory = ProjectCategory | 'all';
 
 @Component({
   selector: 'amg-realisations',
-  standalone: true,
   imports: [NgClass, NgOptimizedImage],
   templateUrl: './realisations.component.html',
   styleUrl: './realisations.component.scss',

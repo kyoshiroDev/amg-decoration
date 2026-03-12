@@ -8,7 +8,6 @@ import { TestimonialsApiService } from '../../core/services/testimonials-api.ser
 
 @Component({
   selector: 'cms-dashboard',
-  standalone: true,
   imports: [RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dashboard.component.html',

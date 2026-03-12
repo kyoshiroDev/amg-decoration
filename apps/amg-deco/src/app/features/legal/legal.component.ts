@@ -3,7 +3,6 @@ import { SeoService } from '../../core/services/seo.service';
 
 @Component({
   selector: 'amg-legal',
-  standalone: true,
   imports: [],
   templateUrl: './legal.component.html',
   styleUrl: './legal.component.scss',
