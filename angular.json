@@ -22,7 +22,9 @@
             "outputPath": "dist/apps/amg-deco-cms",
             "index": "apps/amg-deco-cms/src/index.html",
             "browser": "apps/amg-deco-cms/src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "apps/amg-deco-cms/tsconfig.app.json",
             "assets": [
               {
@@ -39,7 +41,8 @@
             "styles": [
               "apps/amg-deco-cms/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "baseHref": "/admin/"
           },
           "configurations": {
             "production": {
@@ -103,7 +106,9 @@
             "outputPath": "dist/apps/amg-deco",
             "index": "apps/amg-deco/src/index.html",
             "browser": "apps/amg-deco/src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "apps/amg-deco/tsconfig.app.json",
             "assets": [
               {
