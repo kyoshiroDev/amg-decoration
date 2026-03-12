@@ -4,7 +4,6 @@ import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'amg-footer',
-  standalone: true,
   imports: [RouterLink, NgOptimizedImage],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss',

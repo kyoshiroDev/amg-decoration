@@ -9,7 +9,6 @@ const CATEGORIES: ProjectCategory[] = ['salon', 'chambre', 'cuisine', 'terrasse'
 
 @Component({
   selector: 'cms-project-form',
-  standalone: true,
   imports: [ReactiveFormsModule, RouterLink, ImageUploaderComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './project-form.component.html',

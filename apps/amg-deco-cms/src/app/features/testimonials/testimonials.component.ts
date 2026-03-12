@@ -8,7 +8,6 @@ import { Testimonial } from '@amg/data-access';
 
 @Component({
   selector: 'cms-testimonials',
-  standalone: true,
   imports: [ReactiveFormsModule, ConfirmDialogComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './testimonials.component.html',

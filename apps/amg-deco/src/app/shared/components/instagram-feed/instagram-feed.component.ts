@@ -25,7 +25,6 @@ export interface InstagramPost {
  */
 @Component({
   selector: 'amg-instagram-feed',
-  standalone: true,
   imports: [SectionTitleComponent, NgOptimizedImage],
   templateUrl: './instagram-feed.component.html',
   styleUrl: './instagram-feed.component.scss',

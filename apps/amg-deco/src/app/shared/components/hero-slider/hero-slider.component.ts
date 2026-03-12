@@ -32,7 +32,6 @@ export interface SlideItem {
  */
 @Component({
   selector: 'amg-hero-slider',
-  standalone: true,
   imports: [NgClass, NgOptimizedImage, RouterLink],
   templateUrl: './hero-slider.component.html',
   styleUrl: './hero-slider.component.scss',

@@ -2,7 +2,6 @@ import { Component, input, output, ChangeDetectionStrategy } from '@angular/core
 
 @Component({
   selector: 'cms-confirm-dialog',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="backdrop" (click)="cancel.emit()" role="presentation">

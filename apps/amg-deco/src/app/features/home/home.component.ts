@@ -17,7 +17,6 @@ import { Testimonial } from '@amg/data-access';
 
 @Component({
   selector: 'amg-home',
-  standalone: true,
   imports: [HeroSliderComponent, SectionTitleComponent, InstagramFeedComponent, RouterLink, NgOptimizedImage],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

@@ -5,7 +5,6 @@ import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'cms-login',
-  standalone: true,
   imports: [ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login.component.html',

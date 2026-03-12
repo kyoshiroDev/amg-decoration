@@ -3,7 +3,6 @@ import { SeoService } from '../../core/services/seo.service';
 
 @Component({
   selector: 'amg-cgs',
-  standalone: true,
   imports: [],
   templateUrl: './cgs.component.html',
   styleUrl: './cgs.component.scss',

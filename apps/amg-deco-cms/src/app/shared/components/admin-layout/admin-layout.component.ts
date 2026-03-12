@@ -10,7 +10,6 @@ interface NavItem {
 
 @Component({
   selector: 'cms-admin-layout',
-  standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './admin-layout.component.html',

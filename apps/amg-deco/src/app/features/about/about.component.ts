@@ -5,7 +5,6 @@ import { SectionTitleComponent } from '../../shared/components/section-title/sec
 
 @Component({
   selector: 'amg-about',
-  standalone: true,
   imports: [SectionTitleComponent, NgOptimizedImage],
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss',

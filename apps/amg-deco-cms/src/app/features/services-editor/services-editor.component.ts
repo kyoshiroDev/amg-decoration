@@ -6,7 +6,6 @@ import { Service, ServiceOffer } from '@amg/data-access';
 
 @Component({
   selector: 'cms-services-editor',
-  standalone: true,
   imports: [ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './services-editor.component.html',

@@ -10,7 +10,6 @@ import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/c
 
 @Component({
   selector: 'cms-external-accounts',
-  standalone: true,
   imports: [ReactiveFormsModule, ConfirmDialogComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './external-accounts.component.html',

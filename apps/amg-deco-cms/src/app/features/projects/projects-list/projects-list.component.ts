@@ -7,7 +7,6 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
 
 @Component({
   selector: 'cms-projects-list',
-  standalone: true,
   imports: [RouterLink, ConfirmDialogComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './projects-list.component.html',
