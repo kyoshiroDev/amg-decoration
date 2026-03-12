@@ -1,0 +1,62 @@
+<div class="admin-shell" [class.sidebar-open]="isSidebarOpen()">
+  <!-- Sidebar -->
+  <aside class="sidebar" aria-label="Navigation admin">
+    <div class="sidebar-logo">
+      <span class="logo-text">AMG</span>
+      <span class="logo-sub">Admin</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      @for (item of navItems; track item.path) {
+        <a
+          [routerLink]="item.path"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+          class="nav-item"
+          [attr.aria-label]="item.label"
+        >
+          <span class="nav-icon" aria-hidden="true">{{ item.icon }}</span>
+          <span class="nav-label">{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar-footer">
+      @if (userEmail(); as user) {
+        <div class="user-info">
+          <span class="user-email">{{ user.email }}</span>
+        </div>
+      }
+      <button class="btn btn-outline logout-btn" (click)="logout()" type="button">
+        Déconnexion
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content" id="main">
+    <header class="top-bar">
+      <button
+        class="menu-toggle"
+        (click)="toggleSidebar()"
+        [attr.aria-expanded]="isSidebarOpen()"
+        aria-label="Basculer la sidebar"
+        type="button"
+      >
+        ☰
+      </button>
+      <a
+        href="/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="view-site-link"
+      >
+        Voir le site →
+      </a>
+    </header>
+
+    <div class="page-content">
+      <router-outlet />
+    </div>
+  </main>
+</div>

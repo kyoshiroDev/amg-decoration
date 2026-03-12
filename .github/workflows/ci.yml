@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main, mise-place-cms]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Typecheck · Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: node-modules-
+
+      - name: Cache Nx
+        uses: actions/cache@v4
+        with:
+          path: .nx/cache
+          key: nx-cache-${{ github.ref }}-${{ github.sha }}
+          restore-keys: |
+            nx-cache-${{ github.ref }}-
+            nx-cache-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck — amg-deco
+        run: npx tsc --noEmit -p apps/amg-deco/tsconfig.app.json
+
+      - name: Typecheck — amg-deco-cms
+        run: npx tsc --noEmit -p apps/amg-deco-cms/tsconfig.app.json
+
+      - name: Build — amg-deco (production)
+        run: npx nx build amg-deco --configuration=production
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
+      - name: Build — amg-deco-cms (production)
+        run: npx nx build amg-deco-cms --configuration=production

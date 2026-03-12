@@ -3,9 +3,9 @@ import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SeoService } from '../../core/services/seo.service';
-import { ServicesDataService } from '../../core/services/services-data.service';
+import { ServicesFacade } from './application/services.facade';
 import { SectionTitleComponent } from '../../shared/components/section-title/section-title.component';
-import { Service } from '../../models/service.model';
+import { Service } from '@amg/data-access';
 
 @Component({
   selector: 'amg-services',
@@ -17,9 +17,9 @@ import { Service } from '../../models/service.model';
 })
 export class ServicesComponent implements OnInit {
   private readonly seo = inject(SeoService);
-  private readonly servicesDataService = inject(ServicesDataService);
+  private readonly facade = inject(ServicesFacade);
 
-  readonly services = toSignal(this.servicesDataService.getAll$(), {
+  readonly services = toSignal(this.facade.getAll$(), {
     initialValue: [] as Service[],
   });
 
@@ -29,7 +29,7 @@ export class ServicesComponent implements OnInit {
     { number: '03', title: 'Collecte des informations', description: 'Vous me transmettez les plans de votre pièce, des photos et vos inspirations.' },
     { number: '04', title: 'Création 3D', description: "Je modélise votre espace en 3D et sélectionne mobilier, matériaux et couleurs selon vos envies." },
     { number: '05', title: 'Présentation & ajustements', description: "Présentation du projet en visio avec possibilité d'ajustements inclus." },
-    { number: '06', title: 'Livraison du book', description: 'Vous recevez votre book PDF haute résolution avec la liste de courses et les liens d\'achat.' },
+    { number: '06', title: 'Livraison du book', description: "Vous recevez votre book PDF haute résolution avec la liste de courses et les liens d'achat." },
   ];
 
   ngOnInit(): void {

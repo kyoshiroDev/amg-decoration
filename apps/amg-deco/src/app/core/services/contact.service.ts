@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { ContactForm } from '../../models/contact.model';
+import { ContactForm } from '@amg/data-access';
 
 /**
  * @service ContactService

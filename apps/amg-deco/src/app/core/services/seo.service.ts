@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
-import { SeoConfig } from '../../models/seo.model';
+import { SeoConfig } from '@amg/data-access';
 
 /**
  * @service SeoService

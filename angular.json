@@ -3,6 +3,87 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "amg-deco-cms": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "standalone": true,
+          "changeDetection": "OnPush"
+        }
+      },
+      "root": "apps/amg-deco-cms",
+      "sourceRoot": "apps/amg-deco-cms/src",
+      "prefix": "cms",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/apps/amg-deco-cms",
+            "index": "apps/amg-deco-cms/src/index.html",
+            "browser": "apps/amg-deco-cms/src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "apps/amg-deco-cms/tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "apps/amg-deco-cms/src/assets",
+                "output": "assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/amg-deco-cms/src",
+                "output": ""
+              }
+            ],
+            "styles": [
+              "apps/amg-deco-cms/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "baseHref": "/admin/",
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "8kb",
+                  "maximumError": "16kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "baseHref": "/admin/",
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "amg-deco-cms:build:production"
+            },
+            "development": {
+              "buildTarget": "amg-deco-cms:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n"
+        }
+      }
+    },
     "amg-deco": {
       "projectType": "application",
       "schematics": {
@@ -77,6 +158,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "apps/amg-deco/proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "amg-deco:build:production"

@@ -1,0 +1,35 @@
+<div class="dashboard">
+  <h1 class="page-title">Dashboard</h1>
+
+  <!-- Stats -->
+  @if (stats(); as s) {
+    <div class="stats-grid" aria-label="Statistiques">
+      <div class="stat-card card">
+        <span class="stat-value">{{ s.projects }}</span>
+        <span class="stat-label">Projets</span>
+        <a [routerLink]="'/projets'" class="stat-link">Gérer →</a>
+      </div>
+      <div class="stat-card card">
+        <span class="stat-value">{{ s.services }}</span>
+        <span class="stat-label">Prestations</span>
+        <a [routerLink]="'/prestations'" class="stat-link">Éditer →</a>
+      </div>
+      <div class="stat-card card">
+        <span class="stat-value">{{ s.testimonials }}</span>
+        <span class="stat-label">Témoignages</span>
+        <a [routerLink]="'/temoignages'" class="stat-link">Gérer →</a>
+      </div>
+    </div>
+  }
+
+  <!-- Shortcuts -->
+  <h2 class="section-title">Accès rapide</h2>
+  <div class="shortcuts-grid">
+    @for (shortcut of shortcuts; track shortcut.path) {
+      <a [routerLink]="shortcut.path" class="shortcut-card card">
+        <span class="shortcut-icon" aria-hidden="true">{{ shortcut.icon }}</span>
+        <span class="shortcut-label">{{ shortcut.label }}</span>
+      </a>
+    }
+  </div>
+</div>

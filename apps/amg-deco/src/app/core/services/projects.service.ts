@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { shareReplay, map } from 'rxjs/operators';
-import { Project, ProjectCategory } from '../../models/project.model';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Observable, of, from, defer } from 'rxjs';
+import { shareReplay, map, catchError } from 'rxjs/operators';
+import { SupabaseService, Project, ProjectCategory } from '@amg/data-access';
 
-const PROJECTS_DATA: Project[] = [
+const PROJECTS_FALLBACK: Project[] = [
   {
     id: '1',
     slug: 'salon-moderne-ile-de-france',
@@ -62,11 +63,36 @@ const PROJECTS_DATA: Project[] = [
 
 /**
  * @service ProjectsService
- * @description Accès aux données des projets/réalisations.
+ * @description Accès aux données des projets/réalisations depuis Supabase.
+ * SSR-safe : utilise les données statiques côté serveur, Supabase côté client.
  */
 @Injectable({ providedIn: 'root' })
 export class ProjectsService {
-  private readonly projects$ = of(PROJECTS_DATA).pipe(shareReplay(1));
+  private readonly supabase = inject(SupabaseService);
+  private readonly platformId = inject(PLATFORM_ID);
+
+  private readonly projects$: Observable<Project[]> = defer(() => {
+    if (!isPlatformBrowser(this.platformId)) {
+      return of(PROJECTS_FALLBACK);
+    }
+    return from(
+      this.supabase.from('projects').select('*').order('created_at', { ascending: false })
+    ).pipe(
+      map(({ data, error }) => {
+        if (error || !data?.length) return PROJECTS_FALLBACK;
+        return data.map((row: Record<string, unknown>) => ({
+          id: row['id'] as string,
+          slug: row['identifiant_url'] as string,
+          title: row['title'] as string,
+          description: row['description'] as string,
+          images: (row['images'] as string[]) ?? [],
+          category: row['category'] as ProjectCategory,
+          roomType: row['room_type'] as string,
+        }));
+      }),
+      catchError(() => of(PROJECTS_FALLBACK))
+    );
+  }).pipe(shareReplay(1));
 
   getAll$(): Observable<Project[]> {
     return this.projects$;

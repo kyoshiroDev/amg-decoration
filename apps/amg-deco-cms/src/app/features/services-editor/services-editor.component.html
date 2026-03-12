@@ -1,0 +1,85 @@
+<div class="services-editor">
+  <h1 class="page-title">Prestations</h1>
+
+  <div class="services-grid">
+    @for (service of services(); track service.id) {
+      <div class="service-card card">
+        @if (editingId() === service.id) {
+          <!-- Edit mode -->
+          <form [formGroup]="editForm()!" (ngSubmit)="saveService()" novalidate>
+            <div class="form-group">
+              <label [for]="'title-' + service.id">Titre</label>
+              <input [id]="'title-' + service.id" type="text" formControlName="title" />
+            </div>
+            <div class="form-group">
+              <label [for]="'subtitle-' + service.id">Sous-titre</label>
+              <input [id]="'subtitle-' + service.id" type="text" formControlName="subtitle" />
+            </div>
+            <div class="form-group">
+              <label [for]="'desc-' + service.id">Description</label>
+              <textarea [id]="'desc-' + service.id" formControlName="description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label [for]="'note-' + service.id">Note</label>
+              <textarea [id]="'note-' + service.id" formControlName="note" rows="2"></textarea>
+            </div>
+
+            <!-- Includes -->
+            <fieldset class="includes-section">
+              <legend class="field-legend">Inclus dans la prestation</legend>
+              @for (inc of getIncludesArray().controls; track $index; let i = $index) {
+                <div class="inc-row">
+                  <input type="text" [formControl]="$any(inc)" [attr.aria-label]="'Inclusion ' + (i + 1)" />
+                  <button type="button" class="remove-btn" (click)="removeInclude(i)" aria-label="Supprimer">×</button>
+                </div>
+              }
+              <button type="button" class="btn btn-outline btn-sm" (click)="addInclude()">+ Ajouter</button>
+            </fieldset>
+
+            <!-- Offers -->
+            <fieldset class="offers-section" formArrayName="offers">
+              <legend class="field-legend">Tarifs</legend>
+              @for (offer of getOffersArray().controls; track $index; let i = $index) {
+                <div class="offer-row" [formGroupName]="i">
+                  <input type="text" formControlName="label" placeholder="Label" class="offer-label" />
+                  <input type="number" formControlName="price" placeholder="Prix €" class="offer-price" />
+                  <input type="text" formControlName="unit" placeholder="Unité" class="offer-unit" />
+                  <button type="button" class="remove-btn" (click)="removeOffer(i)" aria-label="Supprimer tarif">×</button>
+                </div>
+              }
+              <button type="button" class="btn btn-outline btn-sm" (click)="addOffer()">+ Tarif</button>
+            </fieldset>
+
+            <div class="card-actions">
+              <button type="button" class="btn btn-outline" (click)="cancelEdit()">Annuler</button>
+              <button type="submit" class="btn btn-gold"
+                [disabled]="saveState()[service.id] === 'loading'">
+                {{ saveState()[service.id] === 'loading' ? 'Sauvegarde…' : 'Sauvegarder' }}
+              </button>
+            </div>
+          </form>
+        } @else {
+          <!-- View mode -->
+          <div class="service-header">
+            <h2 class="service-title">{{ service.title }}</h2>
+            @if (saveState()[service.id] === 'success') {
+              <span class="badge badge-gold">Sauvegardé ✓</span>
+            }
+          </div>
+          <p class="service-subtitle">{{ service.subtitle }}</p>
+          <p class="service-desc">{{ service.description }}</p>
+          <div class="service-offers">
+            @for (offer of service.offers; track offer.id) {
+              <span class="offer-badge">{{ offer.label }} — {{ offer.price }}€</span>
+            }
+          </div>
+          <button
+            type="button"
+            class="btn btn-outline btn-sm edit-btn"
+            (click)="startEdit(service)"
+          >Modifier</button>
+        }
+      </div>
+    }
+  </div>
+</div>

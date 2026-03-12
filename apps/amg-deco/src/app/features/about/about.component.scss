@@ -47,33 +47,35 @@
     width: 100%;
     height: auto;
     object-fit: cover;
-    box-shadow: var(--shadow-lg);
   }
 
   &__image-badge {
     position: absolute;
-    bottom: -1.5rem;
-    right: -1.5rem;
+    bottom: -0.75rem;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: var(--color-gold);
-    color: white;
-    padding: 1.5rem;
+    color: var(--color-dark);
+    padding: 0.625rem 0.75rem;
     text-align: center;
+    box-shadow: var(--shadow-md);
+    white-space: nowrap;
 
-    p {
-      font-family: var(--font-body);
-      font-size: 0.75rem;
+    span {
+      display: block;
+      font-family: var(--font-body), serif;
+      font-size: 0.625rem;
       font-weight: 400;
-      text-transform: uppercase;
       letter-spacing: 0.1em;
-      margin: 0;
+      text-transform: uppercase;
     }
 
     strong {
       display: block;
-      font-family: var(--font-heading);
-      font-size: 1rem;
+      font-family: var(--font-heading), serif;
+      font-size: 0.75rem;
       font-weight: 600;
-      margin: 0.25rem 0;
+      margin-top: 0.125rem;
     }
   }
 
@@ -146,14 +148,12 @@
   &__value-card {
     text-align: center;
     padding: 2.5rem 2rem;
-    background-color: white;
-    border: 1px solid rgba(196, 168, 130, 0.2);
+    background-color: var(--color-cream);
+    border: 1px solid var(--color-gold);
+    border-radius: 10px;
+    box-shadow: 0 8px 40px rgba(196, 168, 130, 0.25), 0 2px 8px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
     transition: all var(--transition-base);
-
-    &:hover {
-      border-color: var(--color-gold);
-      box-shadow: var(--shadow-md);
-    }
 
     h3 {
       font-family: var(--font-heading);

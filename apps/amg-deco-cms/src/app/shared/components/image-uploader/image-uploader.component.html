@@ -1,0 +1,35 @@
+<div class="uploader">
+  <label class="drop-zone" [class.drag-over]="isDragOver()"
+    (drop)="onDrop($event)"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave()"
+  >
+    <input
+      type="file"
+      class="sr-only"
+      [multiple]="multiple()"
+      [accept]="accept()"
+      (change)="onFileChange($event)"
+      aria-label="Sélectionner des images"
+    />
+    <span class="drop-icon" aria-hidden="true">↑</span>
+    <span class="drop-label">{{ label() }}</span>
+    <span class="drop-hint">Glisser-déposer ou cliquer pour sélectionner</span>
+  </label>
+
+  @if (previews().length) {
+    <div class="previews" role="list" aria-label="Images sélectionnées">
+      @for (item of previews(); track item.preview; let i = $index) {
+        <div class="preview-item" role="listitem">
+          <img [src]="item.preview" [alt]="'Aperçu ' + (i + 1)" class="preview-img" />
+          <button
+            type="button"
+            class="remove-btn"
+            (click)="removePreview(i)"
+            [attr.aria-label]="'Supprimer image ' + (i + 1)"
+          >×</button>
+        </div>
+      }
+    </div>
+  }
+</div>
