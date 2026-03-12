@@ -9,8 +9,8 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NgClass, NgOptimizedImage } from '@angular/common';
 import { SeoService } from '../../core/services/seo.service';
-import { ProjectsService } from '../../core/services/projects.service';
-import { ProjectCategory } from '../../models/project.model';
+import { RealisationsFacade } from './application/realisations.facade';
+import { ProjectCategory } from '@amg/data-access';
 
 type FilterCategory = ProjectCategory | 'all';
 
@@ -24,9 +24,9 @@ type FilterCategory = ProjectCategory | 'all';
 })
 export class RealisationsComponent implements OnInit {
   private readonly seo = inject(SeoService);
-  private readonly projectsService = inject(ProjectsService);
+  private readonly facade = inject(RealisationsFacade);
 
-  readonly allProjects = toSignal(this.projectsService.getAll$(), {
+  readonly allProjects = toSignal(this.facade.getAll$(), {
     initialValue: [],
   });
 

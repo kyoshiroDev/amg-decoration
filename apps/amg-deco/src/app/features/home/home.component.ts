@@ -9,12 +9,11 @@ import { RouterLink } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
 import { signal, computed } from '@angular/core';
 import { SeoService } from '../../core/services/seo.service';
-import { TestimonialsService } from '../../core/services/testimonials.service';
-import { ProjectsService } from '../../core/services/projects.service';
+import { HomeFacade } from './application/home.facade';
 import { HeroSliderComponent, SlideItem } from '../../shared/components/hero-slider/hero-slider.component';
 import { SectionTitleComponent } from '../../shared/components/section-title/section-title.component';
 import { InstagramFeedComponent } from '../../shared/components/instagram-feed/instagram-feed.component';
-import { Testimonial } from '../../models/testimonial.model';
+import { Testimonial } from '@amg/data-access';
 
 @Component({
   selector: 'amg-home',
@@ -26,14 +25,13 @@ import { Testimonial } from '../../models/testimonial.model';
 })
 export class HomeComponent implements OnInit {
   private readonly seo = inject(SeoService);
-  private readonly testimonialsService = inject(TestimonialsService);
-  private readonly projectsService = inject(ProjectsService);
+  private readonly facade = inject(HomeFacade);
 
-  readonly testimonials = toSignal(this.testimonialsService.getAll$(), {
+  readonly testimonials = toSignal(this.facade.getTestimonials$(), {
     initialValue: [] as Testimonial[],
   });
 
-  readonly projects = toSignal(this.projectsService.getAll$(), {
+  readonly projects = toSignal(this.facade.getProjects$(), {
     initialValue: [],
   });
 
@@ -44,7 +42,7 @@ export class HomeComponent implements OnInit {
   );
 
   readonly heroSlides: SlideItem[] = [
-    { id: '1', src: '/assets/images/hero/hero-1.webp', alt: 'Salon moderne aménagé en 3D par AMG Décoration d\'Intérieur' },
+    { id: '1', src: '/assets/images/hero/hero-1.webp', alt: "Salon moderne aménagé en 3D par AMG Décoration d'Intérieur" },
     { id: '2', src: '/assets/images/hero/hero-2.webp', alt: 'Terrasse contemporaine aménagée en 3D' },
     { id: '3', src: '/assets/images/hero/hero-3.webp', alt: 'Terrasse moderne avec pergola bioclimatique' },
     { id: '4', src: '/assets/images/hero/hero-4.webp', alt: 'Chambre parentale cosy avec tête de lit sur-mesure' },
@@ -56,7 +54,7 @@ export class HomeComponent implements OnInit {
     {
       icon: '💰',
       title: 'Économies garanties',
-      description: 'Évitez les erreurs coûteuses en visualisant chaque détail avant d\'acheter quoi que ce soit.',
+      description: "Évitez les erreurs coûteuses en visualisant chaque détail avant d'acheter quoi que ce soit.",
     },
     {
       icon: '🎨',
@@ -98,6 +96,10 @@ export class HomeComponent implements OnInit {
         ],
       },
     });
+  }
+
+  starsArray(n: number): number[] {
+    return Array(n).fill(0);
   }
 
   goToTestimonial(index: number): void {

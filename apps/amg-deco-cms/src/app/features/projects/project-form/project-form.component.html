@@ -90,8 +90,7 @@
         class="btn btn-gold"
         [disabled]="state() === 'loading'"
       >
-        @if (state() === 'loading') { Sauvegarde… }
-        @else { Sauvegarder }
+        {{ state() === 'loading' ? 'Sauvegarde…' : 'Sauvegarder' }}
       </button>
     </div>
   </form>

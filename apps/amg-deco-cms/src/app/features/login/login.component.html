@@ -55,11 +55,7 @@
         [disabled]="state() === 'loading'"
         [attr.aria-busy]="state() === 'loading'"
       >
-        @if (state() === 'loading') {
-          Connexion en cours…
-        } @else {
-          Se connecter
-        }
+        {{ state() === 'loading' ? 'Connexion en cours…' : 'Se connecter' }}
       </button>
     </form>
   </div>

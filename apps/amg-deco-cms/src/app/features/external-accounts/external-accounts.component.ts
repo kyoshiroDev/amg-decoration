@@ -2,56 +2,59 @@ import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/cor
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of } from 'rxjs';
-import { TestimonialsApiService } from '../../core/services/testimonials-api.service';
+import {
+  ExternalAccountsApiService,
+  ExternalAccount,
+} from '../../core/services/external-accounts-api.service';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
-import { Testimonial } from '@amg/data-access';
 
 @Component({
-  selector: 'cms-testimonials',
+  selector: 'cms-external-accounts',
   standalone: true,
   imports: [ReactiveFormsModule, ConfirmDialogComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './testimonials.component.html',
-  styleUrl: './testimonials.component.scss',
+  templateUrl: './external-accounts.component.html',
+  styleUrl: './external-accounts.component.scss',
 })
-export class TestimonialsComponent {
-  private readonly testimonialsApi = inject(TestimonialsApiService);
+export class ExternalAccountsComponent {
+  private readonly api = inject(ExternalAccountsApiService);
   private readonly fb = inject(FormBuilder);
 
-  readonly testimonials = toSignal(
-    this.testimonialsApi.getAll$().pipe(catchError(err => { console.error('[Testimonials]', err); return of([] as Testimonial[]); })),
-    { initialValue: [] as Testimonial[] }
+  readonly accounts = toSignal(
+    this.api.getAll$().pipe(catchError(err => { console.error('[ExternalAccounts]', err); return of([] as ExternalAccount[]); })),
+    { initialValue: [] as ExternalAccount[] }
   );
   readonly isAdding = signal(false);
   readonly editingId = signal<string | null>(null);
   readonly confirmDeleteId = signal<string | null>(null);
   readonly state = signal<'idle' | 'loading' | 'success' | 'error'>('idle');
   readonly errorMsg = signal('');
+  readonly visiblePasswords = signal<Set<string>>(new Set());
 
   readonly form = this.fb.group({
-    name: ['', Validators.required],
-    text: ['', Validators.required],
-    rating: [5, [Validators.required, Validators.min(1), Validators.max(5)]],
-    avatar_url: [''],
+    compte: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+    notes: [''],
   });
 
-  readonly ratingOptions = [1, 2, 3, 4, 5];
-
   startAdd(): void {
-    this.form.reset({ rating: 5 });
+    this.form.reset();
+    this.form.get('password')?.setValidators(Validators.required);
+    this.form.get('password')?.updateValueAndValidity();
     this.editingId.set(null);
     this.isAdding.set(true);
   }
 
-  startEdit(t: Testimonial): void {
+  startEdit(account: ExternalAccount): void {
     this.form.patchValue({
-      name: t.name,
-      text: t.text,
-      rating: t.rating,
-      avatar_url: t.avatar_url ?? '',
+      compte: account.compte,
+      email: account.email,
+      password: account.password,
+      notes: account.notes ?? '',
     });
+    this.editingId.set(account.id);
     this.isAdding.set(true);
-    this.editingId.set(t.id);
   }
 
   cancelForm(): void {
@@ -68,15 +71,15 @@ export class TestimonialsComponent {
     this.state.set('loading');
     const raw = this.form.getRawValue();
     const data = {
-      name: raw.name!,
-      text: raw.text!,
-      rating: raw.rating!,
-      avatar_url: raw.avatar_url || undefined,
+      compte: raw.compte!,
+      email: raw.email!,
+      password: raw.password!,
+      notes: raw.notes || undefined,
     };
 
     const action$ = this.editingId()
-      ? this.testimonialsApi.update$(this.editingId()!, data)
-      : this.testimonialsApi.create$(data);
+      ? this.api.update$(this.editingId()!, data)
+      : this.api.create$(data);
 
     action$.subscribe({
       next: () => {
@@ -92,6 +95,18 @@ export class TestimonialsComponent {
     });
   }
 
+  togglePassword(id: string): void {
+    this.visiblePasswords.update(set => {
+      const next = new Set(set);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  }
+
+  isPasswordVisible(id: string): boolean {
+    return this.visiblePasswords().has(id);
+  }
+
   requestDelete(id: string): void {
     this.confirmDeleteId.set(id);
   }
@@ -104,13 +119,9 @@ export class TestimonialsComponent {
     const id = this.confirmDeleteId();
     if (!id) return;
     this.confirmDeleteId.set(null);
-    this.testimonialsApi.delete$(id).subscribe({
+    this.api.delete$(id).subscribe({
       next: () => window.location.reload(),
       error: (err: Error) => this.errorMsg.set(err.message),
     });
-  }
-
-  starsArray(n: number): number[] {
-    return Array(n).fill(0);
   }
 }

@@ -62,6 +62,14 @@ export const routes: Routes = [
           ),
         title: 'Témoignages — AMG Admin',
       },
+      {
+        path: 'comptes-externes',
+        loadComponent: () =>
+          import('./features/external-accounts/external-accounts.component').then(
+            m => m.ExternalAccountsComponent
+          ),
+        title: 'Comptes externes — AMG Admin',
+      },
     ],
   },
   { path: '**', redirectTo: '' },

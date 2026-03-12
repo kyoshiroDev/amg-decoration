@@ -165,12 +165,12 @@
   </div>
 </section>
 
-<!-- ─── 6. Témoignages ────────────────────────────────────────────────────── -->
+<!-- ─── 6. Témoignages ─────────────────────────────────────────────────────── -->
 <section class="section-padding bg-amg-cream" aria-labelledby="testimonials-title">
   <div class="container-amg">
     <amg-section-title
-      eyebrow="Avis clients"
-      title="Ils me font confiance"
+      eyebrow="Ils me font confiance"
+      title="Témoignages clients"
     />
 
     @if (testimonials().length > 0 && currentTestimonial()) {
@@ -182,15 +182,13 @@
       >
         <div aria-live="polite" aria-atomic="true">
           <blockquote class="testimonials__quote">
-            <div class="testimonials__stars" aria-label="{{ currentTestimonial().rating }} étoiles sur 5" role="img">
-              @for (_ of [].constructor(currentTestimonial().rating); track $index) {
+            <div class="testimonials__stars" [attr.aria-label]="currentTestimonial().rating + ' étoiles sur 5'" role="img">
+              @for (_ of starsArray(currentTestimonial().rating); track $index) {
                 <span aria-hidden="true">★</span>
               }
             </div>
             <p class="testimonials__text">"{{ currentTestimonial().text }}"</p>
-            <footer class="testimonials__author">
-              — <cite>{{ currentTestimonial().name }}</cite>
-            </footer>
+            <cite class="testimonials__author">— {{ currentTestimonial().name }}</cite>
           </blockquote>
         </div>
 
@@ -200,9 +198,7 @@
             class="testimonials__control"
             (click)="previousTestimonial()"
             aria-label="Témoignage précédent"
-          >
-            ←
-          </button>
+          >←</button>
 
           <div role="tablist" aria-label="Navigation des témoignages">
             @for (t of testimonials(); track t.id; let i = $index) {
@@ -223,9 +219,7 @@
             class="testimonials__control"
             (click)="nextTestimonial()"
             aria-label="Témoignage suivant"
-          >
-            →
-          </button>
+          >→</button>
         </div>
       </div>
     }

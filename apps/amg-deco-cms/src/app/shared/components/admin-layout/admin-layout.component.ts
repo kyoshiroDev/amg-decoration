@@ -23,10 +23,11 @@ export class AdminLayoutComponent {
   readonly isSidebarOpen = signal(true);
 
   readonly navItems: NavItem[] = [
-    { path: '/', label: 'Dashboard', icon: '⊞' },
-    { path: '/projets', label: 'Projets', icon: '◻' },
-    { path: '/prestations', label: 'Prestations', icon: '◈' },
-    { path: '/temoignages', label: 'Témoignages', icon: '◎' },
+    { path: '/', label: 'Dashboard', icon: '📊' },
+    { path: '/projets', label: 'Projets', icon: '🖼️' },
+    { path: '/prestations', label: 'Prestations', icon: '💵' },
+    { path: '/temoignages', label: 'Témoignages', icon: '⭐' },
+    { path: '/comptes-externes', label: 'Comptes externes', icon: '🔑' },
   ];
 
   readonly userEmail = this.auth.currentUser;
