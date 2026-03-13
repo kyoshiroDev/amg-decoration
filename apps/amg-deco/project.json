@@ -71,7 +71,8 @@
           "buildTarget": "amg-deco:build:production"
         },
         "development": {
-          "buildTarget": "amg-deco:build:development"
+          "buildTarget": "amg-deco:build:development",
+          "hmr": false
         }
       },
       "defaultConfiguration": "development"
