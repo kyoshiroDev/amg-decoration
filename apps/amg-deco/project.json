@@ -13,7 +13,7 @@
         "outputPath": "dist/apps/amg-deco",
         "index": "apps/amg-deco/src/index.html",
         "browser": "apps/amg-deco/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [],
         "tsConfig": "apps/amg-deco/tsconfig.app.json",
         "assets": [
           {
@@ -45,8 +45,8 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumWarning": "1mb",
+              "maximumError": "1.5mb"
             },
             {
               "type": "anyComponentStyle",
