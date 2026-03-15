@@ -160,7 +160,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "proxyConfig": "apps/amg-deco/proxy.conf.json"
+            "proxyConfig": "apps/amg-deco/proxy.conf.json",
+            "hmr": false
           },
           "configurations": {
             "production": {
