@@ -149,7 +149,7 @@
     margin-top: 1px;
   }
 
-  &__offers {
+  &__prices {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -157,7 +157,7 @@
     background-color: var(--color-gray-light);
   }
 
-  &__offer {
+  &__price {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -169,13 +169,13 @@
     }
   }
 
-  &__offer-label {
+  &__price-label {
     font-family: var(--font-body);
     font-size: 0.9rem;
     color: var(--color-dark);
   }
 
-  &__offer-price {
+  &__price-amount {
     font-family: var(--font-heading);
     font-size: 1.25rem;
     font-weight: 700;

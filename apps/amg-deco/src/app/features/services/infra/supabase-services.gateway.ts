@@ -18,7 +18,15 @@ export class SupabaseServicesGateway implements ServicesGateway {
       return this.fallback.getAll();
     }
     return from(
-      this.supabase.from('services').select('*').order('order_index')
+      this.supabase.from('services')
+        .select(`
+          *,
+          includes:service_includes(id, service_id, text, order_index),
+          prices:service_prices(id, service_id, label, price, unit, order_index)
+        `)
+        .order('order_index')
+        .order('order_index', { referencedTable: 'service_includes' })
+        .order('order_index', { referencedTable: 'service_prices' })
     ).pipe(
       map(({ data, error }) => {
         if (error || !data?.length) throw new Error(error?.message ?? 'No data');
@@ -29,7 +37,7 @@ export class SupabaseServicesGateway implements ServicesGateway {
             subtitle: row['subtitle'],
             description: row['description'],
             includes: row['includes'] ?? [],
-            offers: row['offers'] ?? [],
+            prices: row['prices'] ?? [],
             image: row['image'],
             note: row['note'],
             order_index: row['order_index'],

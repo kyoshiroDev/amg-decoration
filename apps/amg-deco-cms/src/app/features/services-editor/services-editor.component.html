@@ -25,29 +25,29 @@
             </div>
 
             <!-- Includes -->
-            <fieldset class="includes-section">
+            <fieldset class="includes-section" formArrayName="includes">
               <legend class="field-legend">Inclus dans la prestation</legend>
               @for (inc of getIncludesArray().controls; track $index; let i = $index) {
-                <div class="inc-row">
-                  <input type="text" [formControl]="$any(inc)" [attr.aria-label]="'Inclusion ' + (i + 1)" />
+                <div class="inc-row" [formGroupName]="i">
+                  <input type="text" formControlName="text" [attr.aria-label]="'Inclusion ' + (i + 1)" />
                   <button type="button" class="remove-btn" (click)="removeInclude(i)" aria-label="Supprimer">×</button>
                 </div>
               }
               <button type="button" class="btn btn-outline btn-sm" (click)="addInclude()">+ Ajouter</button>
             </fieldset>
 
-            <!-- Offers -->
-            <fieldset class="offers-section" formArrayName="offers">
+            <!-- Prices -->
+            <fieldset class="prices-section" formArrayName="prices">
               <legend class="field-legend">Tarifs</legend>
-              @for (offer of getOffersArray().controls; track $index; let i = $index) {
-                <div class="offer-row" [formGroupName]="i">
-                  <input type="text" formControlName="label" placeholder="Label" class="offer-label" />
-                  <input type="number" formControlName="price" placeholder="Prix €" class="offer-price" />
-                  <input type="text" formControlName="unit" placeholder="Unité" class="offer-unit" />
-                  <button type="button" class="remove-btn" (click)="removeOffer(i)" aria-label="Supprimer tarif">×</button>
+              @for (price of getPricesArray().controls; track $index; let i = $index) {
+                <div class="price-row" [formGroupName]="i">
+                  <input type="text" formControlName="label" placeholder="Label" class="price-label" />
+                  <input type="number" formControlName="price" placeholder="Prix €" class="price-amount" />
+                  <input type="text" formControlName="unit" placeholder="Unité" class="price-unit" />
+                  <button type="button" class="remove-btn" (click)="removePrice(i)" aria-label="Supprimer tarif">×</button>
                 </div>
               }
-              <button type="button" class="btn btn-outline btn-sm" (click)="addOffer()">+ Tarif</button>
+              <button type="button" class="btn btn-outline btn-sm" (click)="addPrice()">+ Tarif</button>
             </fieldset>
 
             <div class="card-actions">
@@ -68,9 +68,9 @@
           </div>
           <p class="service-subtitle">{{ service.subtitle }}</p>
           <p class="service-desc">{{ service.description }}</p>
-          <div class="service-offers">
-            @for (offer of service.offers; track offer.id) {
-              <span class="offer-badge">{{ offer.label }} — {{ offer.price }}€</span>
+          <div class="service-prices">
+            @for (price of service.prices; track price.id) {
+              <span class="price-badge">{{ price.label }} — {{ price.price }}€</span>
             }
           </div>
           <button

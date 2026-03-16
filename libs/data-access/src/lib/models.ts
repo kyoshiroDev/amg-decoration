@@ -14,24 +14,34 @@ export const ProjectSchema = z.object({
 });
 export type Project = z.infer<typeof ProjectSchema>;
 
-export const ServiceOfferSchema = z.object({
+export const ServiceIncludeSchema = z.object({
   id: z.string(),
+  service_id: z.string(),
+  text: z.string(),
+  order_index: z.number().default(0),
+});
+export type ServiceInclude = z.infer<typeof ServiceIncludeSchema>;
+
+export const ServicePriceSchema = z.object({
+  id: z.string(),
+  service_id: z.string(),
   label: z.string(),
   price: z.number(),
   unit: z.string().optional(),
+  order_index: z.number().default(0),
 });
-export type ServiceOffer = z.infer<typeof ServiceOfferSchema>;
+export type ServicePrice = z.infer<typeof ServicePriceSchema>;
 
 export const ServiceSchema = z.object({
   id: z.string(),
   title: z.string(),
   subtitle: z.string().optional(),
   description: z.string(),
-  includes: z.array(z.string()),
-  offers: z.array(ServiceOfferSchema),
+  includes: z.array(ServiceIncludeSchema).default([]),
+  prices: z.array(ServicePriceSchema).default([]),
   image: z.string().optional(),
   note: z.string().optional(),
-  order_index: z.number().optional(),
+  order_index: z.number().default(0),
 });
 export type Service = z.infer<typeof ServiceSchema>;
 
