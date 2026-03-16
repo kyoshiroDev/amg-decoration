@@ -1,21 +1,19 @@
 import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Observable, from, defer } from 'rxjs';
+import { Observable, from, defer, of } from 'rxjs';
 import { map, catchError, shareReplay } from 'rxjs/operators';
 import { SupabaseService, Service, ServiceSchema } from '@amg/data-access';
 import { ServicesGateway } from '../domain/services.gateway';
-import { InMemoryServicesGateway } from './in-memory-services.gateway';
 import { z } from 'zod';
 
 @Injectable({ providedIn: 'root' })
 export class SupabaseServicesGateway implements ServicesGateway {
   private readonly supabase = inject(SupabaseService);
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly fallback = inject(InMemoryServicesGateway);
 
   private readonly services$: Observable<Service[]> = defer(() => {
     if (!isPlatformBrowser(this.platformId)) {
-      return this.fallback.getAll();
+      return of([] as Service[]);
     }
     return from(
       this.supabase.from('services')
@@ -44,7 +42,10 @@ export class SupabaseServicesGateway implements ServicesGateway {
           }))
         );
       }),
-      catchError(() => this.fallback.getAll())
+      catchError(err => {
+        console.error('[SupabaseServicesGateway] erreur chargement prestations :', err);
+        return of([] as Service[]);
+      })
     );
   }).pipe(shareReplay(1));
 
