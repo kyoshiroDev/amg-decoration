@@ -37,13 +37,13 @@
             </fieldset>
 
             <!-- Prices -->
-            <fieldset class="prices-section" formArrayName="prices">
+            <fieldset class="offers-section" formArrayName="prices">
               <legend class="field-legend">Tarifs</legend>
               @for (price of getPricesArray().controls; track $index; let i = $index) {
-                <div class="price-row" [formGroupName]="i">
-                  <input type="text" formControlName="label" placeholder="Label" class="price-label" />
-                  <input type="number" formControlName="price" placeholder="Prix €" class="price-amount" />
-                  <input type="text" formControlName="unit" placeholder="Unité" class="price-unit" />
+                <div class="offer-row" [formGroupName]="i">
+                  <input type="text" formControlName="label" placeholder="Label" class="offer-label" />
+                  <input type="number" formControlName="price" placeholder="Prix €" class="offer-price" />
+                  <input type="text" formControlName="unit" placeholder="Unité" class="offer-unit" />
                   <button type="button" class="remove-btn" (click)="removePrice(i)" aria-label="Supprimer tarif">×</button>
                 </div>
               }
@@ -68,9 +68,9 @@
           </div>
           <p class="service-subtitle">{{ service.subtitle }}</p>
           <p class="service-desc">{{ service.description }}</p>
-          <div class="service-prices">
+          <div class="service-offers">
             @for (price of service.prices; track price.id) {
-              <span class="price-badge">{{ price.label }} — {{ price.price }}€</span>
+              <span class="offer-badge">{{ price.label }} — {{ price.price }}€</span>
             }
           </div>
           <button
