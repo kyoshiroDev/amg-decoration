@@ -27,7 +27,7 @@ export const ServicePriceSchema = z.object({
   service_id: z.string(),
   label: z.string(),
   price: z.number(),
-  unit: z.string().optional(),
+  unit: z.string().nullish().transform(v => v ?? undefined),
   order_index: z.number().default(0),
 });
 export type ServicePrice = z.infer<typeof ServicePriceSchema>;
@@ -35,12 +35,12 @@ export type ServicePrice = z.infer<typeof ServicePriceSchema>;
 export const ServiceSchema = z.object({
   id: z.string(),
   title: z.string(),
-  subtitle: z.string().optional(),
+  subtitle: z.string().nullish().transform(v => v ?? undefined),
   description: z.string(),
   includes: z.array(ServiceIncludeSchema).default([]),
   prices: z.array(ServicePriceSchema).default([]),
-  image: z.string().optional(),
-  note: z.string().optional(),
+  image: z.string().nullish().transform(v => v ?? undefined),
+  note: z.string().nullish().transform(v => v ?? undefined),
   order_index: z.number().default(0),
 });
 export type Service = z.infer<typeof ServiceSchema>;
@@ -48,8 +48,8 @@ export type Service = z.infer<typeof ServiceSchema>;
 export const TestimonialSchema = z.object({
   id: z.string(),
   name: z.string(),
-  avatar: z.string().optional(),
-  avatar_url: z.string().optional(),
+  avatar: z.string().nullish().transform(v => v ?? undefined),
+  avatar_url: z.string().nullish().transform(v => v ?? undefined),
   text: z.string(),
   rating: z.number().min(1).max(5),
 });

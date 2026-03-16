@@ -70,6 +70,7 @@ export class TestimonialsComponent {
       name: raw.name!,
       text: raw.text!,
       rating: raw.rating!,
+      avatar: undefined,
       avatar_url: raw.avatar_url || undefined,
     };
 

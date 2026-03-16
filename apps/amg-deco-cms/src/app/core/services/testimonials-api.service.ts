@@ -61,6 +61,7 @@ export class TestimonialsApiService {
       name: row['name'] as string,
       text: row['text'] as string,
       rating: row['rating'] as number,
+      avatar: undefined,
       avatar_url: row['avatar_url'] as string | undefined,
     };
   }
