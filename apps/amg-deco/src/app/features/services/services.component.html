@@ -15,19 +15,29 @@
 <section class="section-padding" aria-label="Liste des prestations">
   <div class="container-amg">
     <div class="services-grid">
-      @for (service of services(); track service.id) {
+      @for (service of services(); track service.id; let i = $index) {
         <article class="service-card" [id]="'service-' + service.id">
           @if (service.image) {
             <div class="service-card__image-wrapper">
-              @defer (on viewport) {
+              @if (i === 0) {
                 <img
                   [ngSrc]="service.image!"
                   [alt]="'Illustration pour la prestation ' + service.title"
                   fill
+                  priority
                   class="service-card__image"
                 />
-              } @placeholder {
-                <div class="service-card__skeleton"></div>
+              } @else {
+                @defer (on viewport) {
+                  <img
+                    [ngSrc]="service.image!"
+                    [alt]="'Illustration pour la prestation ' + service.title"
+                    fill
+                    class="service-card__image"
+                  />
+                } @placeholder {
+                  <div class="service-card__skeleton"></div>
+                }
               }
             </div>
           }
