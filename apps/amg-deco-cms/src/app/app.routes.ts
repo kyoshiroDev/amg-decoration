@@ -55,12 +55,12 @@ export const routes: Routes = [
         title: 'Prestations — AMG Admin',
       },
       {
-        path: 'temoignages',
+        path: 'avis-client',
         loadComponent: () =>
-          import('./features/testimonials/testimonials.component').then(
-            m => m.TestimonialsComponent
+          import('./features/avis-client/avis-client.component').then(
+            m => m.AvisClientComponent
           ),
-        title: 'Témoignages — AMG Admin',
+        title: 'Avis clients — AMG Admin',
       },
       {
         path: 'comptes-externes',

@@ -2,24 +2,24 @@ import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/cor
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of } from 'rxjs';
-import { TestimonialsApiService } from '../../core/services/testimonials-api.service';
+import { AvisClientApiService } from '../../core/services/avis-client-api.service';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
-import { Testimonial } from '@amg/data-access';
+import { AvisClient } from '@amg/data-access';
 
 @Component({
-  selector: 'cms-testimonials',
+  selector: 'cms-avis-client',
   imports: [ReactiveFormsModule, ConfirmDialogComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './testimonials.component.html',
-  styleUrl: './testimonials.component.scss',
+  templateUrl: './avis-client.component.html',
+  styleUrl: './avis-client.component.scss',
 })
-export class TestimonialsComponent {
-  private readonly testimonialsApi = inject(TestimonialsApiService);
+export class AvisClientComponent {
+  private readonly avisClientApi = inject(AvisClientApiService);
   private readonly fb = inject(FormBuilder);
 
-  readonly testimonials = toSignal(
-    this.testimonialsApi.getAll$().pipe(catchError(err => { console.error('[Testimonials]', err); return of([] as Testimonial[]); })),
-    { initialValue: [] as Testimonial[] }
+  readonly avisClients = toSignal(
+    this.avisClientApi.getAll$().pipe(catchError(err => { console.error('[AvisClient]', err); return of([] as AvisClient[]); })),
+    { initialValue: [] as AvisClient[] }
   );
   readonly isAdding = signal(false);
   readonly editingId = signal<string | null>(null);
@@ -42,7 +42,7 @@ export class TestimonialsComponent {
     this.isAdding.set(true);
   }
 
-  startEdit(t: Testimonial): void {
+  startEdit(t: AvisClient): void {
     this.form.patchValue({
       name: t.name,
       text: t.text,
@@ -75,8 +75,8 @@ export class TestimonialsComponent {
     };
 
     const action$ = this.editingId()
-      ? this.testimonialsApi.update$(this.editingId()!, data)
-      : this.testimonialsApi.create$(data);
+      ? this.avisClientApi.update$(this.editingId()!, data)
+      : this.avisClientApi.create$(data);
 
     action$.subscribe({
       next: () => {
@@ -104,7 +104,7 @@ export class TestimonialsComponent {
     const id = this.confirmDeleteId();
     if (!id) return;
     this.confirmDeleteId.set(null);
-    this.testimonialsApi.delete$(id).subscribe({
+    this.avisClientApi.delete$(id).subscribe({
       next: () => window.location.reload(),
       error: (err: Error) => this.errorMsg.set(err.message),
     });

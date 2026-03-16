@@ -10,8 +10,8 @@ import { SupabaseProjectsGateway } from './features/realisations/infra/supabase-
 import { PROJECTS_GATEWAY } from './features/realisations/application/tokens';
 import { SupabaseServicesGateway } from './features/services/infra/supabase-services.gateway';
 import { SERVICES_GATEWAY } from './features/services/application/tokens';
-import { SupabaseTestimonialsGateway } from './features/home/infra/supabase-testimonials.gateway';
-import { TESTIMONIALS_GATEWAY } from './features/home/application/tokens';
+import { SupabaseAvisClientGateway } from './features/home/infra/supabase-avis-client.gateway';
+import { AVIS_CLIENT_GATEWAY } from './features/home/application/tokens';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,6 +31,6 @@ export const appConfig: ApplicationConfig = {
     { provide: SUPABASE_ANON_KEY, useValue: environment.supabaseAnonKey },
     { provide: PROJECTS_GATEWAY, useClass: SupabaseProjectsGateway },
     { provide: SERVICES_GATEWAY, useClass: SupabaseServicesGateway },
-    { provide: TESTIMONIALS_GATEWAY, useClass: SupabaseTestimonialsGateway },
+    { provide: AVIS_CLIENT_GATEWAY, useClass: SupabaseAvisClientGateway },
   ],
 };

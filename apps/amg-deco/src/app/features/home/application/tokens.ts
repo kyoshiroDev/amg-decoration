@@ -1,4 +1,4 @@
 import { InjectionToken } from '@angular/core';
-import { TestimonialsGateway } from '../domain/testimonials.gateway';
+import { AvisClientGateway } from '../domain/avis-client.gateway';
 
-export const TESTIMONIALS_GATEWAY = new InjectionToken<TestimonialsGateway>('TestimonialsGateway');
+export const AVIS_CLIENT_GATEWAY = new InjectionToken<AvisClientGateway>('AvisClientGateway');

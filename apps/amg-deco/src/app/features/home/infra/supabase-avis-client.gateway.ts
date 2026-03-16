@@ -2,27 +2,27 @@ import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Observable, from, defer } from 'rxjs';
 import { map, catchError, shareReplay } from 'rxjs/operators';
-import { SupabaseService, Testimonial, TestimonialSchema } from '@amg/data-access';
-import { TestimonialsGateway } from '../domain/testimonials.gateway';
-import { InMemoryTestimonialsGateway } from './in-memory-testimonials.gateway';
+import { SupabaseService, AvisClient, AvisClientSchema } from '@amg/data-access';
+import { AvisClientGateway } from '../domain/avis-client.gateway';
+import { InMemoryAvisClientGateway } from './in-memory-avis-client.gateway';
 import { z } from 'zod';
 
 @Injectable({ providedIn: 'root' })
-export class SupabaseTestimonialsGateway implements TestimonialsGateway {
+export class SupabaseAvisClientGateway implements AvisClientGateway {
   private readonly supabase = inject(SupabaseService);
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly fallback = inject(InMemoryTestimonialsGateway);
+  private readonly fallback = inject(InMemoryAvisClientGateway);
 
-  private readonly testimonials$: Observable<Testimonial[]> = defer(() => {
+  private readonly avisClients$: Observable<AvisClient[]> = defer(() => {
     if (!isPlatformBrowser(this.platformId)) {
       return this.fallback.getAll();
     }
     return from(
-      this.supabase.from('testimonials').select('*')
+      this.supabase.from('avis_client').select('*')
     ).pipe(
       map(({ data, error }) => {
         if (error || !data?.length) throw new Error(error?.message ?? 'No data');
-        return z.array(TestimonialSchema).parse(
+        return z.array(AvisClientSchema).parse(
           data.map((row: Record<string, unknown>) => ({
             id: row['id'],
             name: row['name'],
@@ -36,7 +36,7 @@ export class SupabaseTestimonialsGateway implements TestimonialsGateway {
     );
   }).pipe(shareReplay(1));
 
-  getAll(): Observable<Testimonial[]> {
-    return this.testimonials$;
+  getAll(): Observable<AvisClient[]> {
+    return this.avisClients$;
   }
 }

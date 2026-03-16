@@ -1,6 +1,6 @@
-<div class="testimonials-page">
+<div class="avis-client-page">
   <div class="page-header">
-    <h1 class="page-title">Témoignages</h1>
+    <h1 class="page-title">Avis clients</h1>
     @if (!isAdding()) {
       <button type="button" class="btn btn-gold" (click)="startAdd()">+ Nouveau</button>
     }
@@ -13,7 +13,7 @@
   <!-- Form -->
   @if (isAdding()) {
     <div class="card form-card">
-      <h2 class="form-title">{{ editingId() ? 'Modifier le témoignage' : 'Nouveau témoignage' }}</h2>
+      <h2 class="form-title">{{ editingId() ? "Modifier l'avis" : 'Nouvel avis client' }}</h2>
       <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
         <div class="form-grid">
           <div class="form-group">
@@ -49,7 +49,7 @@
 
   <!-- List -->
   <div class="card">
-    <table class="data-table" aria-label="Liste des témoignages">
+    <table class="data-table" aria-label="Liste des avis clients">
       <thead>
         <tr>
           <th scope="col">Nom</th>
@@ -59,7 +59,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (t of testimonials(); track t.id) {
+        @for (t of avisClients(); track t.id) {
           <tr>
             <td>{{ t.name }}</td>
             <td>
@@ -74,7 +74,7 @@
             </td>
           </tr>
         } @empty {
-          <tr><td colspan="4" class="empty-state">Aucun témoignage.</td></tr>
+          <tr><td colspan="4" class="empty-state">Aucun avis client.</td></tr>
         }
       </tbody>
     </table>
@@ -82,7 +82,7 @@
 
   @if (confirmDeleteId()) {
     <cms-confirm-dialog
-      title="Supprimer le témoignage"
+      title="Supprimer l'avis client"
       message="Cette action est irréversible."
       (confirm)="confirmDelete()"
       (cancel)="cancelDelete()"

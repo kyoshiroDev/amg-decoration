@@ -45,7 +45,7 @@ export const ServiceSchema = z.object({
 });
 export type Service = z.infer<typeof ServiceSchema>;
 
-export const TestimonialSchema = z.object({
+export const AvisClientSchema = z.object({
   id: z.string(),
   name: z.string(),
   avatar: z.string().nullish().transform(v => v ?? undefined),
@@ -53,7 +53,7 @@ export const TestimonialSchema = z.object({
   text: z.string(),
   rating: z.number().min(1).max(5),
 });
-export type Testimonial = z.infer<typeof TestimonialSchema>;
+export type AvisClient = z.infer<typeof AvisClientSchema>;
 
 export const ContactFormSchema = z.object({
   name: z.string().min(2),

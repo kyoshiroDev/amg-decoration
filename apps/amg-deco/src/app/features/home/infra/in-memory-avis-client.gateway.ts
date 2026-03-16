@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
-import { Testimonial } from '@amg/data-access';
-import { TestimonialsGateway } from '../domain/testimonials.gateway';
+import { AvisClient } from '@amg/data-access';
+import { AvisClientGateway } from '../domain/avis-client.gateway';
 
-const TESTIMONIALS_FALLBACK: Testimonial[] = [
+const AVIS_CLIENT_FALLBACK: AvisClient[] = [
   {
     id: '1',
     name: 'Patrick V.',
@@ -32,10 +32,10 @@ const TESTIMONIALS_FALLBACK: Testimonial[] = [
 ];
 
 @Injectable({ providedIn: 'root' })
-export class InMemoryTestimonialsGateway implements TestimonialsGateway {
-  private readonly testimonials$ = of(TESTIMONIALS_FALLBACK).pipe(shareReplay(1));
+export class InMemoryAvisClientGateway implements AvisClientGateway {
+  private readonly avisClients$ = of(AVIS_CLIENT_FALLBACK).pipe(shareReplay(1));
 
-  getAll(): Observable<Testimonial[]> {
-    return this.testimonials$;
+  getAll(): Observable<AvisClient[]> {
+    return this.avisClients$;
   }
 }

@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS service_prices (
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
--- ─── Témoignages ──────────────────────────────────────────────────────────────
-CREATE TABLE IF NOT EXISTS testimonials (
+-- ─── Avis clients ─────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS avis_client (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   text TEXT NOT NULL,
@@ -94,7 +94,7 @@ ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
 ALTER TABLE services ENABLE ROW LEVEL SECURITY;
 ALTER TABLE service_includes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE service_prices ENABLE ROW LEVEL SECURITY;
-ALTER TABLE testimonials ENABLE ROW LEVEL SECURITY;
+ALTER TABLE avis_client ENABLE ROW LEVEL SECURITY;
 ALTER TABLE instagram_posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE site_content ENABLE ROW LEVEL SECURITY;
 
@@ -103,7 +103,7 @@ CREATE POLICY "Public read projects"         ON projects         FOR SELECT USIN
 CREATE POLICY "Public read services"         ON services         FOR SELECT USING (true);
 CREATE POLICY "Public read service_includes" ON service_includes FOR SELECT USING (true);
 CREATE POLICY "Public read service_prices"   ON service_prices   FOR SELECT USING (true);
-CREATE POLICY "Public read testimonials"     ON testimonials     FOR SELECT USING (true);
+CREATE POLICY "Public read avis_client"      ON avis_client      FOR SELECT USING (true);
 CREATE POLICY "Public read instagram_posts"  ON instagram_posts  FOR SELECT USING (true);
 CREATE POLICY "Public read site_content"     ON site_content     FOR SELECT USING (true);
 
@@ -112,6 +112,6 @@ CREATE POLICY "Auth write projects"         ON projects         FOR ALL USING (a
 CREATE POLICY "Auth write services"         ON services         FOR ALL USING (auth.role() = 'authenticated');
 CREATE POLICY "Auth write service_includes" ON service_includes FOR ALL USING (auth.role() = 'authenticated');
 CREATE POLICY "Auth write service_prices"   ON service_prices   FOR ALL USING (auth.role() = 'authenticated');
-CREATE POLICY "Auth write testimonials"     ON testimonials     FOR ALL USING (auth.role() = 'authenticated');
+CREATE POLICY "Auth write avis_client"      ON avis_client      FOR ALL USING (auth.role() = 'authenticated');
 CREATE POLICY "Auth write instagram_posts"  ON instagram_posts  FOR ALL USING (auth.role() = 'authenticated');
 CREATE POLICY "Auth write site_content"     ON site_content     FOR ALL USING (auth.role() = 'authenticated');

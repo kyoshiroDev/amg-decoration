@@ -1,14 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SupabaseService, Testimonial } from '@amg/data-access';
+import { SupabaseService, AvisClient } from '@amg/data-access';
 
 @Injectable({ providedIn: 'root' })
-export class TestimonialsApiService {
+export class AvisClientApiService {
   private readonly supabase = inject(SupabaseService);
 
-  getAll$(): Observable<Testimonial[]> {
-    return from(this.supabase.from('testimonials').select('*')).pipe(
+  getAll$(): Observable<AvisClient[]> {
+    return from(this.supabase.from('avis_client').select('*')).pipe(
       map(({ data, error }) => {
         if (error) throw error;
         return (data ?? []).map(this.mapRow);
@@ -16,9 +16,9 @@ export class TestimonialsApiService {
     );
   }
 
-  create$(t: Omit<Testimonial, 'id'>): Observable<Testimonial> {
+  create$(t: Omit<AvisClient, 'id'>): Observable<AvisClient> {
     return from(
-      this.supabase.from('testimonials').insert({
+      this.supabase.from('avis_client').insert({
         name: t.name,
         text: t.text,
         rating: t.rating,
@@ -32,7 +32,7 @@ export class TestimonialsApiService {
     );
   }
 
-  update$(id: string, t: Partial<Testimonial>): Observable<Testimonial> {
+  update$(id: string, t: Partial<AvisClient>): Observable<AvisClient> {
     const patch: Record<string, unknown> = {};
     if (t.name !== undefined) patch['name'] = t.name;
     if (t.text !== undefined) patch['text'] = t.text;
@@ -40,7 +40,7 @@ export class TestimonialsApiService {
     if (t.avatar_url !== undefined) patch['avatar_url'] = t.avatar_url;
 
     return from(
-      this.supabase.from('testimonials').update(patch).eq('id', id).select().single()
+      this.supabase.from('avis_client').update(patch).eq('id', id).select().single()
     ).pipe(
       map(({ data, error }) => {
         if (error) throw error;
@@ -51,11 +51,11 @@ export class TestimonialsApiService {
 
   delete$(id: string): Observable<void> {
     return from(
-      this.supabase.from('testimonials').delete().eq('id', id)
+      this.supabase.from('avis_client').delete().eq('id', id)
     ).pipe(map(({ error }) => { if (error) throw error; }));
   }
 
-  private mapRow(row: Record<string, unknown>): Testimonial {
+  private mapRow(row: Record<string, unknown>): AvisClient {
     return {
       id: row['id'] as string,
       name: row['name'] as string,

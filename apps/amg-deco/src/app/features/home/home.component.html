@@ -165,60 +165,60 @@
   </div>
 </section>
 
-<!-- ─── 6. Témoignages ─────────────────────────────────────────────────────── -->
-<section class="section-padding bg-amg-cream" aria-labelledby="testimonials-title">
+<!-- ─── 6. Avis clients ─────────────────────────────────────────────────────── -->
+<section class="section-padding bg-amg-cream" aria-labelledby="avis-client-title">
   <div class="container-amg">
     <amg-section-title
       eyebrow="Ils me font confiance"
       title="Témoignages clients"
     />
 
-    @if (testimonials().length > 0 && currentTestimonial()) {
+    @if (avisClients().length > 0 && currentAvisClient()) {
       <div
-        class="testimonials__slider"
+        class="avis-client__slider"
         role="region"
         aria-label="Témoignages clients"
         aria-roledescription="carousel"
       >
         <div aria-live="polite" aria-atomic="true">
-          <blockquote class="testimonials__quote">
-            <div class="testimonials__stars" [attr.aria-label]="currentTestimonial().rating + ' étoiles sur 5'" role="img">
-              @for (_ of starsArray(currentTestimonial().rating); track $index) {
+          <blockquote class="avis-client__quote">
+            <div class="avis-client__stars" [attr.aria-label]="currentAvisClient().rating + ' étoiles sur 5'" role="img">
+              @for (_ of starsArray(currentAvisClient().rating); track $index) {
                 <span aria-hidden="true">★</span>
               }
             </div>
-            <p class="testimonials__text">"{{ currentTestimonial().text }}"</p>
-            <cite class="testimonials__author">— {{ currentTestimonial().name }}</cite>
+            <p class="avis-client__text">"{{ currentAvisClient().text }}"</p>
+            <cite class="avis-client__author">— {{ currentAvisClient().name }}</cite>
           </blockquote>
         </div>
 
-        <div class="testimonials__controls">
+        <div class="avis-client__controls">
           <button
             type="button"
-            class="testimonials__control"
-            (click)="previousTestimonial()"
-            aria-label="Témoignage précédent"
+            class="avis-client__control"
+            (click)="previousAvisClient()"
+            aria-label="Avis précédent"
           >←</button>
 
-          <div role="tablist" aria-label="Navigation des témoignages">
-            @for (t of testimonials(); track t.id; let i = $index) {
+          <div role="tablist" aria-label="Navigation des avis clients">
+            @for (t of avisClients(); track t.id; let i = $index) {
               <button
                 type="button"
                 role="tab"
-                class="testimonials__dot"
-                [class.testimonials__dot--active]="i === activeTestimonial()"
-                [attr.aria-selected]="i === activeTestimonial()"
-                [attr.aria-label]="'Témoignage de ' + t.name"
-                (click)="goToTestimonial(i)"
+                class="avis-client__dot"
+                [class.avis-client__dot--active]="i === activeAvisClient()"
+                [attr.aria-selected]="i === activeAvisClient()"
+                [attr.aria-label]="'Avis de ' + t.name"
+                (click)="goToAvisClient(i)"
               ></button>
             }
           </div>
 
           <button
             type="button"
-            class="testimonials__control"
-            (click)="nextTestimonial()"
-            aria-label="Témoignage suivant"
+            class="avis-client__control"
+            (click)="nextAvisClient()"
+            aria-label="Avis suivant"
           >→</button>
         </div>
       </div>

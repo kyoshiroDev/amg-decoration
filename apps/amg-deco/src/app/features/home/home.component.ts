@@ -13,7 +13,7 @@ import { HomeFacade } from './application/home.facade';
 import { HeroSliderComponent, SlideItem } from '../../shared/components/hero-slider/hero-slider.component';
 import { SectionTitleComponent } from '../../shared/components/section-title/section-title.component';
 import { InstagramFeedComponent } from '../../shared/components/instagram-feed/instagram-feed.component';
-import { Testimonial } from '@amg/data-access';
+import { AvisClient } from '@amg/data-access';
 
 @Component({
   selector: 'amg-home',
@@ -26,18 +26,18 @@ export class HomeComponent implements OnInit {
   private readonly seo = inject(SeoService);
   private readonly facade = inject(HomeFacade);
 
-  readonly testimonials = toSignal(this.facade.getTestimonials$(), {
-    initialValue: [] as Testimonial[],
+  readonly avisClients = toSignal(this.facade.getAvisClients$(), {
+    initialValue: [] as AvisClient[],
   });
 
   readonly projects = toSignal(this.facade.getProjects$(), {
     initialValue: [],
   });
 
-  readonly activeTestimonial = signal(0);
+  readonly activeAvisClient = signal(0);
 
-  readonly currentTestimonial = computed(
-    () => this.testimonials()[this.activeTestimonial()]
+  readonly currentAvisClient = computed(
+    () => this.avisClients()[this.activeAvisClient()]
   );
 
   readonly heroSlides: SlideItem[] = [
@@ -101,17 +101,17 @@ export class HomeComponent implements OnInit {
     return Array(n).fill(0);
   }
 
-  goToTestimonial(index: number): void {
-    this.activeTestimonial.set(index);
+  goToAvisClient(index: number): void {
+    this.activeAvisClient.set(index);
   }
 
-  nextTestimonial(): void {
-    this.activeTestimonial.update(i => (i + 1) % this.testimonials().length);
+  nextAvisClient(): void {
+    this.activeAvisClient.update(i => (i + 1) % this.avisClients().length);
   }
 
-  previousTestimonial(): void {
-    this.activeTestimonial.update(
-      i => (i - 1 + this.testimonials().length) % this.testimonials().length
+  previousAvisClient(): void {
+    this.activeAvisClient.update(
+      i => (i - 1 + this.avisClients().length) % this.avisClients().length
     );
   }
 }

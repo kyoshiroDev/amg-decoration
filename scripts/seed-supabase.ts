@@ -151,7 +151,7 @@ const SERVICES = [
   },
 ];
 
-const TESTIMONIALS = [
+const AVIS_CLIENTS = [
   {
     name: 'Patrick V.',
     text: 'Amandine a complètement transformé notre salon. Le rendu 3D était tellement précis que nous avons pu visualiser le résultat final avant même de commencer les travaux. Un travail exceptionnel !',
@@ -213,11 +213,11 @@ async function seed() {
   if (svcErr) console.error('  ❌ Prestations:', svcErr.message);
   else console.log(`  ✅ ${SERVICES.length} prestations insérées`);
 
-  // Testimonials
-  console.log('💬 Insertion des témoignages...');
-  const { error: testErr } = await supabase.from('testimonials').insert(TESTIMONIALS);
-  if (testErr) console.error('  ❌ Témoignages:', testErr.message);
-  else console.log(`  ✅ ${TESTIMONIALS.length} témoignages insérés`);
+  // Avis clients
+  console.log('💬 Insertion des avis clients...');
+  const { error: testErr } = await supabase.from('avis_client').insert(AVIS_CLIENTS);
+  if (testErr) console.error('  ❌ Avis clients:', testErr.message);
+  else console.log(`  ✅ ${AVIS_CLIENTS.length} avis clients insérés`);
 
   // Instagram
   console.log('📸 Insertion des posts Instagram...');
