@@ -1,7 +1,7 @@
 import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { catchError, of } from 'rxjs';
+import { catchError, of, BehaviorSubject, switchMap } from 'rxjs';
 import {
   ExternalAccountsApiService,
   ExternalAccount,
@@ -19,8 +19,14 @@ export class ExternalAccountsComponent {
   private readonly api = inject(ExternalAccountsApiService);
   private readonly fb = inject(FormBuilder);
 
+  private readonly refresh$ = new BehaviorSubject<void>(undefined);
+
   readonly accounts = toSignal(
-    this.api.getAll$().pipe(catchError(err => { console.error('[ExternalAccounts]', err); return of([] as ExternalAccount[]); })),
+    this.refresh$.pipe(
+      switchMap(() => this.api.getAll$().pipe(
+        catchError(err => { console.error('[ExternalAccounts]', err); return of([] as ExternalAccount[]); })
+      ))
+    ),
     { initialValue: [] as ExternalAccount[] }
   );
   readonly isAdding = signal(false);
@@ -85,7 +91,7 @@ export class ExternalAccountsComponent {
         this.state.set('success');
         this.isAdding.set(false);
         this.editingId.set(null);
-        window.location.reload();
+        this.refresh$.next();
       },
       error: (err: Error) => {
         this.state.set('error');
@@ -119,7 +125,7 @@ export class ExternalAccountsComponent {
     if (!id) return;
     this.confirmDeleteId.set(null);
     this.api.delete$(id).subscribe({
-      next: () => window.location.reload(),
+      next: () => this.refresh$.next(),
       error: (err: Error) => this.errorMsg.set(err.message),
     });
   }

@@ -1,7 +1,7 @@
 import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { catchError, of } from 'rxjs';
+import { catchError, of, BehaviorSubject, switchMap } from 'rxjs';
 import { AvisClientApiService } from '../../core/services/avis-client-api.service';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { AvisClient } from '@amg/data-access';
@@ -17,8 +17,14 @@ export class AvisClientComponent {
   private readonly avisClientApi = inject(AvisClientApiService);
   private readonly fb = inject(FormBuilder);
 
+  private readonly refresh$ = new BehaviorSubject<void>(undefined);
+
   readonly avisClients = toSignal(
-    this.avisClientApi.getAll$().pipe(catchError(err => { console.error('[AvisClient]', err); return of([] as AvisClient[]); })),
+    this.refresh$.pipe(
+      switchMap(() => this.avisClientApi.getAll$().pipe(
+        catchError(err => { console.error('[AvisClient]', err); return of([] as AvisClient[]); })
+      ))
+    ),
     { initialValue: [] as AvisClient[] }
   );
   readonly isAdding = signal(false);
@@ -83,7 +89,7 @@ export class AvisClientComponent {
         this.state.set('success');
         this.isAdding.set(false);
         this.editingId.set(null);
-        window.location.reload();
+        this.refresh$.next();
       },
       error: (err: Error) => {
         this.state.set('error');
@@ -105,7 +111,7 @@ export class AvisClientComponent {
     if (!id) return;
     this.confirmDeleteId.set(null);
     this.avisClientApi.delete$(id).subscribe({
-      next: () => window.location.reload(),
+      next: () => this.refresh$.next(),
       error: (err: Error) => this.errorMsg.set(err.message),
     });
   }

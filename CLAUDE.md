@@ -29,9 +29,9 @@
 
 ## Vue d'ensemble
 
-**Projet :** Refonte du site vitrine AMG Décoration d'Intérieur  
-**Client :** Amandine Gaury — Décoratrice d'intérieur 3D certifiée MJM Design Graphic, Paris  
-**URL originale :** https://amgdecorationdinterieur.com/  
+**Projet :** Refonte du site vitrine AMG Décoration d'Intérieur
+**Client :** Amandine Gaury — Décoratrice d'intérieur 3D certifiée MJM Design Graphic, Paris
+**URL originale :** https://amgdecorationdinterieur.com/
 **Objectif :** Reproduire fidèlement le site en Angular avec SSR, accessibilité WCAG 2.1 AA et SEO parfait.
 
 ### Pages du site
@@ -144,27 +144,127 @@ Service (RxJS Observable)
 
 ## Conventions de code
 
-### Nommage
+### Nommage des fichiers
 
+| Type | Convention | Exemple |
+|------|-----------|---------|
+| Composant | `kebab-case.component.ts` | `hero-slider.component.ts` |
+| Service | `kebab-case.service.ts` | `contact.service.ts` |
+| Guard | `kebab-case.guard.ts` | `auth.guard.ts` |
+| Interceptor | `kebab-case.interceptor.ts` | `token.interceptor.ts` |
+| Pipe | `kebab-case.pipe.ts` | `format-date.pipe.ts` |
+| Directive | `kebab-case.directive.ts` | `click-outside.directive.ts` |
+| Model / Interface | `kebab-case.model.ts` | `project.model.ts` |
+| Template | même nom que composant | `hero-slider.component.html` |
+| Style | même nom que composant | `hero-slider.component.scss` |
+| Spec | même nom + `.spec` | `hero-slider.component.spec.ts` |
+
+### Classes, interfaces, types
+
+```typescript
+// ✅ PascalCase pour toutes les classes Angular
+export class HeroSliderComponent { }
+export class ContactService { }
+export class SeoService { }
+
+// ✅ Interfaces : PascalCase, sans préfixe "I" (convention Angular officielle)
+export interface Project { }
+export interface SeoConfig { }
+export interface ApiResponse<T> { }
+
+// ✅ Types : PascalCase
+export type LoadingState = 'idle' | 'loading' | 'success' | 'error';
+export type ProjectCategory = 'salon' | 'chambre' | 'cuisine' | 'terrasse' | 'bureau' | 'autre';
+
+// ✅ Pas d'enum — utiliser as const
+export const PROJECT_CATEGORY = {
+  SALON: 'salon',
+  CHAMBRE: 'chambre',
+  CUISINE: 'cuisine',
+} as const;
+export type ProjectCategoryKey = typeof PROJECT_CATEGORY[keyof typeof PROJECT_CATEGORY];
 ```
-// Fichiers
-navbar.component.ts
-navbar.component.html
-navbar.component.scss
-navbar.component.spec.ts
 
-// Classes
-NavbarComponent
-ContactService
-SeoService
+### Variables & propriétés
 
-// Signals (dans les composants)
-readonly isMenuOpen = signal(false);
-readonly services = toSignal(this.servicesService.getAll$(), { initialValue: [] });
+```typescript
+export class HeroSliderComponent {
+  // ─── Injections (privées avec préfixe _) ──────────────────────────────────
+  private readonly _platformService = inject(PlatformService);
 
-// Observables (dans les services — suffixe $)
-getServices$(): Observable<Service[]>
-submitContact$(form: ContactForm): Observable<void>
+  // ─── Signals ──────────────────────────────────────────────────────────────
+  readonly activeSlide = signal(0);
+  readonly isSliderPaused = signal(false);    // booléen : préfixe is/has/can/should
+  readonly isLoading = signal(false);
+  readonly hasError = signal(false);
+
+  // ─── Computed ─────────────────────────────────────────────────────────────
+  readonly currentSlide = computed(() => this.slides()[this.activeSlide()]);
+  readonly slideCount = computed(() => this.slides().length);
+
+  // ─── Inputs / Outputs ─────────────────────────────────────────────────────
+  @Input() autoPlayInterval = 5000;
+  @Output() slideChanged = new EventEmitter<number>();
+
+  // ─── Constantes de classe ──────────────────────────────────────────────────
+  private readonly DEFAULT_INTERVAL = 5000;
+  private readonly MIN_SWIPE_DISTANCE = 50;
+}
+
+// ✅ Constantes globales exportées : SCREAMING_SNAKE_CASE
+export const API_BASE_URL = 'https://api.example.com';
+export const DEFAULT_PAGE_SIZE = 20;
+```
+
+### Méthodes
+
+```typescript
+export class ContactComponent {
+  // ✅ Lifecycle hooks : nommage Angular standard
+  ngOnInit(): void { }
+  ngOnDestroy(): void { }
+
+  // ✅ Handlers d'événements : préfixe "on" ou "handle"
+  onSubmit(): void { }
+  onFieldBlur(field: string): void { }
+  handleKeyDown(event: KeyboardEvent): void { }
+
+  // ✅ Récupération de données : préfixe "fetch", "load", "get"
+  fetchProjects(): void { }
+  loadTestimonials(): void { }
+  getServiceById(id: string): Service | undefined { }
+
+  // ✅ Transformation : préfixe "format", "map", "transform"
+  formatPrice(price: number): string { }
+  mapApiResponseToProject(response: unknown): Project { }
+
+  // ✅ Prédicats (boolean) : préfixe "is", "has", "can", "should"
+  isValidEmail(email: string): boolean { }
+  hasRequiredFields(): boolean { }
+  canSubmitForm(): boolean { }
+
+  // ✅ Méthodes privées : préfixe _
+  private _buildFormPayload(): ContactForm { }
+  private _handleApiError(error: HttpErrorResponse): void { }
+  private _resetForm(): void { }
+}
+```
+
+### Observables (services — suffixe `$`)
+
+```typescript
+// ✅ Suffixe "$" pour tous les Observables
+getServices$(): Observable<Service[]> { }
+submitContact$(form: ContactForm): Observable<void> { }
+getProjectBySlug$(slug: string): Observable<Project | undefined> { }
+
+// ✅ BehaviorSubject : privé avec suffixe "Subject", exposé en Observable
+private readonly _isLoadingSubject = new BehaviorSubject<boolean>(false);
+readonly isLoading$ = this._isLoadingSubject.asObservable();
+
+// ✅ Dans les composants : toSignal() pour connecter Observable → Signal
+readonly services = toSignal(this._servicesService.getServices$(), { initialValue: [] });
+readonly testimonials = toSignal(this._testimonialsService.getAll$(), { initialValue: [] as Testimonial[] });
 ```
 
 ### Structure d'un composant
@@ -184,14 +284,14 @@ submitContact$(form: ContactForm): Observable<void>
 @Component({
   selector: 'amg-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, NgClass, AsyncPipe],
+  imports: [RouterLink, RouterLinkActive, NgClass],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent {
   // ─── Injections ───────────────────────────────────────────────────────────
-  private readonly router = inject(Router);
+  private readonly _router = inject(Router);
 
   // ─── Signals ──────────────────────────────────────────────────────────────
   readonly isMenuOpen = signal(false);
@@ -223,8 +323,8 @@ export class NavbarComponent {
  */
 @Injectable({ providedIn: 'root' })
 export class ContactService {
-  private readonly http = inject(HttpClient);
-  private readonly apiUrl = inject(API_URL_TOKEN);
+  private readonly _http = inject(HttpClient);
+  private readonly _apiUrl = inject(API_URL_TOKEN);
 
   /**
    * Soumet le formulaire de contact.
@@ -232,7 +332,7 @@ export class ContactService {
    * @returns Observable<void> - Complète ou erreur
    */
   submitContact$(form: ContactForm): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/contact`, form).pipe(
+    return this._http.post<void>(`${this._apiUrl}/contact`, form).pipe(
       retry({ count: 2, delay: 1000 }),
       catchError(err => {
         console.error('[ContactService] submitContact$ error:', err);
@@ -243,6 +343,159 @@ export class ContactService {
 }
 ```
 
+### SCSS — Sélecteurs BEM & Variables
+
+#### Méthodologie BEM (obligatoire)
+
+```scss
+// ✅ Structure : block__element--modifier — tout en kebab-case
+
+// BLOC = composant racine
+.hero-slider { }
+.service-card { }
+.section-title { }
+.testimonials-slider { }
+
+// ÉLÉMENTS (double underscore)
+.hero-slider__slide { }
+.hero-slider__controls { }
+.hero-slider__button { }
+.hero-slider__indicators { }
+.service-card__header { }
+.service-card__price { }
+.service-card__includes { }
+.service-card__cta { }
+
+// MODIFICATEURS (double tiret)
+.hero-slider--paused { }
+.service-card--featured { }
+.service-card--compact { }
+.service-card__cta--primary { }
+.service-card__cta--outline { }
+
+// ❌ À éviter absolument
+.heroSlider { }        // pas de camelCase
+.HeroSlider { }        // pas de PascalCase
+.hero_slider { }       // pas de snake_case
+.slide { }             // sans contexte BEM
+.title { }             // trop générique
+.btn { }               // abrégé et sans contexte
+```
+
+#### Variables SCSS — catégorisées et préfixées
+
+```scss
+// ✅ Format : $categorie-variante en kebab-case
+
+// ── Couleurs ──────────────────────────────────────────────────────────────
+$color-primary: #c9a96e;           // Or AMG
+$color-primary-light: #e8d5b0;
+$color-primary-dark: #a07840;
+$color-secondary: #2c2c2c;         // Anthracite
+$color-neutral-100: #fafafa;
+$color-neutral-200: #f5f5f5;
+$color-neutral-800: #333333;
+$color-neutral-900: #1a1a1a;
+$color-white: #ffffff;
+$color-danger: #ef4444;
+$color-success: #22c55e;
+
+// ── Typographie ────────────────────────────────────────────────────────────
+$font-family-serif: 'Playfair Display', Georgia, serif;
+$font-family-sans: 'Lato', system-ui, sans-serif;
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+$font-size-2xl: 1.5rem;
+$font-size-3xl: 2rem;
+$font-size-4xl: 2.5rem;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+// ── Espacements ────────────────────────────────────────────────────────────
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-2xl: 3rem;
+$spacing-3xl: 4rem;
+$spacing-4xl: 6rem;
+
+// ── Bordures & Rayons ──────────────────────────────────────────────────────
+$border-radius-sm: 0.25rem;
+$border-radius-md: 0.5rem;
+$border-radius-lg: 1rem;
+$border-color-default: #e5e7eb;
+
+// ── Ombres ─────────────────────────────────────────────────────────────────
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+
+// ── Z-index ────────────────────────────────────────────────────────────────
+$z-index-navbar: 100;
+$z-index-modal: 1000;
+$z-index-overlay: 900;
+$z-index-dropdown: 800;
+
+// ── Breakpoints ────────────────────────────────────────────────────────────
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+```
+
+#### Mixins & Functions SCSS
+
+```scss
+// ✅ kebab-case
+@mixin flex-center { display: flex; align-items: center; justify-content: center; }
+@mixin respond-to($breakpoint) { @media (min-width: $breakpoint) { @content; } }
+@mixin truncate-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@mixin visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+@mixin prefers-reduced-motion { @media (prefers-reduced-motion: reduce) { @content; } }
+```
+
+### Templates HTML Angular
+
+```html
+<!-- ✅ Sélecteur composant : kebab-case avec préfixe amg -->
+<amg-navbar />
+<amg-hero-slider [slides]="slides()" (slideChanged)="onSlideChanged($event)" />
+<amg-service-card [service]="service" (ctaClicked)="onServiceCtaClicked($event)" />
+
+<!-- ✅ Nouvelle syntaxe Angular 17+ -->
+@if (isLoading()) {
+  <amg-spinner aria-label="Chargement en cours..." />
+} @else if (hasError()) {
+  <amg-error-message />
+}
+
+@for (project of projects(); track project.id) {
+  <amg-project-card [project]="project" />
+}
+
+<!-- ✅ Bindings : propriétés en camelCase -->
+<input
+  [value]="searchQuery()"
+  [disabled]="isLoading()"
+  (input)="onSearchInput($event)"
+  (keydown.enter)="onSearchSubmit()"
+/>
+
+<!-- ✅ Classes CSS dynamiques : BEM + binding -->
+<div
+  class="service-card"
+  [class.service-card--featured]="service.isFeatured"
+  [class.service-card--compact]="displayMode() === 'compact'"
+>
+```
+
 ### Règles TypeScript
 
 - `strict: true` obligatoire dans `tsconfig.json`.
@@ -250,6 +503,40 @@ export class ContactService {
 - Toujours typer les retours de fonctions publiques.
 - Interfaces pour les modèles de données, types pour les unions/intersections.
 - Pas d'`enum` — utiliser `as const` objects ou string literal types.
+
+### ⛔ À ne jamais faire
+
+```typescript
+// ❌ Noms vagues ou abrégés
+const d = new Date();          // → const createdAt = new Date();
+const p = getProject();        // → const currentProject = getProject();
+const arr = [];                // → const projectList = [];
+let tmp = '';                  // → let formattedTitle = '';
+const fn = () => {};           // → const handleSubmit = () => {};
+
+// ❌ Préfixe "I" sur les interfaces
+interface IProject { }         // → interface Project { }
+
+// ❌ any sans justification
+const data: any = {};          // → typer explicitement
+
+// ❌ Subscriptions non gérées
+this.service.data$.subscribe() // → utiliser toSignal() ou takeUntilDestroyed()
+
+// ❌ Logique métier dans le template
+// [class.visible]="service.price > 500 && !isLoading() && hasPermission"
+// → computed() : readonly isCtaVisible = computed(() => ...)
+
+// ❌ Sélecteurs SCSS génériques
+.title { }          // → .service-card__title { }
+.btn { }            // → .service-card__cta { }
+.container { }      // → .hero-slider__container { }
+
+// ❌ Variables SCSS sans catégorie
+$gold: #c9a96e;         // → $color-primary: #c9a96e;
+$big: 2rem;             // → $font-size-3xl: 2rem;
+$main-font: 'Lato';     // → $font-family-sans: 'Lato';
+```
 
 ---
 
@@ -314,19 +601,17 @@ export const routes: Routes = [
 
 ### Compatibilité SSR — Règle ABSOLUE
 
-**Ne jamais accéder à `window`, `document`, `localStorage`, `navigator` directement.**  
-Utiliser toujours `isPlatformBrowser` ou le pattern suivant :
+**Ne jamais accéder à `window`, `document`, `localStorage`, `navigator` directement.**
 
 ```typescript
 // ✅ CORRECT
 import { PLATFORM_ID, inject, isPlatformBrowser } from '@angular/core';
 
 export class MyComponent {
-  private readonly platformId = inject(PLATFORM_ID);
+  private readonly _platformId = inject(PLATFORM_ID);
 
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      // Code navigateur uniquement
+    if (isPlatformBrowser(this._platformId)) {
       window.scrollTo(0, 0);
     }
   }
@@ -335,29 +620,25 @@ export class MyComponent {
 // ✅ CORRECT — Service dédié
 @Injectable({ providedIn: 'root' })
 export class PlatformService {
-  private readonly platformId = inject(PLATFORM_ID);
+  private readonly _platformId = inject(PLATFORM_ID);
 
   get isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
+    return isPlatformBrowser(this._platformId);
   }
 
-  /** Exécute le callback uniquement côté navigateur */
   runInBrowser(fn: () => void): void {
     if (this.isBrowser) fn();
   }
 }
 
 // ❌ INTERDIT
-window.scrollTo(0, 0); // Crash SSR
+window.scrollTo(0, 0);           // Crash SSR
 document.querySelector('.hero'); // Crash SSR
 ```
 
 ### Hero Slider — SSR Safe
 
-Le slider hero doit être désactivé côté serveur (afficher uniquement la première image) et s'activer côté client avec `afterNextRender` :
-
 ```typescript
-// Utiliser afterNextRender pour initialiser les sliders, animations, etc.
 import { afterNextRender } from '@angular/core';
 
 constructor() {
@@ -376,33 +657,26 @@ constructor() {
 
 ```typescript
 export class HomeComponent {
-  // Service injection
-  private readonly testimonialsService = inject(TestimonialsService);
+  private readonly _testimonialsService = inject(TestimonialsService);
 
-  // Convertir Observable → Signal avec valeur initiale
   readonly testimonials = toSignal(
-    this.testimonialsService.getAll$(),
+    this._testimonialsService.getAll$(),
     { initialValue: [] as Testimonial[] }
   );
 
-  // Signal UI local
   readonly activeSlide = signal(0);
   readonly isSliderPaused = signal(false);
 
-  // Computed
   readonly currentTestimonial = computed(
     () => this.testimonials()[this.activeSlide()]
   );
 
-  // Navigation slider
   goToSlide(index: number): void {
     this.activeSlide.set(index);
   }
 
   nextSlide(): void {
-    this.activeSlide.update(i =>
-      (i + 1) % this.testimonials().length
-    );
+    this.activeSlide.update(i => (i + 1) % this.testimonials().length);
   }
 }
 ```
@@ -428,24 +702,13 @@ export class HomeComponent {
  */
 @Injectable({ providedIn: 'root' })
 export class ProjectsService {
-  // Les données sont statiques pour ce site vitrine.
-  // En cas d'API future, remplacer par HttpClient.
-
-  /**
-   * Retourne la liste de tous les projets.
-   */
   getAll$(): Observable<Project[]> {
     return of(PROJECTS_DATA).pipe(
-      // Simuler un léger délai pour les transitions
       delay(0),
       shareReplay(1)
     );
   }
 
-  /**
-   * Retourne un projet par son slug.
-   * @param slug - Identifiant URL du projet
-   */
   getBySlug$(slug: string): Observable<Project | undefined> {
     return this.getAll$().pipe(
       map(projects => projects.find(p => p.slug === slug))
@@ -512,7 +775,7 @@ export class ProjectsService {
   aria-label="Galerie de réalisations"
   aria-roledescription="carousel"
 >
-  <div class="slides" aria-live="polite" aria-atomic="false">
+  <div class="hero-slider__slides" aria-live="polite" aria-atomic="false">
     @for (slide of slides(); track slide.id; let i = $index) {
       <div
         role="group"
@@ -525,16 +788,10 @@ export class ProjectsService {
     }
   </div>
 
-  <button
-    (click)="previousSlide()"
-    aria-label="Visuel précédent"
-  >
+  <button (click)="previousSlide()" aria-label="Visuel précédent">
     <amg-icon name="chevron-left" aria-hidden="true" />
   </button>
-  <button
-    (click)="nextSlide()"
-    aria-label="Visuel suivant"
-  >
+  <button (click)="nextSlide()" aria-label="Visuel suivant">
     <amg-icon name="chevron-right" aria-hidden="true" />
   </button>
 </section>
@@ -554,53 +811,38 @@ export class ProjectsService {
  */
 @Injectable({ providedIn: 'root' })
 export class SeoService {
-  private readonly meta = inject(Meta);
-  private readonly title = inject(Title);
-  private readonly doc = inject(DOCUMENT);
+  private readonly _meta = inject(Meta);
+  private readonly _title = inject(Title);
+  private readonly _doc = inject(DOCUMENT);
 
-  /**
-   * Met à jour toutes les métadonnées SEO d'une page.
-   */
   setPage(config: SeoConfig): void {
-    // Title
-    this.title.setTitle(config.title);
-
-    // Meta description
-    this.meta.updateTag({ name: 'description', content: config.description });
-
-    // Canonical
-    this.setCanonical(config.url);
-
-    // Open Graph
-    this.meta.updateTag({ property: 'og:title', content: config.title });
-    this.meta.updateTag({ property: 'og:description', content: config.description });
-    this.meta.updateTag({ property: 'og:url', content: config.url });
-    this.meta.updateTag({ property: 'og:image', content: config.image ?? '' });
-    this.meta.updateTag({ property: 'og:type', content: 'website' });
-    this.meta.updateTag({ property: 'og:locale', content: 'fr_FR' });
-
-    // Twitter Card
-    this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
-    this.meta.updateTag({ name: 'twitter:title', content: config.title });
-    this.meta.updateTag({ name: 'twitter:description', content: config.description });
+    this._title.setTitle(config.title);
+    this._meta.updateTag({ name: 'description', content: config.description });
+    this._setCanonical(config.url);
+    this._meta.updateTag({ property: 'og:title', content: config.title });
+    this._meta.updateTag({ property: 'og:description', content: config.description });
+    this._meta.updateTag({ property: 'og:url', content: config.url });
+    this._meta.updateTag({ property: 'og:image', content: config.image ?? '' });
+    this._meta.updateTag({ property: 'og:type', content: 'website' });
+    this._meta.updateTag({ property: 'og:locale', content: 'fr_FR' });
+    this._meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this._meta.updateTag({ name: 'twitter:title', content: config.title });
+    this._meta.updateTag({ name: 'twitter:description', content: config.description });
   }
 
-  /**
-   * Injecte un JSON-LD Schema.org dans le <head>.
-   */
   setJsonLd(schema: object): void {
-    const script = this.doc.createElement('script');
+    const script = this._doc.createElement('script');
     script.type = 'application/ld+json';
     script.textContent = JSON.stringify(schema);
-    this.doc.head.appendChild(script);
+    this._doc.head.appendChild(script);
   }
 
-  private setCanonical(url: string): void {
-    let link = this.doc.querySelector('link[rel="canonical"]');
+  private _setCanonical(url: string): void {
+    let link = this._doc.querySelector('link[rel="canonical"]');
     if (!link) {
-      link = this.doc.createElement('link');
+      link = this._doc.createElement('link');
       link.setAttribute('rel', 'canonical');
-      this.doc.head.appendChild(link);
+      this._doc.head.appendChild(link);
     }
     link.setAttribute('href', url);
   }
@@ -710,57 +952,51 @@ Les attributs `width` et `height` **doivent correspondre exactement au ratio int
 <img ngSrc="/assets/images/logo/logo-white.png" width="160" height="60" alt="Logo" />
 ```
 
-**Vérifier le ratio réel de chaque image avant d'écrire les attributs.** Si l'image doit s'afficher dans des dimensions différentes de son ratio natif, utiliser le mode `fill` à la place.
+**Vérifier le ratio réel de chaque image avant d'écrire les attributs.** Si l'image doit s'afficher dans des dimensions différentes de son ratio natif, utiliser le mode `fill`.
 
 #### Mode `fill` (images dans un conteneur positionné)
 
-Utiliser `fill` quand l'image doit remplir son conteneur ou quand le ratio d'affichage diffère du ratio natif (ex : image 16:9 affichée dans une carte carrée).
-
 ```html
 <!-- ✅ Correct — fill -->
-<img ngSrc="/assets/images/hero/hero-1.webp" alt="..." fill class="mon-image" />
+<img ngSrc="/assets/images/hero/hero-1.webp" alt="..." fill class="hero-slider__image" />
 ```
 
 **Conditions obligatoires pour le mode `fill` :**
 
-1. **Le parent direct doit être positionné** (`position: relative`, `absolute` ou `fixed`) et avoir des dimensions explicites (height fixe, aspect-ratio, ou inset: 0 dans un ancêtre positionné).
+1. Le parent direct doit être positionné (`position: relative`, `absolute` ou `fixed`) avec des dimensions explicites.
 
-2. **La classe CSS de l'image doit déclarer le positionnement** — pendant l'hydratation SSR, Angular supprime temporairement les styles inline qu'il injecte (`position: absolute; top: 0; left: 0; width: 100%; height: 100%`). Si ces propriétés ne sont pas aussi dans la classe CSS, Angular détecte une hauteur nulle (`NG02952: height of fill-mode image is zero`).
+2. La classe CSS de l'image doit déclarer le positionnement (Angular supprime les styles inline pendant l'hydratation SSR) :
 
 ```scss
 // ✅ OBLIGATOIRE pour toute image en mode fill
-.mon-image {
+.hero-slider__image {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  // autres propriétés...
 }
 
 // ❌ Insuffisant — provoque NG02952 après hydratation SSR
-.mon-image {
+.hero-slider__image {
   object-fit: cover;
 }
 ```
 
-3. **Les wrappers intermédiaires entre le conteneur positionné et l'image** doivent aussi être `position: absolute; inset: 0` (pas `position: relative; height: 100%` qui est instable en contexte grid/flex).
+3. Les wrappers intermédiaires doivent aussi être `position: absolute; inset: 0`.
 
-**Tableau de décision — quel mode choisir ?**
+**Tableau de décision :**
 
 | Situation | Mode recommandé |
 |-----------|----------------|
-| Image avec ratio fixe connu (logo, portrait) | `width`/`height` = ratio natif de l'image |
+| Image avec ratio fixe connu (logo, portrait) | `width`/`height` = ratio natif |
 | Image dans une carte à `aspect-ratio` CSS | `fill` |
 | Image hero plein écran | `fill` |
 | Image dont le ratio d'affichage ≠ ratio natif | `fill` |
 | Image décorative avec dimensions libres | `fill` dans un wrapper |
 
 ### Lazy loading des composants
-
-- Chaque feature est lazy-loadée via le router.
-- Les composants lourds internes (galerie, slider) utilisent `@defer` :
 
 ```html
 @defer (on viewport) {
@@ -832,7 +1068,7 @@ Utiliser `fill` quand l'image doit remplir son conteneur ou quand le ratio d'aff
 
 ```
 # Ajouter dans les settings Vercel — ne jamais commiter
-CONTACT_EMAIL_API_KEY=xxx          # Si intégration Resend/SendGrid
+CONTACT_EMAIL_API_KEY=xxx
 CONTACT_FORM_RECIPIENT=am.gaury@gmail.com
 ```
 
@@ -870,10 +1106,8 @@ node dist/apps/amg-deco/server/server.mjs
 
 ### Page Prestations (`/prestations`)
 
-**Sections :**
-
 1. Titre de page "PRESTATIONS"
-2. **ServiceCardComponent** — 4 cartes de prestations :
+2. **ServiceCardComponent** — 4 cartes :
    - Book esquisses, conseils déco — **480€**
    - Book déco 3D — tarification par m² (520€ / 720€ / 1120€)
    - Meuble sur-mesure — **400€**
@@ -898,14 +1132,13 @@ node dist/apps/amg-deco/server/server.mjs
 - States : idle / loading / success / error — gérés avec Signal.
 
 ```typescript
-// Pattern formulaire de contact
 readonly submitState = signal<'idle' | 'loading' | 'success' | 'error'>('idle');
 
 onSubmit(): void {
   if (this.form.invalid) return;
   this.submitState.set('loading');
 
-  this.contactService.submitContact$(this.form.value).subscribe({
+  this._contactService.submitContact$(this.form.value).subscribe({
     next: () => this.submitState.set('success'),
     error: () => this.submitState.set('error'),
   });
@@ -918,10 +1151,8 @@ onSubmit(): void {
 
 ### Sources des images originales
 
-Les images du site original sont hébergées sur WordPress. Pour la refonte :
-
-1. Télécharger manuellement depuis `https://amgdecorationdinterieur.com/wp-content/uploads/`.
-2. Convertir en WebP (outil : `cwebp` ou Squoosh).
+1. Télécharger depuis `https://amgdecorationdinterieur.com/wp-content/uploads/`.
+2. Convertir en WebP (`cwebp` ou Squoosh).
 3. Placer dans `apps/amg-deco/src/assets/images/`.
 
 ### Organisation des assets
@@ -954,28 +1185,18 @@ assets/
   icons/
 ```
 
-### Logo
-
-- Logo couleur : `/assets/images/logo/logo-color.png`
-- Logo blanc (footer) : `/assets/images/logo/logo-white.png`
-
 ---
 
 ## Internationalisation
 
-Le site est en **français uniquement**. Pas d'i18n Angular nécessaire.  
-Définir la locale dans `index.html` :
+Le site est en **français uniquement**. Pas d'i18n Angular nécessaire.
 
 ```html
 <html lang="fr">
 ```
 
-Et dans `angular.json` :
-
 ```json
-"i18n": {
-  "sourceLocale": "fr"
-}
+"i18n": { "sourceLocale": "fr" }
 ```
 
 ---
@@ -988,7 +1209,7 @@ export interface ServiceOffer {
   id: string;
   label: string;
   price: number;
-  unit?: string; // 'pièce', 'm²', etc.
+  unit?: string;
 }
 
 export interface Service {
@@ -1110,9 +1331,7 @@ describe('ContactService', () => {
       gdprAccepted: true,
     };
 
-    service.submitContact$(form).subscribe({
-      complete: done,
-    });
+    service.submitContact$(form).subscribe({ complete: done });
 
     const req = httpTesting.expectOne('/api/contact');
     expect(req.request.method).toBe('POST');
@@ -1124,16 +1343,9 @@ describe('ContactService', () => {
 ### Commandes de test
 
 ```bash
-# Tests unitaires
 nx test amg-deco
-
-# Tests en mode watch
 nx test amg-deco --watch
-
-# Tests e2e
 nx e2e amg-deco-e2e
-
-# Coverage
 nx test amg-deco --coverage
 ```
 
@@ -1141,16 +1353,33 @@ nx test amg-deco --coverage
 
 ## Checklist avant chaque PR
 
+**Build & Qualité**
 - [ ] `nx lint amg-deco` passe sans erreur
 - [ ] `nx test amg-deco` passe sans erreur
 - [ ] `nx build amg-deco --configuration=production` réussit
 - [ ] Aucun `console.log` laissé (sauf `console.error` dans les services)
 - [ ] Aucun `any` dans le TypeScript
+
+**Nommage & Conventions**
+- [ ] Fichiers en `kebab-case` avec le bon suffixe Angular
+- [ ] Classes en `PascalCase`, variables/méthodes en `camelCase`
+- [ ] Constantes globales en `SCREAMING_SNAKE_CASE`
+- [ ] Observables avec suffixe `$`
+- [ ] Booléens avec préfixe `is/has/can/should`
+- [ ] Handlers avec préfixe `on` ou `handle`
+- [ ] Propriétés/services privés avec préfixe `_`
+- [ ] Sélecteurs SCSS en BEM strict (`block__element--modifier`)
+- [ ] Variables SCSS catégorisées (`$color-`, `$font-`, `$spacing-`…)
+
+**Accessibilité & SEO**
 - [ ] Tous les `<img>` ont un `alt` approprié
 - [ ] Les nouvelles pages appellent `SeoService.setPage()` dans `ngOnInit`
 - [ ] Les animations respectent `prefers-reduced-motion`
+
+**Angular**
 - [ ] Les nouveaux composants ont `ChangeDetectionStrategy.OnPush`
 - [ ] Aucun accès direct à `window`/`document` sans `isPlatformBrowser`
+- [ ] Subscriptions gérées (`toSignal()` ou `takeUntilDestroyed()`)
 - [ ] Les nouveaux services sont documentés avec JSDoc
 
 ---
@@ -1169,4 +1398,4 @@ nx test amg-deco --coverage
 
 ---
 
-*Dernière mise à jour : Février 2026*
+*Dernière mise à jour : Mars 2026*
