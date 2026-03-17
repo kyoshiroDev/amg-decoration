@@ -1,5 +1,6 @@
 <section
   class="hero-slider"
+  [class.hero-slider--initialized]="isInitialized()"
   aria-label="Galerie de réalisations"
   aria-roledescription="carousel"
   (mouseenter)="pauseSlider()"

@@ -1,6 +1,6 @@
 
 import { ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
-import { provideRouter, withViewTransitions, withInMemoryScrolling, withPreloading, PreloadAllModules } from '@angular/router';
+import { provideRouter, withViewTransitions, withInMemoryScrolling } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from '@amg/data-access';
@@ -18,7 +18,6 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(
       routes,
-      withPreloading(PreloadAllModules),
       withViewTransitions(),
       withInMemoryScrolling({
         scrollPositionRestoration: 'top',
