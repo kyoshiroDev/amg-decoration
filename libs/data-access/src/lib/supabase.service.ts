@@ -40,6 +40,7 @@ export class SupabaseService {
     if (!this._client) {
       this._client = createClient(this.url, this.key, {
         auth: this.authOptions,
+        realtime: { params: { eventsPerSecond: 0 } },
       });
     }
     return this._client;
