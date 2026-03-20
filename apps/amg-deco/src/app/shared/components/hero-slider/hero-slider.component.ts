@@ -1,7 +1,6 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  inject,
   signal,
   computed,
   OnDestroy,
@@ -10,7 +9,6 @@ import {
 } from '@angular/core';
 import { NgClass, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { PlatformService } from '../../../core/services/platform.service';
 
 export interface SlideItem {
   id: string;
@@ -38,8 +36,6 @@ export interface SlideItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroSliderComponent implements OnDestroy {
-  private readonly platform = inject(PlatformService);
-
   readonly slides = input<SlideItem[]>([]);
   readonly autoPlayInterval = input<number>(5000);
 
