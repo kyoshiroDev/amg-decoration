@@ -56,6 +56,7 @@ export class HeroSliderComponent implements OnDestroy {
   }
 
   private startAutoPlay(): void {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     this._intervalId = setInterval(() => {
       if (!this.isSliderPaused()) {
         this.nextSlide();

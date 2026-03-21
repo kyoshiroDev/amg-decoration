@@ -80,6 +80,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   private initScrollListener(): void {
+    if (!isPlatformBrowser(this._platformId)) return;
     this._scrollHandler = () => {
       this.isScrolled.set(window.scrollY > 50);
     };
