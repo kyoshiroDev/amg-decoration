@@ -46,7 +46,7 @@ export class HeroSliderComponent implements OnDestroy {
   readonly totalSlides = computed(() => this.slides().length);
   readonly currentSlide = computed(() => this.slides()[this.activeSlide()]);
 
-  private intervalId: ReturnType<typeof setInterval> | null = null;
+  private _intervalId: ReturnType<typeof setInterval> | null = null;
 
   constructor() {
     afterNextRender(() => {
@@ -56,7 +56,7 @@ export class HeroSliderComponent implements OnDestroy {
   }
 
   private startAutoPlay(): void {
-    this.intervalId = setInterval(() => {
+    this._intervalId = setInterval(() => {
       if (!this.isSliderPaused()) {
         this.nextSlide();
       }
@@ -84,8 +84,8 @@ export class HeroSliderComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
+    if (this._intervalId) {
+      clearInterval(this._intervalId);
     }
   }
 }

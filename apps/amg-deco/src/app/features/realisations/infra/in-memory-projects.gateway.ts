@@ -63,17 +63,17 @@ const PROJECTS_FALLBACK: Project[] = [
 
 @Injectable({ providedIn: 'root' })
 export class InMemoryProjectsGateway implements ProjectsGateway {
-  private readonly projects$ = of(PROJECTS_FALLBACK).pipe(shareReplay(1));
+  private readonly _projects$ = of(PROJECTS_FALLBACK).pipe(shareReplay(1));
 
   getAll(): Observable<Project[]> {
-    return this.projects$;
+    return this._projects$;
   }
 
   getBySlug(slug: string): Observable<Project | undefined> {
-    return this.projects$.pipe(map(ps => ps.find(p => p.slug === slug)));
+    return this._projects$.pipe(map(ps => ps.find(p => p.slug === slug)));
   }
 
   getByCategory(category: ProjectCategory): Observable<Project[]> {
-    return this.projects$.pipe(map(ps => ps.filter(p => p.category === category)));
+    return this._projects$.pipe(map(ps => ps.filter(p => p.category === category)));
   }
 }

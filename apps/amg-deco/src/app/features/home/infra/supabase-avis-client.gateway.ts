@@ -2,41 +2,40 @@ import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Observable, from, defer } from 'rxjs';
 import { map, catchError, shareReplay } from 'rxjs/operators';
-import { SupabaseService, AvisClient, AvisClientSchema } from '@amg/data-access';
+import type { AvisClient } from '@amg/data-access';
 import { AvisClientGateway } from '../domain/avis-client.gateway';
 import { InMemoryAvisClientGateway } from './in-memory-avis-client.gateway';
-import { z } from 'zod';
+import { LazySupabaseService } from '../../../core/services/lazy-supabase.service';
 
 @Injectable({ providedIn: 'root' })
 export class SupabaseAvisClientGateway implements AvisClientGateway {
-  private readonly supabase = inject(SupabaseService);
-  private readonly platformId = inject(PLATFORM_ID);
-  private readonly fallback = inject(InMemoryAvisClientGateway);
+  private readonly _supabase = inject(LazySupabaseService);
+  private readonly _platformId = inject(PLATFORM_ID);
+  private readonly _fallback = inject(InMemoryAvisClientGateway);
 
-  private readonly avisClients$: Observable<AvisClient[]> = defer(() => {
-    if (!isPlatformBrowser(this.platformId)) {
-      return this.fallback.getAll();
+  private readonly _avisClients$: Observable<AvisClient[]> = defer(() => {
+    if (!isPlatformBrowser(this._platformId)) {
+      return this._fallback.getAll();
     }
     return from(
-      this.supabase.from('avis_client').select('*')
+      this._supabase.from('avis_client').then(q => q.select('*'))
     ).pipe(
       map(({ data, error }) => {
         if (error || !data?.length) throw new Error(error?.message ?? 'No data');
-        return z.array(AvisClientSchema).parse(
-          data.map((row: Record<string, unknown>) => ({
-            id: row['id'],
-            name: row['name'],
-            text: row['text'],
-            rating: row['rating'],
-            avatar_url: row['avatar_url'],
-          }))
-        );
+        return (data as Record<string, unknown>[]).map(row => ({
+          id: row['id'] as string,
+          name: row['name'] as string,
+          text: row['text'] as string,
+          rating: row['rating'] as number,
+          avatar: (row['avatar'] as string | undefined) ?? undefined,
+          avatar_url: (row['avatar_url'] as string | undefined) ?? undefined,
+        })) as AvisClient[];
       }),
-      catchError(() => this.fallback.getAll())
+      catchError(() => this._fallback.getAll())
     );
   }).pipe(shareReplay(1));
 
   getAll(): Observable<AvisClient[]> {
-    return this.avisClients$;
+    return this._avisClients$;
   }
 }

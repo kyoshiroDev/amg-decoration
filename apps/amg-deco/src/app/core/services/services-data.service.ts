@@ -88,15 +88,15 @@ const SERVICES_FALLBACK: Service[] = [
  */
 @Injectable({ providedIn: 'root' })
 export class ServicesDataService {
-  private readonly supabase = inject(SupabaseService);
-  private readonly platformId = inject(PLATFORM_ID);
+  private readonly _supabase = inject(SupabaseService);
+  private readonly _platformId = inject(PLATFORM_ID);
 
-  private readonly services$: Observable<Service[]> = defer(() => {
-    if (!isPlatformBrowser(this.platformId)) {
+  private readonly _services$: Observable<Service[]> = defer(() => {
+    if (!isPlatformBrowser(this._platformId)) {
       return of(SERVICES_FALLBACK);
     }
     return from(
-      this.supabase.from('services').select('*').order('order_index')
+      this._supabase.from('services').select('*').order('order_index')
     ).pipe(
       map(({ data, error }) => {
         if (error || !data?.length) return SERVICES_FALLBACK;
@@ -116,6 +116,6 @@ export class ServicesDataService {
   }).pipe(shareReplay(1));
 
   getAll$(): Observable<Service[]> {
-    return this.services$;
+    return this._services$;
   }
 }

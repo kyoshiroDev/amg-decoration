@@ -1,10 +1,10 @@
 import { RenderMode, ServerRoute } from '@angular/ssr';
 
 export const serverRoutes: ServerRoute[] = [
-  // Pages avec données dynamiques Supabase → rendu serveur à chaque requête
-  { path: '',                                   renderMode: RenderMode.Server },
-  { path: 'prestations',                        renderMode: RenderMode.Server },
-  { path: 'realisations',                       renderMode: RenderMode.Server },
+  // Pages pré-rendues au build avec données fallback — le client charge Supabase après hydratation
+  { path: '',                                   renderMode: RenderMode.Prerender },
+  { path: 'prestations',                        renderMode: RenderMode.Prerender },
+  { path: 'realisations',                       renderMode: RenderMode.Prerender },
 
   // Pages statiques → pré-rendues au moment du build
   { path: 'a-propos',                           renderMode: RenderMode.Prerender },

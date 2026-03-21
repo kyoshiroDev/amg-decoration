@@ -33,9 +33,9 @@ const AVIS_CLIENT_FALLBACK: AvisClient[] = [
 
 @Injectable({ providedIn: 'root' })
 export class InMemoryAvisClientGateway implements AvisClientGateway {
-  private readonly avisClients$ = of(AVIS_CLIENT_FALLBACK).pipe(shareReplay(1));
+  private readonly _avisClients$ = of(AVIS_CLIENT_FALLBACK).pipe(shareReplay(1));
 
   getAll(): Observable<AvisClient[]> {
-    return this.avisClients$;
+    return this._avisClients$;
   }
 }

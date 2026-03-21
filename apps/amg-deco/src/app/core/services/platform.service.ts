@@ -8,10 +8,10 @@ import { isPlatformBrowser } from '@angular/common';
  */
 @Injectable({ providedIn: 'root' })
 export class PlatformService {
-  private readonly platformId = inject(PLATFORM_ID);
+  private readonly _platformId = inject(PLATFORM_ID);
 
   get isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
+    return isPlatformBrowser(this._platformId);
   }
 
   get isServer(): boolean {

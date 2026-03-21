@@ -15,10 +15,10 @@ import { Service } from '@amg/data-access';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServicesComponent implements OnInit {
-  private readonly seo = inject(SeoService);
-  private readonly facade = inject(ServicesFacade);
+  private readonly _seo = inject(SeoService);
+  private readonly _facade = inject(ServicesFacade);
 
-  readonly services = toSignal(this.facade.getAll$(), {
+  readonly services = toSignal(this._facade.getAll$(), {
     initialValue: [] as Service[],
   });
 
@@ -32,7 +32,7 @@ export class ServicesComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.seo.setPage({
+    this._seo.setPage({
       title: "Prestations — AMG Décoration d'Intérieur",
       description:
         "Découvrez les prestations de décoration d'intérieur 3D d'Amandine Gaury : Book Esquisses, Book Déco 3D, Meuble Sur-Mesure et offre Professionnels.",

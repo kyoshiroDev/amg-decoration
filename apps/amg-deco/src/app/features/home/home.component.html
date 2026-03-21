@@ -183,7 +183,7 @@
         <div aria-live="polite" aria-atomic="true">
           <blockquote class="avis-client__quote">
             <div class="avis-client__stars" [attr.aria-label]="currentAvisClient().rating + ' étoiles sur 5'" role="img">
-              @for (_ of starsArray(currentAvisClient().rating); track $index) {
+              @for (_ of currentAvisStars(); track $index) {
                 <span aria-hidden="true">★</span>
               }
             </div>

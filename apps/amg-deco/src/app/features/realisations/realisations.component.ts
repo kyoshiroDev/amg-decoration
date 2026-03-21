@@ -22,10 +22,10 @@ type FilterCategory = ProjectCategory | 'all';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RealisationsComponent implements OnInit {
-  private readonly seo = inject(SeoService);
-  private readonly facade = inject(RealisationsFacade);
+  private readonly _seo = inject(SeoService);
+  private readonly _facade = inject(RealisationsFacade);
 
-  readonly allProjects = toSignal(this.facade.getAll$(), {
+  readonly allProjects = toSignal(this._facade.getAll$(), {
     initialValue: [],
   });
 
@@ -48,7 +48,7 @@ export class RealisationsComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.seo.setPage({
+    this._seo.setPage({
       title: "Réalisations — AMG Décoration d'Intérieur",
       description:
         "Découvrez les réalisations 3D d'Amandine Gaury, décoratrice d'intérieur certifiée. Salons, chambres, terrasses et bureaux en région parisienne.",

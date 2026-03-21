@@ -23,14 +23,14 @@ import { AvisClient } from '@amg/data-access';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  private readonly seo = inject(SeoService);
-  private readonly facade = inject(HomeFacade);
+  private readonly _seo = inject(SeoService);
+  private readonly _facade = inject(HomeFacade);
 
-  readonly avisClients = toSignal(this.facade.getAvisClients$(), {
+  readonly avisClients = toSignal(this._facade.getAvisClients$(), {
     initialValue: [] as AvisClient[],
   });
 
-  readonly projects = toSignal(this.facade.getProjects$(), {
+  readonly projects = toSignal(this._facade.getProjects$(), {
     initialValue: [],
   });
 
@@ -38,6 +38,10 @@ export class HomeComponent implements OnInit {
 
   readonly currentAvisClient = computed(
     () => this.avisClients()[this.activeAvisClient()]
+  );
+
+  readonly currentAvisStars = computed(() =>
+    Array(this.currentAvisClient()?.rating ?? 0).fill(0)
   );
 
   readonly heroSlides: SlideItem[] = [
@@ -68,7 +72,7 @@ export class HomeComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.seo.setPage({
+    this._seo.setPage({
       title: "AMG Décoration d'Intérieur — Designer 3D en région parisienne",
       description:
         "Décoratrice d'intérieur 3D certifiée MJM Design Graphic. Visualisez votre futur intérieur avec un rendu 3D photoréaliste. Région parisienne et toute la France.",
@@ -95,10 +99,6 @@ export class HomeComponent implements OnInit {
         ],
       },
     });
-  }
-
-  starsArray(n: number): number[] {
-    return Array(n).fill(0);
   }
 
   goToAvisClient(index: number): void {

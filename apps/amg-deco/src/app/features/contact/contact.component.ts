@@ -21,13 +21,13 @@ type SubmitState = 'idle' | 'loading' | 'success' | 'error';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactComponent implements OnInit {
-  private readonly seo = inject(SeoService);
-  private readonly contactService = inject(ContactService);
-  private readonly fb = inject(FormBuilder);
+  private readonly _seo = inject(SeoService);
+  private readonly _contactService = inject(ContactService);
+  private readonly _fb = inject(FormBuilder);
 
   readonly submitState = signal<SubmitState>('idle');
 
-  readonly form = this.fb.group({
+  readonly form = this._fb.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
     phone: [''],
@@ -36,7 +36,7 @@ export class ContactComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.seo.setPage({
+    this._seo.setPage({
       title: "Contact — AMG Décoration d'Intérieur",
       description:
         "Contactez Amandine Gaury pour votre projet de décoration d'intérieur 3D. Réponse sous 48h.",
@@ -66,7 +66,7 @@ export class ContactComponent implements OnInit {
 
     this.submitState.set('loading');
 
-    this.contactService
+    this._contactService
       .submitContact$(parsed.data)
       .subscribe({
         next: () => {

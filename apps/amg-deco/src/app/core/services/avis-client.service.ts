@@ -32,15 +32,15 @@ const AVIS_CLIENT_FALLBACK: AvisClient[] = [
  */
 @Injectable({ providedIn: 'root' })
 export class AvisClientService {
-  private readonly supabase = inject(SupabaseService);
-  private readonly platformId = inject(PLATFORM_ID);
+  private readonly _supabase = inject(SupabaseService);
+  private readonly _platformId = inject(PLATFORM_ID);
 
-  private readonly avisClients$: Observable<AvisClient[]> = defer(() => {
-    if (!isPlatformBrowser(this.platformId)) {
+  private readonly _avisClients$: Observable<AvisClient[]> = defer(() => {
+    if (!isPlatformBrowser(this._platformId)) {
       return of(AVIS_CLIENT_FALLBACK);
     }
     return from(
-      this.supabase.from('avis_client').select('*')
+      this._supabase.from('avis_client').select('*')
     ).pipe(
       map(({ data, error }) => {
         if (error || !data?.length) return AVIS_CLIENT_FALLBACK;
@@ -57,6 +57,6 @@ export class AvisClientService {
   }).pipe(shareReplay(1));
 
   getAvisClients$(): Observable<AvisClient[]> {
-    return this.avisClients$;
+    return this._avisClients$;
   }
 }

@@ -1,55 +1,54 @@
 import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Observable, from, defer, of } from 'rxjs';
+import { Observable, from, defer } from 'rxjs';
 import { map, catchError, shareReplay } from 'rxjs/operators';
-import { SupabaseService, Service, ServiceSchema } from '@amg/data-access';
+import type { Service, ServiceInclude, ServicePrice } from '@amg/data-access';
 import { ServicesGateway } from '../domain/services.gateway';
-import { z } from 'zod';
+import { InMemoryServicesGateway } from './in-memory-services.gateway';
+import { LazySupabaseService } from '../../../core/services/lazy-supabase.service';
 
 @Injectable({ providedIn: 'root' })
 export class SupabaseServicesGateway implements ServicesGateway {
-  private readonly supabase = inject(SupabaseService);
-  private readonly platformId = inject(PLATFORM_ID);
+  private readonly _supabase = inject(LazySupabaseService);
+  private readonly _platformId = inject(PLATFORM_ID);
+  private readonly _fallback = inject(InMemoryServicesGateway);
 
-  private readonly services$: Observable<Service[]> = defer(() => {
-    if (!isPlatformBrowser(this.platformId)) {
-      return of([] as Service[]);
+  private readonly _services$: Observable<Service[]> = defer(() => {
+    if (!isPlatformBrowser(this._platformId)) {
+      return this._fallback.getAll();
     }
     return from(
-      this.supabase.from('services')
-        .select(`
-          *,
-          includes:service_includes(id, service_id, text, order_index),
-          prices:service_prices(id, service_id, label, price, unit, order_index)
-        `)
-        .order('order_index')
-        .order('order_index', { referencedTable: 'service_includes' })
-        .order('order_index', { referencedTable: 'service_prices' })
+      this._supabase.from('services').then(q =>
+        q
+          .select(`
+            *,
+            includes:service_includes(id, service_id, text, order_index),
+            prices:service_prices(id, service_id, label, price, unit, order_index)
+          `)
+          .order('order_index')
+          .order('order_index', { referencedTable: 'service_includes' })
+          .order('order_index', { referencedTable: 'service_prices' })
+      )
     ).pipe(
       map(({ data, error }) => {
         if (error || !data?.length) throw new Error(error?.message ?? 'No data');
-        return z.array(ServiceSchema).parse(
-          data.map((row: Record<string, unknown>) => ({
-            id: row['id'],
-            title: row['title'],
-            subtitle: row['subtitle'],
-            description: row['description'],
-            includes: row['includes'] ?? [],
-            prices: row['prices'] ?? [],
-            image: row['image'],
-            note: row['note'],
-            order_index: row['order_index'],
-          }))
-        );
+        return (data as Record<string, unknown>[]).map(row => ({
+          id: row['id'] as string,
+          title: row['title'] as string,
+          subtitle: (row['subtitle'] as string | undefined) ?? undefined,
+          description: row['description'] as string,
+          includes: ((row['includes'] as ServiceInclude[]) ?? []),
+          prices: ((row['prices'] as ServicePrice[]) ?? []),
+          image: (row['image'] as string | undefined) ?? undefined,
+          note: (row['note'] as string | undefined) ?? undefined,
+          order_index: row['order_index'] as number,
+        })) as Service[];
       }),
-      catchError(err => {
-        console.error('[SupabaseServicesGateway] erreur chargement prestations :', err);
-        return of([] as Service[]);
-      })
+      catchError(() => this._fallback.getAll())
     );
   }).pipe(shareReplay(1));
 
   getAll(): Observable<Service[]> {
-    return this.services$;
+    return this._services$;
   }
 }

@@ -5,9 +5,9 @@ import { AVIS_CLIENT_GATEWAY } from '../../application/tokens';
 
 @Injectable({ providedIn: 'root' })
 export class GetAllAvisClientsUseCase {
-  private readonly gateway = inject(AVIS_CLIENT_GATEWAY);
+  private readonly _gateway = inject(AVIS_CLIENT_GATEWAY);
 
   execute(): Observable<AvisClient[]> {
-    return this.gateway.getAll();
+    return this._gateway.getAll();
   }
 }
