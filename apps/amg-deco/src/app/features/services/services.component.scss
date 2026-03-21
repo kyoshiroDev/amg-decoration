@@ -1,6 +1,11 @@
 .page-header {
   padding: 8rem 0 4rem;
   color: white;
+  text-align: center;
+
+  &--dark {
+    background-color: var(--color-dark);
+  }
 
   &__eyebrow {
     font-family: var(--font-body);
@@ -191,6 +196,10 @@
     border-left: 3px solid var(--color-gold);
     background-color: rgba(196, 168, 130, 0.06);
     margin: 0;
+  }
+
+  &__btn {
+    margin-top: 1.5rem;
   }
 }
 

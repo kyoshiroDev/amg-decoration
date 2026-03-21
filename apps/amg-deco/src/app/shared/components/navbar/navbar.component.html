@@ -8,7 +8,7 @@
   class="navbar"
   (keydown)="onKeydown($event)"
 >
-  <div class="container-amg flex items-center justify-between h-20">
+  <div class="container-amg navbar__inner">
     <!-- Logo -->
     <a routerLink="/" class="navbar__logo" aria-label="AMG Décoration d'Intérieur — Retour à l'accueil">
       <img
@@ -16,7 +16,7 @@
         alt="AMG Décoration d'Intérieur"
         width="56"
         height="56"
-        class="h-14 w-auto"
+        class="navbar__logo-img"
         priority=""
       />
     </a>
@@ -40,7 +40,7 @@
     </ul>
 
     <!-- CTA Desktop -->
-    <a routerLink="/contact" class="btn-primary hidden lg:inline-flex"> Prendre rendez-vous </a>
+    <a routerLink="/contact" class="btn-primary navbar__cta-desktop"> Prendre rendez-vous </a>
 
     <!-- Burger Button -->
     <button
@@ -51,9 +51,9 @@
       [attr.aria-label]="menuAriaLabel()"
       (click)="toggleMenu()"
     >
-      <span class="navbar__burger-line" [ngClass]="{ 'rotate-45 translate-y-2': isMenuOpen() }"></span>
-      <span class="navbar__burger-line" [ngClass]="{ 'opacity-0': isMenuOpen() }"></span>
-      <span class="navbar__burger-line" [ngClass]="{ '-rotate-45 -translate-y-2': isMenuOpen() }"></span>
+      <span class="navbar__burger-line" [ngClass]="{ 'navbar__burger-line--open-top': isMenuOpen() }"></span>
+      <span class="navbar__burger-line" [ngClass]="{ 'navbar__burger-line--open-mid': isMenuOpen() }"></span>
+      <span class="navbar__burger-line" [ngClass]="{ 'navbar__burger-line--open-bottom': isMenuOpen() }"></span>
     </button>
   </div>
 
@@ -82,9 +82,7 @@
         </li>
       }
       <li>
-        <a routerLink="/contact" class="btn-primary w-full text-center mt-4" (click)="closeMenu()">
-          Prendre rendez-vous
-        </a>
+        <a routerLink="/contact" class="btn-primary navbar__mobile-cta" (click)="closeMenu()"> Prendre rendez-vous </a>
       </li>
     </ul>
   </div>

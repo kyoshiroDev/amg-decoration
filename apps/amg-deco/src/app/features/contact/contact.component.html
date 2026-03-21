@@ -1,5 +1,5 @@
-<header class="page-header bg-amg-dark" aria-label="En-tête de page Contact">
-  <div class="container-amg text-center">
+<header class="page-header page-header--dark" aria-label="En-tête de page Contact">
+  <div class="container-amg">
     <p class="page-header__eyebrow">Parlons de votre projet</p>
     <h1 class="page-header__title">Contact</h1>
     <span class="divider-gold"></span>
@@ -200,7 +200,7 @@
             <!-- Submit -->
             <button
               type="submit"
-              class="btn-primary w-full justify-center py-4"
+              class="btn-primary btn-primary--block"
               [disabled]="submitState() === 'loading'"
               [attr.aria-busy]="submitState() === 'loading'"
             >

@@ -2,7 +2,7 @@
 <amg-hero-slider [slides]="heroSlides" />
 
 <!-- ─── 2. À Propos Preview ───────────────────────────────────────────────── -->
-<section class="section-padding bg-amg-cream" aria-labelledby="about-title">
+<section class="section-padding section-bg--cream" aria-labelledby="about-title">
   <div class="container-amg">
     <div class="home-about__grid">
       <div class="home-about__image-wrapper">
@@ -87,7 +87,7 @@
 </section>
 
 <!-- ─── 4. Réalisations Preview ───────────────────────────────────────────── -->
-<section class="section-padding bg-amg-dark" aria-labelledby="realisations-title">
+<section class="section-padding section-bg--dark" aria-labelledby="realisations-title">
   <div class="container-amg">
     <amg-section-title
       eyebrow="Portfolio"
@@ -116,10 +116,8 @@
         </div>
       }
     </div>
-    <div class="text-center mt-12">
-      <a routerLink="/realisations" class="btn-outline text-white border-white hover:bg-white hover:text-amg-dark">
-        Voir toutes les réalisations
-      </a>
+    <div class="home-realisations__cta">
+      <a routerLink="/realisations" class="btn-outline btn-outline--inverted"> Voir toutes les réalisations </a>
     </div>
   </div>
 </section>
@@ -168,7 +166,7 @@
 </section>
 
 <!-- ─── 6. Avis clients ─────────────────────────────────────────────────────── -->
-<section class="section-padding bg-amg-cream" aria-labelledby="avis-client-title">
+<section class="section-padding section-bg--cream" aria-labelledby="avis-client-title">
   <div class="container-amg">
     <amg-section-title eyebrow="Ils me font confiance" title="Témoignages clients" />
 
@@ -249,9 +247,9 @@
 
 <!-- ─── 10. CTA Contact ───────────────────────────────────────────────────── -->
 <section class="home-cta" aria-labelledby="cta-title">
-  <div class="container-amg text-center">
+  <div class="container-amg">
     <h2 id="cta-title" class="home-cta__title">Un projet ? Une question ?</h2>
     <p class="home-cta__subtitle">Parlons de votre projet de décoration. Je vous répondrai dans les 48h.</p>
-    <a routerLink="/contact" class="btn-primary text-lg px-12 py-4"> Contactez-moi </a>
+    <a routerLink="/contact" class="btn-primary btn-primary--large"> Contactez-moi </a>
   </div>
 </section>

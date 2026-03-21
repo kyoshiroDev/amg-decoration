@@ -169,6 +169,11 @@
     }
   }
 
+  &__cta {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
   &__card-tag {
     font-family: var(--font-body), serif;
     font-size: 0.75rem;

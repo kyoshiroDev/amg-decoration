@@ -1,6 +1,6 @@
 <!-- Page Header -->
-<header class="page-header bg-amg-dark" aria-label="En-tête de page Prestations">
-  <div class="container-amg text-center">
+<header class="page-header page-header--dark" aria-label="En-tête de page Prestations">
+  <div class="container-amg">
     <p class="page-header__eyebrow">Décoration 3D</p>
     <h1 class="page-header__title">Prestations</h1>
     <span class="divider-gold"></span>
@@ -80,7 +80,7 @@
               <p class="service-card__note" role="note">{{ service.note }}</p>
             }
 
-            <a routerLink="/contact" class="btn-primary mt-6"> Demander un devis </a>
+            <a routerLink="/contact" class="btn-primary service-card__btn"> Demander un devis </a>
           </div>
         </article>
       }
@@ -89,7 +89,7 @@
 </section>
 
 <!-- Processus en 6 étapes -->
-<section class="section-padding bg-amg-cream" aria-labelledby="process-title">
+<section class="section-padding section-bg--cream" aria-labelledby="process-title">
   <div class="container-amg">
     <amg-section-title
       eyebrow="Comment ça marche ?"
@@ -113,9 +113,9 @@
 
 <!-- CTA -->
 <section class="home-cta" aria-label="Appel à l'action">
-  <div class="container-amg text-center">
+  <div class="container-amg">
     <h2 class="home-cta__title">Prêt(e) à transformer votre intérieur ?</h2>
     <p class="home-cta__subtitle">Contactez-moi pour discuter de votre projet.</p>
-    <a routerLink="/contact" class="btn-primary text-lg px-12 py-4"> Demander un devis gratuit </a>
+    <a routerLink="/contact" class="btn-primary btn-primary--large"> Demander un devis gratuit </a>
   </div>
 </section>

@@ -63,11 +63,6 @@ $latin-range: "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U
   unicode-range: #{$latin-range};
 }
 
-// Tailwind CSS directives
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 // ─── Variables CSS globales ─────────────────────────────────────────────────
 :root {
   --color-gold: #c4a882;
@@ -150,34 +145,133 @@ h6 {
 }
 
 // ─── Composants utilitaires ───────────────────────────────────────────────────
-@layer components {
-  .container-amg {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+.container-amg {
+  max-width: 80rem; // 1280px
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @media (min-width: 640px) {
+    padding-inline: 1.5rem;
   }
 
-  .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-3 bg-amg-gold text-amg-dark font-body font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:bg-amg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amg-gold focus-visible:ring-offset-2;
+  @media (min-width: 1024px) {
+    padding-inline: 2rem;
+  }
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  background-color: var(--color-gold);
+  color: var(--color-dark);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 300ms ease-in-out;
+
+  &:hover {
+    background-color: var(--color-gold-dark);
   }
 
-  .btn-outline {
-    @apply inline-flex items-center justify-center px-8 py-3 border-2 border-amg-gold text-amg-dark font-body font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:bg-amg-gold hover:text-amg-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amg-gold focus-visible:ring-offset-2;
+  &:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
   }
 
-  .section-padding {
-    @apply py-16 md:py-24;
+  &--large {
+    font-size: 1.125rem;
+    padding: 1rem 3rem;
   }
 
-  .text-section-title {
-    @apply font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-amg-dark;
+  &--block {
+    width: 100%;
+    justify-content: center;
+    padding-block: 1rem;
+  }
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  border: 2px solid var(--color-gold);
+  color: var(--color-dark);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    background-color 300ms ease-in-out,
+    color 300ms ease-in-out;
+
+  &:hover {
+    background-color: var(--color-gold);
+    color: var(--color-dark);
   }
 
-  .text-section-subtitle {
-    @apply font-body text-amg-gray text-lg leading-relaxed;
+  &:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
   }
 
-  .divider-gold {
-    @apply block w-16 h-0.5 bg-amg-gold mx-auto my-4;
+  &--inverted {
+    color: var(--color-white);
+    border-color: var(--color-white);
+
+    &:hover {
+      background-color: var(--color-white);
+      color: var(--color-dark);
+    }
   }
+}
+
+.section-padding {
+  padding-block: 4rem;
+
+  @media (min-width: 768px) {
+    padding-block: 6rem;
+  }
+}
+
+.section-bg {
+  &--cream {
+    background-color: var(--color-cream);
+  }
+
+  &--dark {
+    background-color: var(--color-dark);
+  }
+}
+
+.text-section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.875rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.text-section-subtitle {
+  font-family: var(--font-body);
+  color: var(--color-gray);
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+.divider-gold {
+  display: block;
+  width: 4rem;
+  height: 2px;
+  background-color: var(--color-gold);
+  margin-inline: auto;
+  margin-block: 1rem;
 }
 
 // ─── Animations ──────────────────────────────────────────────────────────────
@@ -243,6 +337,7 @@ img {
 .home-cta {
   background: linear-gradient(135deg, var(--color-gold-dark) 0%, var(--color-gold) 100%);
   padding: 5rem 0;
+  text-align: center;
 
   &__title {
     font-family: var(--font-heading);
