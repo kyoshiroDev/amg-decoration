@@ -124,7 +124,7 @@
       opacity var(--transition-base);
 
     &--open-top {
-      transform: rotate(45deg) translateY(8px);
+      transform: translateY(9px) rotate(45deg);
     }
 
     &--open-mid {
@@ -132,7 +132,7 @@
     }
 
     &--open-bottom {
-      transform: rotate(-45deg) translateY(-8px);
+      transform: translateY(-9px) rotate(-45deg);
     }
   }
 
