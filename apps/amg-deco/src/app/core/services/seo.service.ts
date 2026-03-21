@@ -52,7 +52,7 @@ export class SeoService {
   }
 
   private _cleanJsonLd(): void {
-    this._doc.querySelector('script[type="application/ld+json"]')?.remove();
+    this._doc.querySelectorAll('script[type="application/ld+json"]').forEach(el => el.remove());
   }
 
   private setCanonical(url: string): void {

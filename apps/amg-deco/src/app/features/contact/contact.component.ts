@@ -4,9 +4,12 @@ import {
   inject,
   OnInit,
   signal,
+  computed,
+  DestroyRef,
 } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SeoService } from '../../core/services/seo.service';
 import { ContactService } from '../../core/services/contact.service';
 import { ContactFormSchema } from '@amg/data-access';
@@ -24,6 +27,7 @@ export class ContactComponent implements OnInit {
   private readonly _seo = inject(SeoService);
   private readonly _contactService = inject(ContactService);
   private readonly _fb = inject(FormBuilder);
+  private readonly _destroyRef = inject(DestroyRef);
 
   readonly submitState = signal<SubmitState>('idle');
 
@@ -33,6 +37,47 @@ export class ContactComponent implements OnInit {
     phone: [''],
     message: ['', [Validators.required, Validators.minLength(10)]],
     gdprAccepted: [false, Validators.requiredTrue],
+  });
+
+  // Signal réactif sur le statut du formulaire — force la réévaluation des computed
+  private readonly _formStatus = toSignal(this.form.statusChanges, {
+    initialValue: this.form.status,
+  });
+
+  readonly nameState = computed(() => {
+    this._formStatus();
+    const c = this.form.get('name')!;
+    return {
+      invalid: c.invalid && c.touched,
+      requiredError: c.hasError('required') && c.touched,
+      minlengthError: c.hasError('minlength') && c.touched,
+    };
+  });
+
+  readonly emailState = computed(() => {
+    this._formStatus();
+    const c = this.form.get('email')!;
+    return {
+      invalid: c.invalid && c.touched,
+      requiredError: c.hasError('required') && c.touched,
+      emailError: c.hasError('email') && c.touched,
+    };
+  });
+
+  readonly messageState = computed(() => {
+    this._formStatus();
+    const c = this.form.get('message')!;
+    return {
+      invalid: c.invalid && c.touched,
+      requiredError: c.hasError('required') && c.touched,
+      minlengthError: c.hasError('minlength') && c.touched,
+    };
+  });
+
+  readonly gdprState = computed(() => {
+    this._formStatus();
+    const c = this.form.get('gdprAccepted')!;
+    return { invalid: c.invalid && c.touched };
   });
 
   ngOnInit(): void {
@@ -68,6 +113,7 @@ export class ContactComponent implements OnInit {
 
     this._contactService
       .submitContact$(parsed.data)
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: () => {
           this.submitState.set('success');
@@ -75,15 +121,5 @@ export class ContactComponent implements OnInit {
         },
         error: () => this.submitState.set('error'),
       });
-  }
-
-  hasError(field: string, error: string): boolean {
-    const control = this.form.get(field);
-    return !!(control?.hasError(error) && control.touched);
-  }
-
-  isFieldInvalid(field: string): boolean {
-    const control = this.form.get(field);
-    return !!(control?.invalid && control.touched);
   }
 }

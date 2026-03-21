@@ -32,8 +32,9 @@
           <a
             [routerLink]="link.path"
             routerLinkActive="navbar__link--active"
+            #rlDesktop="routerLinkActive"
             [routerLinkActiveOptions]="{ exact: link.path === '/' }"
-            [attr.aria-current]="null"
+            [attr.aria-current]="rlDesktop.isActive ? 'page' : null"
             class="navbar__link"
           >
             {{ link.label }}
@@ -76,7 +77,9 @@
           <a
             [routerLink]="link.path"
             routerLinkActive="navbar__mobile-link--active"
+            #rlMobile="routerLinkActive"
             [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+            [attr.aria-current]="rlMobile.isActive ? 'page' : null"
             class="navbar__mobile-link"
             (click)="closeMenu()"
           >

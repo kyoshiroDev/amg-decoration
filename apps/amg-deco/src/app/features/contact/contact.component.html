@@ -80,15 +80,15 @@
                 name="name"
                 formControlName="name"
                 class="form-input"
-                [ngClass]="{ 'form-input--error': isFieldInvalid('name') }"
+                [ngClass]="{ 'form-input--error': nameState().invalid }"
                 autocomplete="name"
                 placeholder="Jean Dupont"
-                [attr.aria-describedby]="isFieldInvalid('name') ? 'name-error' : null"
-                [attr.aria-invalid]="isFieldInvalid('name')"
+                [attr.aria-describedby]="nameState().invalid ? 'name-error' : null"
+                [attr.aria-invalid]="nameState().invalid"
               />
-              @if (hasError('name', 'required')) {
+              @if (nameState().requiredError) {
                 <p id="name-error" class="form-error" role="alert">Le nom est obligatoire.</p>
-              } @else if (hasError('name', 'minlength')) {
+              } @else if (nameState().minlengthError) {
                 <p id="name-error" class="form-error" role="alert">Le nom doit contenir au moins 2 caractères.</p>
               }
             </div>
@@ -104,15 +104,15 @@
                 name="email"
                 formControlName="email"
                 class="form-input"
-                [ngClass]="{ 'form-input--error': isFieldInvalid('email') }"
+                [ngClass]="{ 'form-input--error': emailState().invalid }"
                 autocomplete="email"
                 placeholder="jean.dupont@email.com"
-                [attr.aria-describedby]="isFieldInvalid('email') ? 'email-error' : null"
-                [attr.aria-invalid]="isFieldInvalid('email')"
+                [attr.aria-describedby]="emailState().invalid ? 'email-error' : null"
+                [attr.aria-invalid]="emailState().invalid"
               />
-              @if (hasError('email', 'required')) {
+              @if (emailState().requiredError) {
                 <p id="email-error" class="form-error" role="alert">L'email est obligatoire.</p>
-              } @else if (hasError('email', 'email')) {
+              } @else if (emailState().emailError) {
                 <p id="email-error" class="form-error" role="alert">Veuillez saisir un email valide.</p>
               }
             </div>
@@ -141,15 +141,15 @@
                 name="message"
                 formControlName="message"
                 class="form-input form-textarea"
-                [ngClass]="{ 'form-input--error': isFieldInvalid('message') }"
+                [ngClass]="{ 'form-input--error': messageState().invalid }"
                 rows="5"
                 placeholder="Décrivez votre projet (type de pièce, superficie, délai souhaité...)"
-                [attr.aria-describedby]="isFieldInvalid('message') ? 'message-error' : null"
-                [attr.aria-invalid]="isFieldInvalid('message')"
+                [attr.aria-describedby]="messageState().invalid ? 'message-error' : null"
+                [attr.aria-invalid]="messageState().invalid"
               ></textarea>
-              @if (hasError('message', 'required')) {
+              @if (messageState().requiredError) {
                 <p id="message-error" class="form-error" role="alert">Le message est obligatoire.</p>
-              } @else if (hasError('message', 'minlength')) {
+              } @else if (messageState().minlengthError) {
                 <p id="message-error" class="form-error" role="alert">Le message doit contenir au moins 10 caractères.</p>
               }
             </div>
@@ -162,9 +162,9 @@
                   id="gdpr"
                   formControlName="gdprAccepted"
                   class="form-checkbox"
-                  [ngClass]="{ 'form-checkbox--error': isFieldInvalid('gdprAccepted') }"
-                  [attr.aria-describedby]="isFieldInvalid('gdprAccepted') ? 'gdpr-error' : null"
-                  [attr.aria-invalid]="isFieldInvalid('gdprAccepted')"
+                  [ngClass]="{ 'form-checkbox--error': gdprState().invalid }"
+                  [attr.aria-describedby]="gdprState().invalid ? 'gdpr-error' : null"
+                  [attr.aria-invalid]="gdprState().invalid"
                 />
                 <label for="gdpr" class="form-checkbox-label">
                   J'accepte que mes données soient utilisées pour traiter ma demande de contact,
@@ -173,7 +173,7 @@
                   <span aria-label="obligatoire">*</span>
                 </label>
               </div>
-              @if (isFieldInvalid('gdprAccepted')) {
+              @if (gdprState().invalid) {
                 <p id="gdpr-error" class="form-error" role="alert">Vous devez accepter les conditions RGPD.</p>
               }
             </div>
