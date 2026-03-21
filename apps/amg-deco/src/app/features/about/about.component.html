@@ -58,7 +58,7 @@
         <div class="about__certifications">
           <h2 class="about__certifications-title">Formation &amp; Compétences</h2>
           <ul class="about__certifications-list" role="list">
-            @for (cert of certifications; track cert) {
+            @for (cert of certifications; track $index) {
               <li class="about__certification-item">
                 <span class="about__cert-bullet" aria-hidden="true">●</span>
                 {{ cert }}
