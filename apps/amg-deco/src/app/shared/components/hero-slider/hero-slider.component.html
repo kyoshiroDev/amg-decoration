@@ -9,7 +9,7 @@
   (focusout)="resumeSlider()"
 >
   <!-- Slides -->
-  <div class="hero-slider__track" aria-live="polite" aria-atomic="false">
+  <div class="hero-slider__track" aria-live="polite">
     @for (slide of slides(); track slide.id; let i = $index) {
       <div
         class="hero-slider__slide"
@@ -42,7 +42,7 @@
         <em>en 3D, avant les travaux</em>
       </h1>
       <p class="hero-slider__subtitle">
-        Visualisez votre futur intérieur avec un rendu 3D photoréaliste.<br class="hidden md:block" />
+        Visualisez votre futur intérieur avec un rendu 3D photoréaliste.
         Économisez du temps, de l'argent et évitez les mauvaises surprises.
       </p>
       <div class="hero-slider__actions">
@@ -92,7 +92,6 @@
           [ngClass]="{ 'hero-slider__indicator--active': i === activeSlide() }"
           [attr.aria-selected]="i === activeSlide()"
           [attr.aria-label]="'Visuel ' + (i + 1)"
-          [attr.aria-current]="i === activeSlide() ? 'true' : null"
           (click)="goToSlide(i)"
         ></button>
       }

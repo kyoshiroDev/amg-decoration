@@ -8,9 +8,10 @@ import {
   OnDestroy,
   DestroyRef,
   afterNextRender,
+  PLATFORM_ID,
 } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
-import { NgClass, NgOptimizedImage } from '@angular/common';
+import { NgClass, NgOptimizedImage, isPlatformBrowser } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -40,6 +41,7 @@ interface NavLink {
 export class NavbarComponent implements OnInit, OnDestroy {
   private readonly _router = inject(Router);
   private readonly _destroyRef = inject(DestroyRef);
+  private readonly _platformId = inject(PLATFORM_ID);
 
   private _scrollHandler: (() => void) | null = null;
 
@@ -72,7 +74,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this._scrollHandler) {
+    if (this._scrollHandler && isPlatformBrowser(this._platformId)) {
       window.removeEventListener('scroll', this._scrollHandler);
     }
   }

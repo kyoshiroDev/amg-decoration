@@ -22,10 +22,7 @@ export class ContactService {
   submitContact$(form: ContactForm): Observable<void> {
     return this._http.post<void>(`${this._apiUrl}/contact`, form).pipe(
       retry({ count: 2, delay: 1000 }),
-      catchError(err => {
-        console.error('[ContactService] submitContact$ error:', err);
-        return throwError(() => new Error("Erreur lors de l'envoi du message."));
-      })
+      catchError(() => throwError(() => new Error("Erreur lors de l'envoi du message.")))
     );
   }
 }
