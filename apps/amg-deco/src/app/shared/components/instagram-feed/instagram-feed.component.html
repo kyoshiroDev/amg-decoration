@@ -30,13 +30,14 @@
             target="_blank"
             rel="noopener noreferrer"
             class="instagram-feed__link"
-            [attr.aria-label]="'Voir le post Instagram : ' + post.caption"
+            [attr.aria-label]="post.caption"
           >
             @defer (on viewport) {
               <img
                 [ngSrc]="post.image"
                 [alt]="post.alt"
                 fill
+                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                 class="instagram-feed__image"
               />
             } @placeholder {
