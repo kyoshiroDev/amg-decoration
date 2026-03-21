@@ -1,12 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  inject,
-  OnInit,
-  signal,
-  computed,
-  DestroyRef,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, OnInit, signal, computed, DestroyRef } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
@@ -46,7 +38,7 @@ export class ContactComponent implements OnInit {
 
   readonly nameState = computed(() => {
     this._formStatus();
-    const c = this.form.get('name')!;
+    const c = this.form.controls['name'];
     return {
       invalid: c.invalid && c.touched,
       requiredError: c.hasError('required') && c.touched,
@@ -56,7 +48,7 @@ export class ContactComponent implements OnInit {
 
   readonly emailState = computed(() => {
     this._formStatus();
-    const c = this.form.get('email')!;
+    const c = this.form.controls['email'];
     return {
       invalid: c.invalid && c.touched,
       requiredError: c.hasError('required') && c.touched,
@@ -66,7 +58,7 @@ export class ContactComponent implements OnInit {
 
   readonly messageState = computed(() => {
     this._formStatus();
-    const c = this.form.get('message')!;
+    const c = this.form.controls['message'];
     return {
       invalid: c.invalid && c.touched,
       requiredError: c.hasError('required') && c.touched,
@@ -76,15 +68,14 @@ export class ContactComponent implements OnInit {
 
   readonly gdprState = computed(() => {
     this._formStatus();
-    const c = this.form.get('gdprAccepted')!;
+    const c = this.form.controls['gdprAccepted'];
     return { invalid: c.invalid && c.touched };
   });
 
   ngOnInit(): void {
     this._seo.setPage({
       title: "Contact — AMG Décoration d'Intérieur",
-      description:
-        "Contactez Amandine Gaury pour votre projet de décoration d'intérieur 3D. Réponse sous 48h.",
+      description: "Contactez Amandine Gaury pour votre projet de décoration d'intérieur 3D. Réponse sous 48h.",
       url: 'https://amgdecorationdinterieur.com/contact',
     });
   }

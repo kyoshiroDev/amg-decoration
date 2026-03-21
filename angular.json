@@ -36,9 +36,7 @@
                 "output": ""
               }
             ],
-            "styles": [
-              "apps/amg-deco-cms/src/styles.scss"
-            ],
+            "styles": ["apps/amg-deco-cms/src/styles.scss"],
             "scripts": [],
             "baseHref": "/admin/"
           },
@@ -123,9 +121,7 @@
                 "output": ""
               }
             ],
-            "styles": [
-              "apps/amg-deco/src/styles.scss"
-            ],
+            "styles": ["apps/amg-deco/src/styles.scss"],
             "scripts": [],
             "server": "apps/amg-deco/src/main.server.ts",
             "prerender": false,

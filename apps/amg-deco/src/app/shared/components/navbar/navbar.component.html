@@ -3,18 +3,14 @@
   aria-label="Navigation principale"
   [ngClass]="{
     'navbar--scrolled': isScrolled(),
-    'navbar--menu-open': isMenuOpen()
+    'navbar--menu-open': isMenuOpen(),
   }"
   class="navbar"
   (keydown)="onKeydown($event)"
 >
   <div class="container-amg flex items-center justify-between h-20">
     <!-- Logo -->
-    <a
-      routerLink="/"
-      class="navbar__logo"
-      aria-label="AMG Décoration d'Intérieur — Retour à l'accueil"
-    >
+    <a routerLink="/" class="navbar__logo" aria-label="AMG Décoration d'Intérieur — Retour à l'accueil">
       <img
         ngSrc="/assets/images/logo/logo-color.webp"
         alt="AMG Décoration d'Intérieur"
@@ -44,9 +40,7 @@
     </ul>
 
     <!-- CTA Desktop -->
-    <a routerLink="/contact" class="btn-primary hidden lg:inline-flex">
-      Prendre rendez-vous
-    </a>
+    <a routerLink="/contact" class="btn-primary hidden lg:inline-flex"> Prendre rendez-vous </a>
 
     <!-- Burger Button -->
     <button

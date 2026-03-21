@@ -44,7 +44,9 @@
                   <input type="text" formControlName="label" placeholder="Label" class="offer-label" />
                   <input type="number" formControlName="price" placeholder="Prix €" class="offer-price" />
                   <input type="text" formControlName="unit" placeholder="Unité" class="offer-unit" />
-                  <button type="button" class="remove-btn" (click)="removePrice(i)" aria-label="Supprimer tarif">×</button>
+                  <button type="button" class="remove-btn" (click)="removePrice(i)" aria-label="Supprimer tarif">
+                    ×
+                  </button>
                 </div>
               }
               <button type="button" class="btn btn-outline btn-sm" (click)="addPrice()">+ Tarif</button>
@@ -52,8 +54,7 @@
 
             <div class="card-actions">
               <button type="button" class="btn btn-outline" (click)="cancelEdit()">Annuler</button>
-              <button type="submit" class="btn btn-gold"
-                [disabled]="saveState()[service.id] === 'loading'">
+              <button type="submit" class="btn btn-gold" [disabled]="saveState()[service.id] === 'loading'">
                 {{ saveState()[service.id] === 'loading' ? 'Sauvegarde…' : 'Sauvegarder' }}
               </button>
             </div>
@@ -73,11 +74,7 @@
               <span class="offer-badge">{{ price.label }} — {{ price.price }}€</span>
             }
           </div>
-          <button
-            type="button"
-            class="btn btn-outline btn-sm edit-btn"
-            (click)="startEdit(service)"
-          >Modifier</button>
+          <button type="button" class="btn btn-outline btn-sm edit-btn" (click)="startEdit(service)">Modifier</button>
         }
       </div>
     }

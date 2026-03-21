@@ -2,10 +2,7 @@ import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/cor
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of, BehaviorSubject, switchMap } from 'rxjs';
-import {
-  ExternalAccountsApiService,
-  ExternalAccount,
-} from '../../core/services/external-accounts-api.service';
+import { ExternalAccountsApiService, ExternalAccount } from '../../core/services/external-accounts-api.service';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -22,12 +19,8 @@ export class ExternalAccountsComponent {
   private readonly refresh$ = new BehaviorSubject<void>(undefined);
 
   readonly accounts = toSignal(
-    this.refresh$.pipe(
-      switchMap(() => this.api.getAll$().pipe(
-        catchError(err => { console.error('[ExternalAccounts]', err); return of([] as ExternalAccount[]); })
-      ))
-    ),
-    { initialValue: [] as ExternalAccount[] }
+    this.refresh$.pipe(switchMap(() => this.api.getAll$().pipe(catchError(() => of([] as ExternalAccount[]))))),
+    { initialValue: [] as ExternalAccount[] },
   );
   readonly isAdding = signal(false);
   readonly editingId = signal<string | null>(null);
@@ -76,15 +69,14 @@ export class ExternalAccountsComponent {
     this.state.set('loading');
     const raw = this.form.getRawValue();
     const data = {
-      compte: raw.compte!,
-      email: raw.email!,
-      password: raw.password!,
+      compte: raw.compte ?? '',
+      email: raw.email ?? '',
+      password: raw.password ?? '',
       notes: raw.notes || undefined,
     };
 
-    const action$ = this.editingId()
-      ? this.api.update$(this.editingId()!, data)
-      : this.api.create$(data);
+    const editingId = this.editingId();
+    const action$ = editingId ? this.api.update$(editingId, data) : this.api.create$(data);
 
     action$.subscribe({
       next: () => {
@@ -103,7 +95,11 @@ export class ExternalAccountsComponent {
   togglePassword(id: string): void {
     this.visiblePasswords.update(set => {
       const next = new Set(set);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
       return next;
     });
   }

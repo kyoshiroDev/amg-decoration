@@ -15,9 +15,7 @@ export function app(): express.Express {
 
   const allowedHostsEnv = process.env['NG_ALLOWED_HOSTS'];
   const commonEngine = new CommonEngine({
-    allowedHosts: allowedHostsEnv
-      ? allowedHostsEnv.split(',').map(h => h.trim())
-      : ['localhost'],
+    allowedHosts: allowedHostsEnv ? allowedHostsEnv.split(',').map(h => h.trim()) : ['localhost'],
   });
 
   server.use(compression());
@@ -41,7 +39,7 @@ export function app(): express.Express {
     express.static(browserDistFolder, {
       maxAge: '1y',
       index: 'index.html',
-    })
+    }),
   );
 
   // All regular routes use the Angular engine

@@ -1,4 +1,6 @@
-.services-editor { max-width: 900px; }
+.services-editor {
+  max-width: 900px;
+}
 
 .page-title {
   font-size: 1.5rem;
@@ -7,7 +9,7 @@
   margin-bottom: 2rem;
 
   &::after {
-    content: '';
+    content: "";
     display: block;
     width: 2rem;
     height: 2px;
@@ -65,7 +67,9 @@
   font-size: 0.75rem;
 }
 
-.edit-btn { font-size: 0.75rem; }
+.edit-btn {
+  font-size: 0.75rem;
+}
 
 .field-legend {
   font-size: 0.75rem;
@@ -76,7 +80,8 @@
   display: block;
 }
 
-.includes-section, .offers-section {
+.includes-section,
+.offers-section {
   border: none;
   padding: 0;
   margin: 1rem 0;
@@ -90,7 +95,9 @@
   gap: 0.5rem;
   align-items: center;
 
-  input { flex: 1; }
+  input {
+    flex: 1;
+  }
 }
 
 .offer-row {
@@ -99,9 +106,15 @@
   gap: 0.5rem;
   align-items: center;
 
-  .offer-label { flex: 1; }
-  .offer-price { width: 90px; }
-  .offer-unit { width: 80px; }
+  .offer-label {
+    flex: 1;
+  }
+  .offer-price {
+    width: 90px;
+  }
+  .offer-unit {
+    width: 80px;
+  }
 }
 
 .remove-btn {
@@ -113,7 +126,11 @@
   color: var(--color-gray);
   font-size: 1rem;
   line-height: 1;
-  &:hover { background: var(--color-error); color: white; border-color: var(--color-error); }
+  &:hover {
+    background: var(--color-error);
+    color: white;
+    border-color: var(--color-error);
+  }
 }
 
 .card-actions {
@@ -125,4 +142,7 @@
   border-top: 1px solid var(--color-gray-light);
 }
 
-.btn-sm { padding: 0.35rem 0.75rem; font-size: 0.75rem; }
+.btn-sm {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+}

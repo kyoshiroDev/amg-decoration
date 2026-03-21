@@ -6,15 +6,15 @@
 
 ## Stack technique
 
-| Techno | Usage |
-|--------|-------|
-| Angular 19+ / Nx | Framework + monorepo |
-| `@angular/ssr` | SSR obligatoire |
-| Tailwind CSS v3 + SCSS | Styling |
-| Angular Signals | State UI |
-| RxJS 7+ | Logic async dans les services |
-| TypeScript strict | Pas de `any` |
-| Vitest / Playwright | Tests |
+| Techno                 | Usage                         |
+| ---------------------- | ----------------------------- |
+| Angular 19+ / Nx       | Framework + monorepo          |
+| `@angular/ssr`         | SSR obligatoire               |
+| Tailwind CSS v3 + SCSS | Styling                       |
+| Angular Signals        | State UI                      |
+| RxJS 7+                | Logic async dans les services |
+| TypeScript strict      | Pas de `any`                  |
+| Vitest / Playwright    | Tests                         |
 
 ---
 
@@ -71,11 +71,11 @@ readonly currentProject = computed(() => this.projects()[this.activeSlide()]);
 
 ### NgOptimizedImage — Éviter NG02952
 
-| Situation | Mode |
-|-----------|------|
-| Logo, portrait (ratio fixe connu) | `width`/`height` = ratio **natif** de l'image |
-| Hero plein écran, card à `aspect-ratio` | `fill` |
-| Ratio d'affichage ≠ ratio natif | `fill` |
+| Situation                               | Mode                                          |
+| --------------------------------------- | --------------------------------------------- |
+| Logo, portrait (ratio fixe connu)       | `width`/`height` = ratio **natif** de l'image |
+| Hero plein écran, card à `aspect-ratio` | `fill`                                        |
+| Ratio d'affichage ≠ ratio natif         | `fill`                                        |
 
 ```html
 <!-- fill : le parent ET l'image doivent déclarer le positionnement en CSS (pas inline) -->
@@ -85,7 +85,12 @@ readonly currentProject = computed(() => this.projects()[this.activeSlide()]);
 ```scss
 // OBLIGATOIRE pour toute image fill
 .hero-slider__image {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 ```
 
@@ -96,6 +101,7 @@ readonly currentProject = computed(() => this.projects()[this.activeSlide()]);
 **Fichiers :** `kebab-case.component|service|guard|pipe|directive|model.ts`
 
 **TypeScript :**
+
 - Classes, interfaces, types → `PascalCase`
 - Interfaces sans préfixe `I` (`Project`, pas `IProject`)
 - Variables/méthodes → `camelCase`
@@ -108,6 +114,7 @@ readonly currentProject = computed(() => this.projects()[this.activeSlide()]);
 - Privés (propriétés, services injectés) → préfixe `_`
 
 **SCSS — BEM strict :**
+
 - Block : `.hero-slider`
 - Élément : `.hero-slider__slide`
 - Modificateur : `.hero-slider--paused`, `.hero-slider__button--active`
@@ -151,15 +158,15 @@ Schémas JSON-LD complets → voir `docs/seo-schemas.json`.
 
 ## Pages & Routes
 
-| Route | Composant | Sections principales |
-|-------|-----------|----------------------|
-| `/` | `HomeComponent` | HeroSlider · AboutPreview · MissionsValues · RealisationsPreview · ServicesPreview · Testimonials · Quote · Advantages3D · InstagramFeed · CtaContact |
-| `/prestations` | `ServicesComponent` | 4 ServiceCard · ProcessTimeline (6 étapes) |
-| `/realisations` | `RealisationsComponent` | Grille projets · `@defer` sur images hors viewport |
-| `/a-propos` | `AboutComponent` | Portrait · biographie · certifications |
-| `/contact` | `ContactComponent` | ReactiveForm · states idle/loading/success/error via signal |
-| `/mentions-legales` | `LegalComponent` | — |
-| `/conditions-generales-de-services` | `CgsComponent` | — |
+| Route                               | Composant               | Sections principales                                                                                                                                  |
+| ----------------------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`                                 | `HomeComponent`         | HeroSlider · AboutPreview · MissionsValues · RealisationsPreview · ServicesPreview · Testimonials · Quote · Advantages3D · InstagramFeed · CtaContact |
+| `/prestations`                      | `ServicesComponent`     | 4 ServiceCard · ProcessTimeline (6 étapes)                                                                                                            |
+| `/realisations`                     | `RealisationsComponent` | Grille projets · `@defer` sur images hors viewport                                                                                                    |
+| `/a-propos`                         | `AboutComponent`        | Portrait · biographie · certifications                                                                                                                |
+| `/contact`                          | `ContactComponent`      | ReactiveForm · states idle/loading/success/error via signal                                                                                           |
+| `/mentions-legales`                 | `LegalComponent`        | —                                                                                                                                                     |
+| `/conditions-generales-de-services` | `CgsComponent`          | —                                                                                                                                                     |
 
 Données complètes des pages → voir `docs/pages-content.md`.
 
@@ -221,4 +228,4 @@ Config complète → `vercel.json` à la racine. Variables d'env → settings Ve
 
 ---
 
-*Ressources : [Angular SSR](https://angular.dev/guide/ssr) · [NgOptimizedImage](https://angular.dev/api/common/NgOptimizedImage) · [WCAG 2.1](https://www.w3.org/TR/WCAG21/) · Site original : https://amgdecorationdinterieur.com/*
+_Ressources : [Angular SSR](https://angular.dev/guide/ssr) · [NgOptimizedImage](https://angular.dev/api/common/NgOptimizedImage) · [WCAG 2.1](https://www.w3.org/TR/WCAG21/) · Site original : https://amgdecorationdinterieur.com/_

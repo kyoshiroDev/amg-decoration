@@ -27,7 +27,8 @@ const PROJECTS = [
   {
     identifiant_url: 'salon-moderne-ile-de-france',
     title: 'Salon Moderne — Île-de-France',
-    description: 'Réaménagement complet d\'un salon avec rendu 3D photoréaliste. Canapé modulable, teintes neutres et touches dorées.',
+    description:
+      "Réaménagement complet d'un salon avec rendu 3D photoréaliste. Canapé modulable, teintes neutres et touches dorées.",
     images: ['/assets/images/hero/hero-1.webp'],
     category: 'salon',
     room_type: 'Salon',
@@ -35,7 +36,7 @@ const PROJECTS = [
   {
     identifiant_url: 'terrasse-contemporaine',
     title: 'Terrasse Contemporaine',
-    description: 'Aménagement d\'une terrasse avec mobilier outdoor haut de gamme et végétalisation. Rendu 3D réaliste.',
+    description: "Aménagement d'une terrasse avec mobilier outdoor haut de gamme et végétalisation. Rendu 3D réaliste.",
     images: ['/assets/images/hero/hero-2.webp'],
     category: 'terrasse',
     room_type: 'Terrasse',
@@ -59,7 +60,7 @@ const PROJECTS = [
   {
     identifiant_url: 'salon-haussmannien',
     title: 'Salon Haussmannien Rénové',
-    description: 'Réhabilitation d\'un appartement haussmannien avec respect des moulures et modernisation de l\'espace.',
+    description: "Réhabilitation d'un appartement haussmannien avec respect des moulures et modernisation de l'espace.",
     images: ['/assets/images/hero/hero-5.webp'],
     category: 'salon',
     room_type: 'Salon',
@@ -78,7 +79,8 @@ const SERVICES = [
   {
     title: 'Book Esquisses & Conseils Déco',
     subtitle: 'Pour visualiser votre projet',
-    description: 'Un accompagnement personnalisé avec esquisses dessinées à la main et conseils de décoration adaptés à votre espace et vos envies.',
+    description:
+      'Un accompagnement personnalisé avec esquisses dessinées à la main et conseils de décoration adaptés à votre espace et vos envies.',
     includes: [
       'Consultation à distance (visio ou téléphone)',
       'Analyse de votre espace (plans, photos)',
@@ -87,16 +89,15 @@ const SERVICES = [
       'Moodboard thématique',
       'Récapitulatif PDF complet',
     ],
-    offers: [
-      { id: '1-1', label: 'Forfait unique', price: 480, unit: 'pièce' },
-    ],
+    offers: [{ id: '1-1', label: 'Forfait unique', price: 480, unit: 'pièce' }],
     image: '/assets/images/services/moodboard-chambre.webp',
     order_index: 0,
   },
   {
     title: 'Book Déco 3D',
     subtitle: 'Visualisez avant de décider',
-    description: 'Le service phare d\'AMG. Un rendu 3D photoréaliste de votre pièce pour tout visualiser avant d\'acheter. Économisez temps et argent.',
+    description:
+      "Le service phare d'AMG. Un rendu 3D photoréaliste de votre pièce pour tout visualiser avant d'acheter. Économisez temps et argent.",
     includes: [
       'Modélisation 3D complète de la pièce',
       'Plusieurs vues (perspectives, vues de face)',
@@ -117,7 +118,8 @@ const SERVICES = [
   {
     title: 'Meuble Sur-Mesure 3D',
     subtitle: 'Un meuble unique pour votre espace',
-    description: 'Création d\'un meuble 100% sur-mesure en 3D. Du plan à la réalisation, chaque détail est pensé pour s\'adapter parfaitement à votre espace.',
+    description:
+      "Création d'un meuble 100% sur-mesure en 3D. Du plan à la réalisation, chaque détail est pensé pour s'adapter parfaitement à votre espace.",
     includes: [
       'Analyse des besoins et contraintes',
       'Conception 3D du meuble sur-mesure',
@@ -125,26 +127,23 @@ const SERVICES = [
       'Plans techniques pour artisan',
       'Suivi de réalisation',
     ],
-    offers: [
-      { id: '3-1', label: 'Forfait meuble sur-mesure', price: 400, unit: 'meuble' },
-    ],
+    offers: [{ id: '3-1', label: 'Forfait meuble sur-mesure', price: 400, unit: 'meuble' }],
     image: '/assets/images/services/meuble-sur-mesure.webp',
     order_index: 2,
   },
   {
     title: 'Offre Professionnels',
     subtitle: 'Investisseurs & agents immobiliers',
-    description: 'Solution dédiée aux professionnels de l\'immobilier souhaitant valoriser leurs biens avec des rendus 3D attractifs pour la vente ou la location.',
+    description:
+      "Solution dédiée aux professionnels de l'immobilier souhaitant valoriser leurs biens avec des rendus 3D attractifs pour la vente ou la location.",
     includes: [
-      'Rendu 3D d\'une pièce clé (salon ou chambre)',
+      "Rendu 3D d'une pièce clé (salon ou chambre)",
       'Photos et visuels haute résolution',
       'Délai express sous 5 jours ouvrés',
       'Formats adaptés pour annonces immobilières',
       'Tarif dégressif à partir de 3 biens',
     ],
-    offers: [
-      { id: '4-1', label: 'Offre professionnels', price: 149, unit: 'bien' },
-    ],
+    offers: [{ id: '4-1', label: 'Offre professionnels', price: 149, unit: 'bien' }],
     image: '/assets/images/services/pro-visuel.webp',
     note: 'Tarif dégressif à partir de 3 biens. Contactez-moi pour un devis personnalisé.',
     order_index: 3,
@@ -159,12 +158,12 @@ const AVIS_CLIENTS = [
   },
   {
     name: 'Sébastien T.',
-    text: 'Professionnelle, créative et à l\'écoute. Amandine a su comprendre nos envies et les traduire en un projet cohérent et esthétique. Je recommande vivement !',
+    text: "Professionnelle, créative et à l'écoute. Amandine a su comprendre nos envies et les traduire en un projet cohérent et esthétique. Je recommande vivement !",
     rating: 5,
   },
   {
     name: 'Catherine T.',
-    text: 'Grâce au book 3D, j\'ai pu tout visualiser avant d\'acheter quoi que ce soit. Ça m\'a évité de nombreuses erreurs et économisé beaucoup d\'argent. Merci Amandine !',
+    text: "Grâce au book 3D, j'ai pu tout visualiser avant d'acheter quoi que ce soit. Ça m'a évité de nombreuses erreurs et économisé beaucoup d'argent. Merci Amandine !",
     rating: 5,
   },
 ];

@@ -136,7 +136,9 @@
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
 
-  &:hover { background: var(--color-gray-light); }
+  &:hover {
+    background: var(--color-gray-light);
+  }
 }
 
 .view-site-link {
@@ -146,7 +148,9 @@
   color: var(--color-gold);
   text-decoration: none;
 
-  &:hover { text-decoration: underline; }
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .page-content {

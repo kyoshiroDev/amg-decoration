@@ -19,12 +19,8 @@ export class ProjectsListComponent {
   private readonly refresh$ = new BehaviorSubject<void>(undefined);
 
   readonly projects = toSignal(
-    this.refresh$.pipe(
-      switchMap(() => this.projectsApi.getAll$().pipe(
-        catchError(() => of([] as Project[]))
-      ))
-    ),
-    { initialValue: [] as Project[] }
+    this.refresh$.pipe(switchMap(() => this.projectsApi.getAll$().pipe(catchError(() => of([] as Project[]))))),
+    { initialValue: [] as Project[] },
   );
   readonly confirmDeleteId = signal<string | null>(null);
   readonly deleteError = signal('');

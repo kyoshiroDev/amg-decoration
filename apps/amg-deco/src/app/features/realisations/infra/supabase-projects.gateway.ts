@@ -18,9 +18,7 @@ export class SupabaseProjectsGateway implements ProjectsGateway {
       return this._fallback.getAll();
     }
     return from(
-      this._supabase.from('projects').then(q =>
-        q.select('*').order('created_at', { ascending: false })
-      )
+      this._supabase.from('projects').then(q => q.select('*').order('created_at', { ascending: false })),
     ).pipe(
       map(({ data, error }) => {
         if (error || !data?.length) throw new Error(error?.message ?? 'No data');
@@ -34,7 +32,7 @@ export class SupabaseProjectsGateway implements ProjectsGateway {
           roomType: row['room_type'] as string,
         })) as Project[];
       }),
-      catchError(() => this._fallback.getAll())
+      catchError(() => this._fallback.getAll()),
     );
   }).pipe(shareReplay(1));
 

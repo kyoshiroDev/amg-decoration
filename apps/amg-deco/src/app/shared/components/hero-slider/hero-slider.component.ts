@@ -1,12 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  signal,
-  computed,
-  OnDestroy,
-  afterNextRender,
-  input,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, computed, OnDestroy, afterNextRender, input } from '@angular/core';
 import { NgClass, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 

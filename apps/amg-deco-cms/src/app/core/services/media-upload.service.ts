@@ -15,16 +15,14 @@ export class MediaUploadService {
           this.supabase.storage.from('media').upload(fileName, webpFile, {
             cacheControl: '3600',
             upsert: false,
-          })
+          }),
         );
       }),
       map(({ data, error }) => {
         if (error) throw error;
-        const { data: urlData } = this.supabase.storage
-          .from('media')
-          .getPublicUrl(data.path);
+        const { data: urlData } = this.supabase.storage.from('media').getPublicUrl(data.path);
         return urlData.publicUrl;
-      })
+      }),
     );
   }
 
@@ -42,23 +40,32 @@ export class MediaUploadService {
         const canvas = document.createElement('canvas');
         canvas.width = img.naturalWidth;
         canvas.height = img.naturalHeight;
-        canvas.getContext('2d')!.drawImage(img, 0, 0);
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          observer.error(new Error('Canvas 2D non disponible'));
+          return;
+        }
+        ctx.drawImage(img, 0, 0);
         URL.revokeObjectURL(objectUrl);
 
-        canvas.toBlob(blob => {
-          if (!blob) {
-            observer.error(new Error('Conversion WebP échouée'));
-            return;
-          }
-          const baseName = file.name.replace(/\.[^.]+$/, '');
-          observer.next(new File([blob], `${baseName}.webp`, { type: 'image/webp' }));
-          observer.complete();
-        }, 'image/webp', quality);
+        canvas.toBlob(
+          blob => {
+            if (!blob) {
+              observer.error(new Error('Conversion WebP échouée'));
+              return;
+            }
+            const baseName = file.name.replace(/\.[^.]+$/, '');
+            observer.next(new File([blob], `${baseName}.webp`, { type: 'image/webp' }));
+            observer.complete();
+          },
+          'image/webp',
+          quality,
+        );
       };
 
       img.onerror = () => {
         URL.revokeObjectURL(objectUrl);
-        observer.error(new Error('Impossible de charger l\'image'));
+        observer.error(new Error("Impossible de charger l'image"));
       };
 
       img.src = objectUrl;

@@ -64,7 +64,9 @@
             <td>{{ t.name }}</td>
             <td>
               <span class="stars" aria-label="{{ t.rating }} étoiles sur 5">
-                @for (s of starsArray(t.rating); track $index) { ★ }
+                @for (s of starsArray(t.rating); track $index) {
+                  ★
+                }
               </span>
             </td>
             <td class="text-cell">{{ t.text }}</td>
@@ -74,7 +76,9 @@
             </td>
           </tr>
         } @empty {
-          <tr><td colspan="4" class="empty-state">Aucun avis client.</td></tr>
+          <tr>
+            <td colspan="4" class="empty-state">Aucun avis client.</td>
+          </tr>
         }
       </tbody>
     </table>
@@ -85,7 +89,7 @@
       title="Supprimer l'avis client"
       message="Cette action est irréversible."
       (confirm)="confirmDelete()"
-      (cancel)="cancelDelete()"
+      (dialogCancel)="cancelDelete()"
     />
   }
 </div>

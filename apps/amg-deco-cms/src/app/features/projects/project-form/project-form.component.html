@@ -44,19 +44,14 @@
 
       <div class="form-group">
         <label for="roomType">Type de pièce <span aria-hidden="true">*</span></label>
-        <input
-          id="roomType"
-          type="text"
-          formControlName="roomType"
-          placeholder="Ex: Salon, Chambre, Terrasse..."
-        />
+        <input id="roomType" type="text" formControlName="roomType" placeholder="Ex: Salon, Chambre, Terrasse..." />
       </div>
     </div>
 
     <!-- Images existantes -->
     @if (existingImages().length) {
       <div class="form-group">
-        <label>Images actuelles</label>
+        <p class="form-label">Images actuelles</p>
         <div class="existing-images">
           @for (img of existingImages(); track img) {
             <div class="existing-img-wrap">
@@ -66,7 +61,9 @@
                 class="remove-img-btn"
                 (click)="removeExistingImage(img)"
                 aria-label="Retirer cette image"
-              >×</button>
+              >
+                ×
+              </button>
             </div>
           }
         </div>
@@ -75,21 +72,13 @@
 
     <!-- Upload nouvelles images -->
     <div class="form-group">
-      <label>Ajouter des images</label>
-      <cms-image-uploader
-        label="Glisser des images ici"
-        [multiple]="true"
-        (filesSelected)="onFilesSelected($event)"
-      />
+      <p class="form-label">Ajouter des images</p>
+      <cms-image-uploader label="Glisser des images ici" [multiple]="true" (filesSelected)="onFilesSelected($event)" />
     </div>
 
     <div class="form-actions">
       <a routerLink="/projets" class="btn btn-outline">Annuler</a>
-      <button
-        type="submit"
-        class="btn btn-gold"
-        [disabled]="state() === 'loading'"
-      >
+      <button type="submit" class="btn btn-gold" [disabled]="state() === 'loading'">
         {{ state() === 'loading' ? 'Sauvegarde…' : 'Sauvegarder' }}
       </button>
     </div>

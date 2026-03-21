@@ -48,9 +48,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   readonly isMenuOpen = signal(false);
   readonly isScrolled = signal(false);
 
-  readonly menuAriaLabel = computed(() =>
-    this.isMenuOpen() ? 'Fermer le menu' : 'Ouvrir le menu'
-  );
+  readonly menuAriaLabel = computed(() => (this.isMenuOpen() ? 'Fermer le menu' : 'Ouvrir le menu'));
 
   readonly navLinks: NavLink[] = [
     { path: '/', label: 'Accueil' },
@@ -67,10 +65,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._router.events.pipe(
-      filter(e => e instanceof NavigationEnd),
-      takeUntilDestroyed(this._destroyRef)
-    ).subscribe(() => this.closeMenu());
+    this._router.events
+      .pipe(
+        filter(e => e instanceof NavigationEnd),
+        takeUntilDestroyed(this._destroyRef),
+      )
+      .subscribe(() => this.closeMenu());
   }
 
   ngOnDestroy(): void {

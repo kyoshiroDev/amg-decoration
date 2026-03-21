@@ -32,7 +32,7 @@ export class LoginComponent {
     this.state.set('loading');
     const { email, password } = this.form.getRawValue();
 
-    this.auth.login$(email!, password!).subscribe({
+    this.auth.login$(email ?? '', password ?? '').subscribe({
       next: () => this.router.navigate(['/']),
       error: (err: Error) => {
         this.state.set('error');
@@ -41,6 +41,10 @@ export class LoginComponent {
     });
   }
 
-  get emailCtrl() { return this.form.get('email')!; }
-  get passwordCtrl() { return this.form.get('password')!; }
+  get emailCtrl() {
+    return this.form.controls['email'];
+  }
+  get passwordCtrl() {
+    return this.form.controls['password'];
+  }
 }

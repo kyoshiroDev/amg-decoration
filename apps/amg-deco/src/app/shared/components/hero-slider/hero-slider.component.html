@@ -19,14 +19,7 @@
         [attr.aria-hidden]="i !== activeSlide()"
         [ngClass]="{ 'hero-slider__slide--active': i === activeSlide() }"
       >
-        <img
-          [ngSrc]="slide.src"
-          [alt]="slide.alt"
-          class="hero-slider__image"
-          [priority]="i === 0"
-          fill
-          sizes="100vw"
-        />
+        <img [ngSrc]="slide.src" [alt]="slide.alt" class="hero-slider__image" [priority]="i === 0" fill sizes="100vw" />
         <!-- Overlay gradient -->
         <div class="hero-slider__overlay" aria-hidden="true"></div>
       </div>
@@ -42,13 +35,11 @@
         <em>en 3D, avant les travaux</em>
       </h1>
       <p class="hero-slider__subtitle">
-        Visualisez votre futur intérieur avec un rendu 3D photoréaliste.
-        Économisez du temps, de l'argent et évitez les mauvaises surprises.
+        Visualisez votre futur intérieur avec un rendu 3D photoréaliste. Économisez du temps, de l'argent et évitez les
+        mauvaises surprises.
       </p>
       <div class="hero-slider__actions">
-        <a routerLink="/prestations" class="btn-primary">
-          Découvrir les prestations
-        </a>
+        <a routerLink="/prestations" class="btn-primary"> Découvrir les prestations </a>
         <a routerLink="/contact" class="btn-outline text-white border-white hover:bg-white hover:text-amg-dark">
           Prendre rendez-vous
         </a>
@@ -66,7 +57,13 @@
       aria-label="Visuel précédent"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-        <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path
+          d="M15 18l-6-6 6-6"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
     </button>
 
@@ -78,7 +75,7 @@
       aria-label="Visuel suivant"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-        <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </button>
 

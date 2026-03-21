@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
+import { type ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_AUTH_OPTIONS } from '@amg/data-access';
@@ -12,6 +12,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     { provide: SUPABASE_URL, useValue: environment.supabaseUrl },
     { provide: SUPABASE_ANON_KEY, useValue: environment.supabaseAnonKey },
-    { provide: SUPABASE_AUTH_OPTIONS, useValue: { detectSessionInUrl: false, persistSession: true, autoRefreshToken: true } },
+    {
+      provide: SUPABASE_AUTH_OPTIONS,
+      useValue: { detectSessionInUrl: false, persistSession: true, autoRefreshToken: true },
+    },
   ],
 };

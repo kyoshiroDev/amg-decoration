@@ -12,23 +12,27 @@ export class AvisClientApiService {
       map(({ data, error }) => {
         if (error) throw error;
         return (data ?? []).map(this.mapRow);
-      })
+      }),
     );
   }
 
   create$(t: Omit<AvisClient, 'id'>): Observable<AvisClient> {
     return from(
-      this.supabase.from('avis_client').insert({
-        name: t.name,
-        text: t.text,
-        rating: t.rating,
-        avatar_url: t.avatar_url ?? null,
-      }).select().single()
+      this.supabase
+        .from('avis_client')
+        .insert({
+          name: t.name,
+          text: t.text,
+          rating: t.rating,
+          avatar_url: t.avatar_url ?? null,
+        })
+        .select()
+        .single(),
     ).pipe(
       map(({ data, error }) => {
         if (error) throw error;
         return this.mapRow(data);
-      })
+      }),
     );
   }
 
@@ -39,20 +43,20 @@ export class AvisClientApiService {
     if (t.rating !== undefined) patch['rating'] = t.rating;
     if (t.avatar_url !== undefined) patch['avatar_url'] = t.avatar_url;
 
-    return from(
-      this.supabase.from('avis_client').update(patch).eq('id', id).select().single()
-    ).pipe(
+    return from(this.supabase.from('avis_client').update(patch).eq('id', id).select().single()).pipe(
       map(({ data, error }) => {
         if (error) throw error;
         return this.mapRow(data);
-      })
+      }),
     );
   }
 
   delete$(id: string): Observable<void> {
-    return from(
-      this.supabase.from('avis_client').delete().eq('id', id)
-    ).pipe(map(({ error }) => { if (error) throw error; }));
+    return from(this.supabase.from('avis_client').delete().eq('id', id)).pipe(
+      map(({ error }) => {
+        if (error) throw error;
+      }),
+    );
   }
 
   private mapRow(row: Record<string, unknown>): AvisClient {

@@ -9,7 +9,8 @@ const PROJECTS_FALLBACK: Project[] = [
     id: '1',
     slug: 'salon-moderne-ile-de-france',
     title: 'Salon Moderne — Île-de-France',
-    description: "Réaménagement complet d'un salon avec rendu 3D photoréaliste. Canapé modulable, teintes neutres et touches dorées.",
+    description:
+      "Réaménagement complet d'un salon avec rendu 3D photoréaliste. Canapé modulable, teintes neutres et touches dorées.",
     images: ['/assets/images/hero/hero-1.webp'],
     category: 'salon',
     roomType: 'Salon',
@@ -54,7 +55,7 @@ const PROJECTS_FALLBACK: Project[] = [
     id: '6',
     slug: 'bureau-creatif',
     title: 'Bureau Créatif',
-    description: "Espace de travail optimisé pour la créativité avec rangements malins et ambiance inspirante.",
+    description: 'Espace de travail optimisé pour la créativité avec rangements malins et ambiance inspirante.',
     images: ['/assets/images/hero/hero-6.webp'],
     category: 'bureau',
     roomType: 'Bureau',

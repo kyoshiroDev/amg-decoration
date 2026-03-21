@@ -17,9 +17,7 @@ export class SupabaseAvisClientGateway implements AvisClientGateway {
     if (!isPlatformBrowser(this._platformId)) {
       return this._fallback.getAll();
     }
-    return from(
-      this._supabase.from('avis_client').then(q => q.select('*'))
-    ).pipe(
+    return from(this._supabase.from('avis_client').then(q => q.select('*'))).pipe(
       map(({ data, error }) => {
         if (error || !data?.length) throw new Error(error?.message ?? 'No data');
         return (data as Record<string, unknown>[]).map(row => ({
@@ -31,7 +29,7 @@ export class SupabaseAvisClientGateway implements AvisClientGateway {
           avatar_url: (row['avatar_url'] as string | undefined) ?? undefined,
         })) as AvisClient[];
       }),
-      catchError(() => this._fallback.getAll())
+      catchError(() => this._fallback.getAll()),
     );
   }).pipe(shareReplay(1));
 

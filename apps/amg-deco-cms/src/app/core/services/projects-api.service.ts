@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { map, catchError, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { SupabaseService, Project } from '@amg/data-access';
 import { MediaUploadService } from './media-upload.service';
 
@@ -10,24 +10,20 @@ export class ProjectsApiService {
   private readonly mediaUpload = inject(MediaUploadService);
 
   getAll$(): Observable<Project[]> {
-    return from(
-      this.supabase.from('projects').select('*').order('created_at', { ascending: false })
-    ).pipe(
+    return from(this.supabase.from('projects').select('*').order('created_at', { ascending: false })).pipe(
       map(({ data, error }) => {
         if (error) throw error;
         return (data ?? []).map(this.mapRow);
-      })
+      }),
     );
   }
 
   getById$(id: string): Observable<Project> {
-    return from(
-      this.supabase.from('projects').select('*').eq('id', id).single()
-    ).pipe(
+    return from(this.supabase.from('projects').select('*').eq('id', id).single()).pipe(
       map(({ data, error }) => {
         if (error) throw error;
         return this.mapRow(data);
-      })
+      }),
     );
   }
 
@@ -40,19 +36,23 @@ export class ProjectsApiService {
       switchMap(uploadedUrls => {
         const images = [...(project.images ?? []), ...uploadedUrls];
         return from(
-          this.supabase.from('projects').insert({
-            title: project.title,
-            description: project.description,
-            images,
-            category: project.category,
-            room_type: project.roomType,
-          }).select().single()
+          this.supabase
+            .from('projects')
+            .insert({
+              title: project.title,
+              description: project.description,
+              images,
+              category: project.category,
+              room_type: project.roomType,
+            })
+            .select()
+            .single(),
         );
       }),
       map(({ data, error }) => {
         if (error) throw error;
         return this.mapRow(data);
-      })
+      }),
     );
   }
 
@@ -71,24 +71,20 @@ export class ProjectsApiService {
         if (project.images !== undefined || uploadedUrls.length) {
           patch['images'] = [...(project.images ?? []), ...uploadedUrls];
         }
-        return from(
-          this.supabase.from('projects').update(patch).eq('id', id).select().single()
-        );
+        return from(this.supabase.from('projects').update(patch).eq('id', id).select().single());
       }),
       map(({ data, error }) => {
         if (error) throw error;
         return this.mapRow(data);
-      })
+      }),
     );
   }
 
   delete$(id: string): Observable<void> {
-    return from(
-      this.supabase.from('projects').delete().eq('id', id)
-    ).pipe(
+    return from(this.supabase.from('projects').delete().eq('id', id)).pipe(
       map(({ error }) => {
         if (error) throw error;
-      })
+      }),
     );
   }
 

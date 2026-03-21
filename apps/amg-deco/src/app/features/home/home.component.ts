@@ -1,9 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  inject,
-  OnInit,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
@@ -36,16 +31,16 @@ export class HomeComponent implements OnInit {
 
   readonly activeAvisClient = signal(0);
 
-  readonly currentAvisClient = computed(
-    () => this.avisClients()[this.activeAvisClient()]
-  );
+  readonly currentAvisClient = computed(() => this.avisClients()[this.activeAvisClient()]);
 
-  readonly currentAvisStars = computed(() =>
-    Array(this.currentAvisClient()?.rating ?? 0).fill(0)
-  );
+  readonly currentAvisStars = computed(() => Array(this.currentAvisClient()?.rating ?? 0).fill(0));
 
   readonly heroSlides: SlideItem[] = [
-    { id: '1', src: '/assets/images/hero/hero-1.webp', alt: "Salon moderne aménagé en 3D par AMG Décoration d'Intérieur" },
+    {
+      id: '1',
+      src: '/assets/images/hero/hero-1.webp',
+      alt: "Salon moderne aménagé en 3D par AMG Décoration d'Intérieur",
+    },
     { id: '2', src: '/assets/images/hero/hero-2.webp', alt: 'Terrasse contemporaine aménagée en 3D' },
     { id: '3', src: '/assets/images/hero/hero-3.webp', alt: 'Terrasse moderne avec pergola bioclimatique' },
     { id: '4', src: '/assets/images/hero/hero-4.webp', alt: 'Chambre parentale cosy avec tête de lit sur-mesure' },
@@ -110,8 +105,6 @@ export class HomeComponent implements OnInit {
   }
 
   previousAvisClient(): void {
-    this.activeAvisClient.update(
-      i => (i - 1 + this.avisClients().length) % this.avisClients().length
-    );
+    this.activeAvisClient.update(i => (i - 1 + this.avisClients().length) % this.avisClients().length);
   }
 }

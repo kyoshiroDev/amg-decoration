@@ -25,9 +25,7 @@
           [attr.aria-describedby]="emailCtrl.invalid && emailCtrl.touched ? 'email-error' : null"
         />
         @if (emailCtrl.invalid && emailCtrl.touched) {
-          <span class="error-msg" id="email-error" role="alert">
-            Adresse email invalide
-          </span>
+          <span class="error-msg" id="email-error" role="alert"> Adresse email invalide </span>
         }
       </div>
 
@@ -43,9 +41,7 @@
           [attr.aria-describedby]="passwordCtrl.invalid && passwordCtrl.touched ? 'password-error' : null"
         />
         @if (passwordCtrl.invalid && passwordCtrl.touched) {
-          <span class="error-msg" id="password-error" role="alert">
-            Mot de passe requis (6 caractères minimum)
-          </span>
+          <span class="error-msg" id="password-error" role="alert"> Mot de passe requis (6 caractères minimum) </span>
         }
       </div>
 

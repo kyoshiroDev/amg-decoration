@@ -1,4 +1,6 @@
-.dashboard { max-width: 900px; }
+.dashboard {
+  max-width: 900px;
+}
 
 .page-title {
   font-size: 1.5rem;
@@ -8,7 +10,7 @@
   color: var(--color-dark);
 
   &::after {
-    content: '';
+    content: "";
     display: block;
     width: 2rem;
     height: 2px;
@@ -55,7 +57,9 @@
     color: var(--color-gold);
     text-decoration: none;
     margin-top: 0.5rem;
-    &:hover { text-decoration: underline; }
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 

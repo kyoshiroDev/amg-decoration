@@ -29,20 +29,24 @@ export class ServicesEditorComponent {
       description: [service.description, Validators.required],
       note: [service.note ?? ''],
       includes: this.fb.array(
-        service.includes.map(inc => this.fb.group({
-          id: [inc.id],
-          text: [inc.text, Validators.required],
-          order_index: [inc.order_index],
-        }))
+        service.includes.map(inc =>
+          this.fb.group({
+            id: [inc.id],
+            text: [inc.text, Validators.required],
+            order_index: [inc.order_index],
+          }),
+        ),
       ),
       prices: this.fb.array(
-        service.prices.map(price => this.fb.group({
-          id: [price.id],
-          label: [price.label, Validators.required],
-          price: [price.price, [Validators.required, Validators.min(0)]],
-          unit: [price.unit ?? ''],
-          order_index: [price.order_index],
-        }))
+        service.prices.map(price =>
+          this.fb.group({
+            id: [price.id],
+            label: [price.label, Validators.required],
+            price: [price.price, [Validators.required, Validators.min(0)]],
+            unit: [price.unit ?? ''],
+            order_index: [price.order_index],
+          }),
+        ),
       ),
     });
   }
@@ -71,7 +75,7 @@ export class ServicesEditorComponent {
         id: [`inc-${Date.now()}`],
         text: ['', Validators.required],
         order_index: [this.getIncludesArray().length],
-      })
+      }),
     );
   }
 
@@ -87,7 +91,7 @@ export class ServicesEditorComponent {
         price: [0, [Validators.required, Validators.min(0)]],
         unit: [''],
         order_index: [this.getPricesArray().length],
-      })
+      }),
     );
   }
 
@@ -110,11 +114,22 @@ export class ServicesEditorComponent {
       subtitle: raw.subtitle || undefined,
       description: raw.description ?? '',
       note: raw.note || undefined,
-      includes: (raw.includes as Array<{ id: string; text: string; order_index: number }>).map(
-        (inc, i) => ({ id: inc.id, service_id: id, text: inc.text, order_index: i })
-      ),
-      prices: (raw.prices as Array<{ id: string; label: string; price: number; unit: string; order_index: number }>).map(
-        (p, i) => ({ id: p.id, service_id: id, label: p.label, price: p.price, unit: p.unit || undefined, order_index: i } as ServicePrice)
+      includes: (raw.includes as { id: string; text: string; order_index: number }[]).map((inc, i) => ({
+        id: inc.id,
+        service_id: id,
+        text: inc.text,
+        order_index: i,
+      })),
+      prices: (raw.prices as { id: string; label: string; price: number; unit: string; order_index: number }[]).map(
+        (p, i) =>
+          ({
+            id: p.id,
+            service_id: id,
+            label: p.label,
+            price: p.price,
+            unit: p.unit || undefined,
+            order_index: i,
+          }) as ServicePrice,
       ),
     };
 

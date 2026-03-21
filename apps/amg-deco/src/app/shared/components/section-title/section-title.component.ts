@@ -15,58 +15,68 @@ import { Component, ChangeDetectionStrategy, input, computed } from '@angular/co
       }
     </div>
   `,
-  styles: [`
-    .section-title { margin-bottom: 3rem; }
-    .section-title--center { text-align: center; }
-    .section-title--left { text-align: left; }
-    .section-title--right { text-align: right; }
+  styles: [
+    `
+      .section-title {
+        margin-bottom: 3rem;
+      }
+      .section-title--center {
+        text-align: center;
+      }
+      .section-title--left {
+        text-align: left;
+      }
+      .section-title--right {
+        text-align: right;
+      }
 
-    .section-title__eyebrow {
-      font-family: var(--font-body);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--color-gold-accessible);
-      margin-bottom: 0.75rem;
-    }
+      .section-title__eyebrow {
+        font-family: var(--font-body);
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--color-gold-accessible);
+        margin-bottom: 0.75rem;
+      }
 
-    .section-title__heading {
-      font-family: var(--font-heading);
-      font-size: clamp(1.75rem, 3vw, 2.75rem);
-      font-weight: 700;
-      color: var(--color-dark);
-      line-height: 1.2;
-      margin-bottom: 0;
-    }
+      .section-title__heading {
+        font-family: var(--font-heading);
+        font-size: clamp(1.75rem, 3vw, 2.75rem);
+        font-weight: 700;
+        color: var(--color-dark);
+        line-height: 1.2;
+        margin-bottom: 0;
+      }
 
-    .section-title__subtitle {
-      font-family: var(--font-body);
-      font-size: 1.05rem;
-      line-height: 1.7;
-      color: var(--color-gray);
-      max-width: 680px;
-      margin-top: 1rem;
-    }
+      .section-title__subtitle {
+        font-family: var(--font-body);
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: var(--color-gray);
+        max-width: 680px;
+        margin-top: 1rem;
+      }
 
-    .section-title--center .section-title__subtitle {
-      margin-left: auto;
-      margin-right: auto;
-    }
+      .section-title--center .section-title__subtitle {
+        margin-left: auto;
+        margin-right: auto;
+      }
 
-    /* Variante fond sombre */
-    .section-title--on-dark .section-title__eyebrow {
-      color: var(--color-gold);
-    }
+      /* Variante fond sombre */
+      .section-title--on-dark .section-title__eyebrow {
+        color: var(--color-gold);
+      }
 
-    .section-title--on-dark .section-title__heading {
-      color: var(--color-white);
-    }
+      .section-title--on-dark .section-title__heading {
+        color: var(--color-white);
+      }
 
-    .section-title--on-dark .section-title__subtitle {
-      color: rgba(255, 255, 255, 0.85);
-    }
-  `],
+      .section-title--on-dark .section-title__subtitle {
+        color: rgba(255, 255, 255, 0.85);
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionTitleComponent {
@@ -82,7 +92,5 @@ export class SectionTitleComponent {
     return classes.join(' ');
   });
 
-  readonly dividerClass = computed(() =>
-    this.align() === 'left' ? 'divider-gold mx-0' : 'divider-gold'
-  );
+  readonly dividerClass = computed(() => (this.align() === 'left' ? 'divider-gold mx-0' : 'divider-gold'));
 }

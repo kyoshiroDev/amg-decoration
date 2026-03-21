@@ -24,7 +24,7 @@ export class DashboardComponent {
       services: this.servicesApi.getAll$().pipe(map(s => s.length)),
       avisClients: this.avisClientApi.getAll$().pipe(map(t => t.length)),
     }),
-    { initialValue: { projects: 0, services: 0, avisClients: 0 } }
+    { initialValue: { projects: 0, services: 0, avisClients: 0 } },
   );
 
   readonly shortcuts = [

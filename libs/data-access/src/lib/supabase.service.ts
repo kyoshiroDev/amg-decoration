@@ -10,10 +10,9 @@ export interface SupabaseAuthOptions {
 
 /** Surcharger dans app.config.ts selon le besoin auth de l'app.
  *  Par défaut : pas de session (vitrine publique). Le CMS override avec persistSession: true. */
-export const SUPABASE_AUTH_OPTIONS = new InjectionToken<SupabaseAuthOptions>(
-  'SUPABASE_AUTH_OPTIONS',
-  { factory: () => ({ detectSessionInUrl: false, persistSession: false, autoRefreshToken: false }) }
-);
+export const SUPABASE_AUTH_OPTIONS = new InjectionToken<SupabaseAuthOptions>('SUPABASE_AUTH_OPTIONS', {
+  factory: () => ({ detectSessionInUrl: false, persistSession: false, autoRefreshToken: false }),
+});
 
 export const SUPABASE_URL = new InjectionToken<string>('SUPABASE_URL');
 export const SUPABASE_ANON_KEY = new InjectionToken<string>('SUPABASE_ANON_KEY');

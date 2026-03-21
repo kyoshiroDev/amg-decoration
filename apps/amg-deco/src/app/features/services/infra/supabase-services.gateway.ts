@@ -20,15 +20,17 @@ export class SupabaseServicesGateway implements ServicesGateway {
     return from(
       this._supabase.from('services').then(q =>
         q
-          .select(`
+          .select(
+            `
             *,
             includes:service_includes(id, service_id, text, order_index),
             prices:service_prices(id, service_id, label, price, unit, order_index)
-          `)
+          `,
+          )
           .order('order_index')
           .order('order_index', { referencedTable: 'service_includes' })
-          .order('order_index', { referencedTable: 'service_prices' })
-      )
+          .order('order_index', { referencedTable: 'service_prices' }),
+      ),
     ).pipe(
       map(({ data, error }) => {
         if (error || !data?.length) throw new Error(error?.message ?? 'No data');
@@ -37,14 +39,14 @@ export class SupabaseServicesGateway implements ServicesGateway {
           title: row['title'] as string,
           subtitle: (row['subtitle'] as string | undefined) ?? undefined,
           description: row['description'] as string,
-          includes: ((row['includes'] as ServiceInclude[]) ?? []),
-          prices: ((row['prices'] as ServicePrice[]) ?? []),
+          includes: (row['includes'] as ServiceInclude[]) ?? [],
+          prices: (row['prices'] as ServicePrice[]) ?? [],
           image: (row['image'] as string | undefined) ?? undefined,
           note: (row['note'] as string | undefined) ?? undefined,
           order_index: row['order_index'] as number,
         })) as Service[];
       }),
-      catchError(() => this._fallback.getAll())
+      catchError(() => this._fallback.getAll()),
     );
   }).pipe(shareReplay(1));
 

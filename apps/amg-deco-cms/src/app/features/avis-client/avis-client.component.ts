@@ -20,12 +20,8 @@ export class AvisClientComponent {
   private readonly refresh$ = new BehaviorSubject<void>(undefined);
 
   readonly avisClients = toSignal(
-    this.refresh$.pipe(
-      switchMap(() => this.avisClientApi.getAll$().pipe(
-        catchError(err => { console.error('[AvisClient]', err); return of([] as AvisClient[]); })
-      ))
-    ),
-    { initialValue: [] as AvisClient[] }
+    this.refresh$.pipe(switchMap(() => this.avisClientApi.getAll$().pipe(catchError(() => of([] as AvisClient[]))))),
+    { initialValue: [] as AvisClient[] },
   );
   readonly isAdding = signal(false);
   readonly editingId = signal<string | null>(null);
@@ -73,16 +69,15 @@ export class AvisClientComponent {
     this.state.set('loading');
     const raw = this.form.getRawValue();
     const data = {
-      name: raw.name!,
-      text: raw.text!,
-      rating: raw.rating!,
+      name: raw.name ?? '',
+      text: raw.text ?? '',
+      rating: raw.rating ?? 0,
       avatar: undefined,
       avatar_url: raw.avatar_url || undefined,
     };
 
-    const action$ = this.editingId()
-      ? this.avisClientApi.update$(this.editingId()!, data)
-      : this.avisClientApi.create$(data);
+    const editingId = this.editingId();
+    const action$ = editingId ? this.avisClientApi.update$(editingId, data) : this.avisClientApi.create$(data);
 
     action$.subscribe({
       next: () => {

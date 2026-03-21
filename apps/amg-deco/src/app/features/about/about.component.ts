@@ -14,8 +14,8 @@ export class AboutComponent implements OnInit {
   private readonly _seo = inject(SeoService);
 
   readonly certifications = [
-    'Certifiée MJM Design Graphic — École d\'Art et de Design, Paris',
-    'Formation 3D Architecture & Design d\'Intérieur',
+    "Certifiée MJM Design Graphic — École d'Art et de Design, Paris",
+    "Formation 3D Architecture & Design d'Intérieur",
     'Maîtrise des logiciels : SketchUp, 3ds Max, Blender, Photoshop',
     'Expérience en région parisienne et projets France entière',
   ];

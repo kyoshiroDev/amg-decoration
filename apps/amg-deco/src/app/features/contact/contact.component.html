@@ -9,13 +9,12 @@
 <section class="section-padding" aria-label="Formulaire de contact et informations">
   <div class="container-amg">
     <div class="contact__grid">
-
       <!-- Infos contact -->
       <div class="contact__info">
         <h2 class="contact__info-title">Prenons contact</h2>
         <p class="contact__info-text">
-          Vous avez un projet de décoration ? Une question sur mes prestations ?
-          Je vous répondrai dans les <strong>48 heures ouvrées</strong>.
+          Vous avez un projet de décoration ? Une question sur mes prestations ? Je vous répondrai dans les
+          <strong>48 heures ouvrées</strong>.
         </p>
 
         <address class="contact__details">
@@ -45,9 +44,27 @@
         <div class="contact__social">
           <p class="contact__social-title">Me suivre</p>
           <div class="contact__social-links">
-            <a href="https://www.instagram.com/amgdecorationdinterieur/" target="_blank" rel="noopener noreferrer" class="contact__social-link">Instagram</a>
-            <a href="https://www.behance.net/amandinegaury" target="_blank" rel="noopener noreferrer" class="contact__social-link">Behance</a>
-            <a href="https://www.linkedin.com/in/amandine-gaury-97a263193/" target="_blank" rel="noopener noreferrer" class="contact__social-link">LinkedIn</a>
+            <a
+              href="https://www.instagram.com/amgdecorationdinterieur/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact__social-link"
+              >Instagram</a
+            >
+            <a
+              href="https://www.behance.net/amandinegaury"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact__social-link"
+              >Behance</a
+            >
+            <a
+              href="https://www.linkedin.com/in/amandine-gaury-97a263193/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact__social-link"
+              >LinkedIn</a
+            >
           </div>
         </div>
       </div>
@@ -71,9 +88,7 @@
           >
             <!-- Nom -->
             <div class="form-field">
-              <label for="name" class="form-label">
-                Nom complet <span aria-label="obligatoire">*</span>
-              </label>
+              <label for="name" class="form-label"> Nom complet <span aria-label="obligatoire">*</span> </label>
               <input
                 type="text"
                 id="name"
@@ -95,9 +110,7 @@
 
             <!-- Email -->
             <div class="form-field">
-              <label for="email" class="form-label">
-                Email <span aria-label="obligatoire">*</span>
-              </label>
+              <label for="email" class="form-label"> Email <span aria-label="obligatoire">*</span> </label>
               <input
                 type="email"
                 id="email"
@@ -133,9 +146,7 @@
 
             <!-- Message -->
             <div class="form-field">
-              <label for="message" class="form-label">
-                Votre message <span aria-label="obligatoire">*</span>
-              </label>
+              <label for="message" class="form-label"> Votre message <span aria-label="obligatoire">*</span> </label>
               <textarea
                 id="message"
                 name="message"
@@ -150,7 +161,9 @@
               @if (messageState().requiredError) {
                 <p id="message-error" class="form-error" role="alert">Le message est obligatoire.</p>
               } @else if (messageState().minlengthError) {
-                <p id="message-error" class="form-error" role="alert">Le message doit contenir au moins 10 caractères.</p>
+                <p id="message-error" class="form-error" role="alert">
+                  Le message doit contenir au moins 10 caractères.
+                </p>
               }
             </div>
 
@@ -167,8 +180,7 @@
                   [attr.aria-invalid]="gdprState().invalid"
                 />
                 <label for="gdpr" class="form-checkbox-label">
-                  J'accepte que mes données soient utilisées pour traiter ma demande de contact,
-                  conformément à la
+                  J'accepte que mes données soient utilisées pour traiter ma demande de contact, conformément à la
                   <a href="/mentions-legales" class="form-link">politique de confidentialité</a>.
                   <span aria-label="obligatoire">*</span>
                 </label>

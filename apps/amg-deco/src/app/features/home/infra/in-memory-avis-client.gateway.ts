@@ -8,7 +8,7 @@ const AVIS_CLIENT_FALLBACK: AvisClient[] = [
   {
     id: '1',
     name: 'Patrick V.',
-    text: "Amandine a complètement transformé notre salon. Le rendu 3D était tellement précis que nous avons pu visualiser le résultat final avant même de commencer les travaux. Un travail exceptionnel !",
+    text: 'Amandine a complètement transformé notre salon. Le rendu 3D était tellement précis que nous avons pu visualiser le résultat final avant même de commencer les travaux. Un travail exceptionnel !',
     rating: 5,
     avatar: undefined,
     avatar_url: undefined,
