@@ -11,8 +11,8 @@ import { ContactForm } from '@amg/data-access';
  */
 @Injectable({ providedIn: 'root' })
 export class ContactService {
-  private readonly http = inject(HttpClient);
-  private readonly apiUrl = '/api';
+  private readonly _http = inject(HttpClient);
+  private readonly _apiUrl = '/api';
 
   /**
    * Soumet le formulaire de contact.
@@ -20,12 +20,9 @@ export class ContactService {
    * @returns Observable<void> - Complète ou erreur
    */
   submitContact$(form: ContactForm): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/contact`, form).pipe(
+    return this._http.post<void>(`${this._apiUrl}/contact`, form).pipe(
       retry({ count: 2, delay: 1000 }),
-      catchError(err => {
-        console.error('[ContactService] submitContact$ error:', err);
-        return throwError(() => new Error("Erreur lors de l'envoi du message."));
-      })
+      catchError(() => throwError(() => new Error("Erreur lors de l'envoi du message."))),
     );
   }
 }

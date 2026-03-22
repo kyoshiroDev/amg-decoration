@@ -81,16 +81,18 @@ export class ProjectFormComponent implements OnInit {
     this.state.set('loading');
     const raw = this.form.getRawValue();
     const projectData = {
-      title: raw.title!,
-      description: raw.description!,
+      title: raw.title ?? '',
+      description: raw.description ?? '',
       category: raw.category as ProjectCategory,
-      roomType: raw.roomType!,
+      roomType: raw.roomType ?? '',
       images: this.existingImages(),
     };
 
-    const action$ = this.isEdit()
-      ? this.projectsApi.update$(this.projectId()!, projectData, this.newImageFiles())
-      : this.projectsApi.create$(projectData, this.newImageFiles());
+    const projectId = this.projectId();
+    const action$ =
+      this.isEdit() && projectId
+        ? this.projectsApi.update$(projectId, projectData, this.newImageFiles())
+        : this.projectsApi.create$(projectData, this.newImageFiles());
 
     action$.subscribe({
       next: () => {

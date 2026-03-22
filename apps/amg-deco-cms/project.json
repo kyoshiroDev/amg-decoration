@@ -1,0 +1,77 @@
+{
+  "name": "amg-deco-cms",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "amg",
+  "sourceRoot": "apps/amg-deco-cms/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/amg-deco-cms",
+        "index": "apps/amg-deco-cms/src/index.html",
+        "browser": "apps/amg-deco-cms/src/main.ts",
+        "polyfills": [],
+        "tsConfig": "apps/amg-deco-cms/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/amg-deco-cms/src/assets",
+            "output": "assets"
+          },
+          {
+            "glob": "favicon.ico",
+            "input": "apps/amg-deco-cms/src",
+            "output": ""
+          }
+        ],
+        "styles": ["apps/amg-deco-cms/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "1mb",
+              "maximumError": "2mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "8kb",
+              "maximumError": "16kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "amg-deco-cms:build:production"
+        },
+        "development": {
+          "buildTarget": "amg-deco-cms:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/amg-deco-cms/**/*.ts", "apps/amg-deco-cms/**/*.html"]
+      }
+    }
+  }
+}

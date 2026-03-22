@@ -3,7 +3,7 @@
   width: 100%;
 }
 
-.testimonials-page {
+.avis-client-page {
   max-width: 900px;
   width: 100%;
   margin: 0 auto;
@@ -22,7 +22,7 @@
   text-transform: uppercase;
 
   &::after {
-    content: '';
+    content: "";
     display: block;
     width: 2rem;
     height: 2px;
@@ -46,7 +46,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.25rem;
-  .full-width { grid-column: 1 / -1; }
+  .full-width {
+    grid-column: 1 / -1;
+  }
 }
 
 .form-actions {
@@ -67,8 +69,22 @@
   color: var(--color-gray);
 }
 
-.stars { color: var(--color-gold); }
+.stars {
+  color: var(--color-gold);
+}
 
-.actions { display: flex; gap: 0.5rem; white-space: nowrap; }
-.btn-sm { padding: 0.35rem 0.75rem; font-size: 0.75rem; }
-.empty-state { text-align: center; color: var(--color-gray); padding: 2rem !important; font-style: italic; }
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+.btn-sm {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+}
+.empty-state {
+  text-align: center;
+  color: var(--color-gray);
+  padding: 2rem !important;
+  font-style: italic;
+}

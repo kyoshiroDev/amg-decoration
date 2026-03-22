@@ -1,23 +1,83 @@
-// Tailwind CSS directives
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+// ─── Fonts auto-hébergées ────────────────────────────────────────────────────
+// font-display: optional → pas de swap, pas de délai LCP
+// Le navigateur utilise Georgia en fallback si la font n'est pas dispo en 100ms
+// Sur les visites suivantes (cache chaud), Playfair Display s'affiche immédiatement
+$latin-range: "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD";
+
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 400;
+  font-display: optional;
+  src: url("/assets/fonts/playfair-display-latin-400-normal.woff2") format("woff2");
+  unicode-range: #{$latin-range};
+}
+@font-face {
+  font-family: "Playfair Display";
+  font-style: italic;
+  font-weight: 400;
+  font-display: optional;
+  src: url("/assets/fonts/playfair-display-latin-400-italic.woff2") format("woff2");
+  unicode-range: #{$latin-range};
+}
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 600;
+  font-display: optional;
+  src: url("/assets/fonts/playfair-display-latin-600-normal.woff2") format("woff2");
+  unicode-range: #{$latin-range};
+}
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-display: optional;
+  src: url("/assets/fonts/playfair-display-latin-700-normal.woff2") format("woff2");
+  unicode-range: #{$latin-range};
+}
+
+// font-display: swap pour Lato (texte body, non-LCP)
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/assets/fonts/lato-latin-300-normal.woff2") format("woff2");
+  unicode-range: #{$latin-range};
+}
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/lato-latin-400-normal.woff2") format("woff2");
+  unicode-range: #{$latin-range};
+}
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/assets/fonts/lato-latin-700-normal.woff2") format("woff2");
+  unicode-range: #{$latin-range};
+}
 
 // ─── Variables CSS globales ─────────────────────────────────────────────────
 :root {
-  --color-gold: #C4A882;
-  --color-gold-light: #D4BC9A;
-  --color-gold-dark: #A8916A;
-  --color-gold-accessible: #7A5E38; /* gold foncé pour texte sur fonds clairs — ratio 6.1:1 sur blanc */
-  --color-dark: #1A1A1A;
-  --color-dark-secondary: #2D2D2D;
-  --color-gray: #6B6B6B;
-  --color-gray-light: #F5F5F5;
-  --color-cream: #FAF8F5;
-  --color-white: #FFFFFF;
+  --color-gold: #c4a882;
+  --color-gold-light: #d4bc9a;
+  --color-gold-dark: #a8916a;
+  --color-gold-accessible: #7a5e38; /* gold foncé pour texte sur fonds clairs — ratio 6.1:1 sur blanc */
+  --color-dark: #1a1a1a;
+  --color-dark-secondary: #2d2d2d;
+  --color-gray: #6b6b6b;
+  --color-gray-light: #f5f5f5;
+  --color-cream: #faf8f5;
+  --color-white: #ffffff;
 
-  --font-heading: 'Playfair Display', Georgia, serif;
-  --font-body: 'Lato', 'Helvetica Neue', sans-serif;
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: "Lato", "Helvetica Neue", sans-serif;
 
   --transition-base: 300ms ease-in-out;
   --transition-slow: 500ms ease-in-out;
@@ -73,52 +133,168 @@ body {
 }
 
 // ─── Typographie ─────────────────────────────────────────────────────────────
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   line-height: 1.2;
   color: var(--color-dark);
 }
 
 // ─── Composants utilitaires ───────────────────────────────────────────────────
-@layer components {
-  .container-amg {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+.container-amg {
+  max-width: 80rem; // 1280px
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @media (min-width: 640px) {
+    padding-inline: 1.5rem;
   }
 
-  .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-3 bg-amg-gold text-amg-dark font-body font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:bg-amg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amg-gold focus-visible:ring-offset-2;
+  @media (min-width: 1024px) {
+    padding-inline: 2rem;
+  }
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  background-color: var(--color-gold);
+  color: var(--color-dark);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 300ms ease-in-out;
+
+  &:hover {
+    background-color: var(--color-gold-dark);
   }
 
-  .btn-outline {
-    @apply inline-flex items-center justify-center px-8 py-3 border-2 border-amg-gold text-amg-dark font-body font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:bg-amg-gold hover:text-amg-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amg-gold focus-visible:ring-offset-2;
+  &:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
   }
 
-  .section-padding {
-    @apply py-16 md:py-24;
+  &--large {
+    font-size: 1.125rem;
+    padding: 1rem 3rem;
   }
 
-  .text-section-title {
-    @apply font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-amg-dark;
+  &--block {
+    width: 100%;
+    justify-content: center;
+    padding-block: 1rem;
+  }
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  border: 2px solid var(--color-gold);
+  color: var(--color-dark);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    background-color 300ms ease-in-out,
+    color 300ms ease-in-out;
+
+  &:hover {
+    background-color: var(--color-gold);
+    color: var(--color-dark);
   }
 
-  .text-section-subtitle {
-    @apply font-body text-amg-gray text-lg leading-relaxed;
+  &:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
   }
 
-  .divider-gold {
-    @apply block w-16 h-0.5 bg-amg-gold mx-auto my-4;
+  &--inverted {
+    color: var(--color-white);
+    border-color: var(--color-white);
+
+    &:hover {
+      background-color: var(--color-white);
+      color: var(--color-dark);
+    }
   }
+}
+
+.section-padding {
+  padding-block: 4rem;
+
+  @media (min-width: 768px) {
+    padding-block: 6rem;
+  }
+}
+
+.section-bg {
+  &--cream {
+    background-color: var(--color-cream);
+  }
+
+  &--dark {
+    background-color: var(--color-dark);
+  }
+}
+
+.text-section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.875rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.text-section-subtitle {
+  font-family: var(--font-body);
+  color: var(--color-gray);
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+.divider-gold {
+  display: block;
+  width: 4rem;
+  height: 2px;
+  background-color: var(--color-gold);
+  margin-inline: auto;
+  margin-block: 1rem;
 }
 
 // ─── Animations ──────────────────────────────────────────────────────────────
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-30px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 // ─── Reduced motion ──────────────────────────────────────────────────────────
@@ -161,6 +337,7 @@ img {
 .home-cta {
   background: linear-gradient(135deg, var(--color-gold-dark) 0%, var(--color-gold) 100%);
   padding: 5rem 0;
+  text-align: center;
 
   &__title {
     font-family: var(--font-heading);

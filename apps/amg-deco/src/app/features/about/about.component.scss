@@ -151,7 +151,9 @@
     background-color: var(--color-cream);
     border: 1px solid var(--color-gold);
     border-radius: 10px;
-    box-shadow: 0 8px 40px rgba(196, 168, 130, 0.25), 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow:
+      0 8px 40px rgba(196, 168, 130, 0.25),
+      0 2px 8px rgba(0, 0, 0, 0.08);
     transform: translateY(-4px);
     transition: all var(--transition-base);
 

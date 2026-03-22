@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs';
-import { Project, ProjectCategory } from '@amg/data-access';
+import { type Observable } from 'rxjs';
+import { type Project, type ProjectCategory } from '@amg/data-access';
 
 export interface ProjectsGateway {
   getAll(): Observable<Project[]>;

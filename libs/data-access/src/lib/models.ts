@@ -14,36 +14,64 @@ export const ProjectSchema = z.object({
 });
 export type Project = z.infer<typeof ProjectSchema>;
 
-export const ServiceOfferSchema = z.object({
+export const ServiceIncludeSchema = z.object({
   id: z.string(),
+  service_id: z.string(),
+  text: z.string(),
+  order_index: z.number().default(0),
+});
+export type ServiceInclude = z.infer<typeof ServiceIncludeSchema>;
+
+export const ServicePriceSchema = z.object({
+  id: z.string(),
+  service_id: z.string(),
   label: z.string(),
   price: z.number(),
-  unit: z.string().optional(),
+  unit: z
+    .string()
+    .nullish()
+    .transform(v => v ?? undefined),
+  order_index: z.number().default(0),
 });
-export type ServiceOffer = z.infer<typeof ServiceOfferSchema>;
+export type ServicePrice = z.infer<typeof ServicePriceSchema>;
 
 export const ServiceSchema = z.object({
   id: z.string(),
   title: z.string(),
-  subtitle: z.string().optional(),
+  subtitle: z
+    .string()
+    .nullish()
+    .transform(v => v ?? undefined),
   description: z.string(),
-  includes: z.array(z.string()),
-  offers: z.array(ServiceOfferSchema),
-  image: z.string().optional(),
-  note: z.string().optional(),
-  order_index: z.number().optional(),
+  includes: z.array(ServiceIncludeSchema).default([]),
+  prices: z.array(ServicePriceSchema).default([]),
+  image: z
+    .string()
+    .nullish()
+    .transform(v => v ?? undefined),
+  note: z
+    .string()
+    .nullish()
+    .transform(v => v ?? undefined),
+  order_index: z.number().default(0),
 });
 export type Service = z.infer<typeof ServiceSchema>;
 
-export const TestimonialSchema = z.object({
+export const AvisClientSchema = z.object({
   id: z.string(),
   name: z.string(),
-  avatar: z.string().optional(),
-  avatar_url: z.string().optional(),
+  avatar: z
+    .string()
+    .nullish()
+    .transform(v => v ?? undefined),
+  avatar_url: z
+    .string()
+    .nullish()
+    .transform(v => v ?? undefined),
   text: z.string(),
   rating: z.number().min(1).max(5),
 });
-export type Testimonial = z.infer<typeof TestimonialSchema>;
+export type AvisClient = z.infer<typeof AvisClientSchema>;
 
 export const ContactFormSchema = z.object({
   name: z.string().min(2),

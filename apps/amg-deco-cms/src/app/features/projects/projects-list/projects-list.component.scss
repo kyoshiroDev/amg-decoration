@@ -22,7 +22,7 @@
   text-transform: uppercase;
 
   &::after {
-    content: '';
+    content: "";
     display: block;
     width: 2rem;
     height: 2px;
@@ -37,7 +37,9 @@
   display: block;
 }
 
-.no-img { color: var(--color-gray); }
+.no-img {
+  color: var(--color-gray);
+}
 
 .actions {
   display: flex;

@@ -5,14 +5,15 @@ import {
   signal,
   computed,
   OnInit,
+  OnDestroy,
   DestroyRef,
   afterNextRender,
+  PLATFORM_ID,
 } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
-import { NgClass, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage, isPlatformBrowser } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { PlatformService } from '../../../core/services/platform.service';
 
 interface NavLink {
   path: string;
@@ -32,22 +33,22 @@ interface NavLink {
  */
 @Component({
   selector: 'amg-navbar',
-  imports: [RouterLink, RouterLinkActive, NgClass, NgOptimizedImage],
+  imports: [RouterLink, RouterLinkActive, NgOptimizedImage],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavbarComponent implements OnInit {
-  private readonly router = inject(Router);
-  private readonly platform = inject(PlatformService);
-  private readonly destroyRef = inject(DestroyRef);
+export class NavbarComponent implements OnInit, OnDestroy {
+  private readonly _router = inject(Router);
+  private readonly _destroyRef = inject(DestroyRef);
+  private readonly _platformId = inject(PLATFORM_ID);
+
+  private _scrollHandler: (() => void) | null = null;
 
   readonly isMenuOpen = signal(false);
   readonly isScrolled = signal(false);
 
-  readonly menuAriaLabel = computed(() =>
-    this.isMenuOpen() ? 'Fermer le menu' : 'Ouvrir le menu'
-  );
+  readonly menuAriaLabel = computed(() => (this.isMenuOpen() ? 'Fermer le menu' : 'Ouvrir le menu'));
 
   readonly navLinks: NavLink[] = [
     { path: '/', label: 'Accueil' },
@@ -64,17 +65,26 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Fermer le menu sur changement de route
-    this.router.events.pipe(
-      filter(e => e instanceof NavigationEnd),
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe(() => this.closeMenu());
+    this._router.events
+      .pipe(
+        filter(e => e instanceof NavigationEnd),
+        takeUntilDestroyed(this._destroyRef),
+      )
+      .subscribe(() => this.closeMenu());
+  }
+
+  ngOnDestroy(): void {
+    if (this._scrollHandler && isPlatformBrowser(this._platformId)) {
+      window.removeEventListener('scroll', this._scrollHandler);
+    }
   }
 
   private initScrollListener(): void {
-    window.addEventListener('scroll', () => {
+    if (!isPlatformBrowser(this._platformId)) return;
+    this._scrollHandler = () => {
       this.isScrolled.set(window.scrollY > 50);
-    }, { passive: true });
+    };
+    window.addEventListener('scroll', this._scrollHandler, { passive: true });
   }
 
   toggleMenu(): void {

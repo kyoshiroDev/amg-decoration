@@ -5,9 +5,9 @@ import { GetAllServicesUseCase } from '../domain/use-cases/get-all-services.use-
 
 @Injectable({ providedIn: 'root' })
 export class ServicesFacade {
-  private readonly getAllServices = inject(GetAllServicesUseCase);
+  private readonly _getAllServices = inject(GetAllServicesUseCase);
 
   getAll$(): Observable<Service[]> {
-    return this.getAllServices.execute();
+    return this._getAllServices.execute();
   }
 }

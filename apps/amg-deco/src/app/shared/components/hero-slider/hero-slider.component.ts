@@ -1,16 +1,6 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  inject,
-  signal,
-  computed,
-  OnDestroy,
-  afterNextRender,
-  input,
-} from '@angular/core';
-import { NgClass, NgOptimizedImage } from '@angular/common';
+import { Component, ChangeDetectionStrategy, signal, computed, OnDestroy, afterNextRender, input } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { PlatformService } from '../../../core/services/platform.service';
 
 export interface SlideItem {
   id: string;
@@ -32,14 +22,12 @@ export interface SlideItem {
  */
 @Component({
   selector: 'amg-hero-slider',
-  imports: [NgClass, NgOptimizedImage, RouterLink],
+  imports: [NgOptimizedImage, RouterLink],
   templateUrl: './hero-slider.component.html',
   styleUrl: './hero-slider.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroSliderComponent implements OnDestroy {
-  private readonly platform = inject(PlatformService);
-
   readonly slides = input<SlideItem[]>([]);
   readonly autoPlayInterval = input<number>(5000);
 
@@ -50,7 +38,7 @@ export class HeroSliderComponent implements OnDestroy {
   readonly totalSlides = computed(() => this.slides().length);
   readonly currentSlide = computed(() => this.slides()[this.activeSlide()]);
 
-  private intervalId: ReturnType<typeof setInterval> | null = null;
+  private _intervalId: ReturnType<typeof setInterval> | null = null;
 
   constructor() {
     afterNextRender(() => {
@@ -60,7 +48,8 @@ export class HeroSliderComponent implements OnDestroy {
   }
 
   private startAutoPlay(): void {
-    this.intervalId = setInterval(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    this._intervalId = setInterval(() => {
       if (!this.isSliderPaused()) {
         this.nextSlide();
       }
@@ -88,8 +77,8 @@ export class HeroSliderComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
+    if (this._intervalId) {
+      clearInterval(this._intervalId);
     }
   }
 }

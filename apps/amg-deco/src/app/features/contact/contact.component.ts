@@ -1,12 +1,6 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, OnInit, signal, computed, DestroyRef } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { NgClass } from '@angular/common';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SeoService } from '../../core/services/seo.service';
 import { ContactService } from '../../core/services/contact.service';
 import { ContactFormSchema } from '@amg/data-access';
@@ -15,19 +9,20 @@ type SubmitState = 'idle' | 'loading' | 'success' | 'error';
 
 @Component({
   selector: 'amg-contact',
-  imports: [ReactiveFormsModule, NgClass],
+  imports: [ReactiveFormsModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactComponent implements OnInit {
-  private readonly seo = inject(SeoService);
-  private readonly contactService = inject(ContactService);
-  private readonly fb = inject(FormBuilder);
+  private readonly _seo = inject(SeoService);
+  private readonly _contactService = inject(ContactService);
+  private readonly _fb = inject(FormBuilder);
+  private readonly _destroyRef = inject(DestroyRef);
 
   readonly submitState = signal<SubmitState>('idle');
 
-  readonly form = this.fb.group({
+  readonly form = this._fb.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
     phone: [''],
@@ -35,11 +30,51 @@ export class ContactComponent implements OnInit {
     gdprAccepted: [false, Validators.requiredTrue],
   });
 
+  // Signal réactif sur le statut du formulaire — force la réévaluation des computed
+  private readonly _formStatus = toSignal(this.form.statusChanges, {
+    initialValue: this.form.status,
+  });
+
+  readonly nameState = computed(() => {
+    this._formStatus();
+    const c = this.form.controls['name'];
+    return {
+      invalid: c.invalid && c.touched,
+      requiredError: c.hasError('required') && c.touched,
+      minlengthError: c.hasError('minlength') && c.touched,
+    };
+  });
+
+  readonly emailState = computed(() => {
+    this._formStatus();
+    const c = this.form.controls['email'];
+    return {
+      invalid: c.invalid && c.touched,
+      requiredError: c.hasError('required') && c.touched,
+      emailError: c.hasError('email') && c.touched,
+    };
+  });
+
+  readonly messageState = computed(() => {
+    this._formStatus();
+    const c = this.form.controls['message'];
+    return {
+      invalid: c.invalid && c.touched,
+      requiredError: c.hasError('required') && c.touched,
+      minlengthError: c.hasError('minlength') && c.touched,
+    };
+  });
+
+  readonly gdprState = computed(() => {
+    this._formStatus();
+    const c = this.form.controls['gdprAccepted'];
+    return { invalid: c.invalid && c.touched };
+  });
+
   ngOnInit(): void {
-    this.seo.setPage({
+    this._seo.setPage({
       title: "Contact — AMG Décoration d'Intérieur",
-      description:
-        "Contactez Amandine Gaury pour votre projet de décoration d'intérieur 3D. Réponse sous 48h.",
+      description: "Contactez Amandine Gaury pour votre projet de décoration d'intérieur 3D. Réponse sous 48h.",
       url: 'https://amgdecorationdinterieur.com/contact',
     });
   }
@@ -66,8 +101,9 @@ export class ContactComponent implements OnInit {
 
     this.submitState.set('loading');
 
-    this.contactService
+    this._contactService
       .submitContact$(parsed.data)
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: () => {
           this.submitState.set('success');
@@ -75,15 +111,5 @@ export class ContactComponent implements OnInit {
         },
         error: () => this.submitState.set('error'),
       });
-  }
-
-  hasError(field: string, error: string): boolean {
-    const control = this.form.get(field);
-    return !!(control?.hasError(error) && control.touched);
-  }
-
-  isFieldInvalid(field: string): boolean {
-    const control = this.form.get(field);
-    return !!(control?.invalid && control.touched);
   }
 }

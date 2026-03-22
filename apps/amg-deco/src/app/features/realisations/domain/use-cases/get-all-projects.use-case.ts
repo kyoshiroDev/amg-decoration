@@ -5,9 +5,9 @@ import { PROJECTS_GATEWAY } from '../../application/tokens';
 
 @Injectable({ providedIn: 'root' })
 export class GetAllProjectsUseCase {
-  private readonly gateway = inject(PROJECTS_GATEWAY);
+  private readonly _gateway = inject(PROJECTS_GATEWAY);
 
   execute(): Observable<Project[]> {
-    return this.gateway.getAll();
+    return this._gateway.getAll();
   }
 }

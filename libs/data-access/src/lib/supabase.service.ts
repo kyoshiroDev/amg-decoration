@@ -2,6 +2,18 @@ import { Injectable, InjectionToken, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
+export interface SupabaseAuthOptions {
+  detectSessionInUrl: boolean;
+  persistSession: boolean;
+  autoRefreshToken: boolean;
+}
+
+/** Surcharger dans app.config.ts selon le besoin auth de l'app.
+ *  Par défaut : pas de session (vitrine publique). Le CMS override avec persistSession: true. */
+export const SUPABASE_AUTH_OPTIONS = new InjectionToken<SupabaseAuthOptions>('SUPABASE_AUTH_OPTIONS', {
+  factory: () => ({ detectSessionInUrl: false, persistSession: false, autoRefreshToken: false }),
+});
+
 export const SUPABASE_URL = new InjectionToken<string>('SUPABASE_URL');
 export const SUPABASE_ANON_KEY = new InjectionToken<string>('SUPABASE_ANON_KEY');
 
@@ -15,6 +27,7 @@ export class SupabaseService {
   private readonly url = inject(SUPABASE_URL);
   private readonly key = inject(SUPABASE_ANON_KEY);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly authOptions = inject(SUPABASE_AUTH_OPTIONS);
 
   private _client: SupabaseClient | null = null;
 
@@ -25,11 +38,8 @@ export class SupabaseService {
   get client(): SupabaseClient {
     if (!this._client) {
       this._client = createClient(this.url, this.key, {
-        auth: {
-          detectSessionInUrl: false,
-          persistSession: true,
-          autoRefreshToken: true,
-        },
+        auth: this.authOptions,
+        realtime: { params: { eventsPerSecond: 0 } },
       });
     }
     return this._client;

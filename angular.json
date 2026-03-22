@@ -36,9 +36,7 @@
                 "output": ""
               }
             ],
-            "styles": [
-              "apps/amg-deco-cms/src/styles.scss"
-            ],
+            "styles": ["apps/amg-deco-cms/src/styles.scss"],
             "scripts": [],
             "baseHref": "/admin/"
           },
@@ -48,8 +46,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "1.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -123,9 +121,7 @@
                 "output": ""
               }
             ],
-            "styles": [
-              "apps/amg-deco/src/styles.scss"
-            ],
+            "styles": ["apps/amg-deco/src/styles.scss"],
             "scripts": [],
             "server": "apps/amg-deco/src/main.server.ts",
             "prerender": false,
@@ -138,8 +134,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "1.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -160,7 +156,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "proxyConfig": "apps/amg-deco/proxy.conf.json"
+            "proxyConfig": "apps/amg-deco/proxy.conf.json",
+            "hmr": false
           },
           "configurations": {
             "production": {

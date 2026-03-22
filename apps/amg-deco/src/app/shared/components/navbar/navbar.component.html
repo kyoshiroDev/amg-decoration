@@ -1,26 +1,20 @@
 <nav
   role="navigation"
   aria-label="Navigation principale"
-  [ngClass]="{
-    'navbar--scrolled': isScrolled(),
-    'navbar--menu-open': isMenuOpen()
-  }"
   class="navbar"
+  [class.navbar--scrolled]="isScrolled()"
+  [class.navbar--menu-open]="isMenuOpen()"
   (keydown)="onKeydown($event)"
 >
-  <div class="container-amg flex items-center justify-between h-20">
+  <div class="container-amg navbar__inner">
     <!-- Logo -->
-    <a
-      routerLink="/"
-      class="navbar__logo"
-      aria-label="AMG Décoration d'Intérieur — Retour à l'accueil"
-    >
+    <a routerLink="/" class="navbar__logo" aria-label="AMG Décoration d'Intérieur — Retour à l'accueil">
       <img
         ngSrc="/assets/images/logo/logo-color.webp"
         alt="AMG Décoration d'Intérieur"
         width="56"
         height="56"
-        class="h-14 w-auto"
+        class="navbar__logo-img"
         priority=""
       />
     </a>
@@ -32,8 +26,9 @@
           <a
             [routerLink]="link.path"
             routerLinkActive="navbar__link--active"
+            #rlDesktop="routerLinkActive"
             [routerLinkActiveOptions]="{ exact: link.path === '/' }"
-            [attr.aria-current]="null"
+            [attr.aria-current]="rlDesktop.isActive ? 'page' : null"
             class="navbar__link"
           >
             {{ link.label }}
@@ -43,9 +38,7 @@
     </ul>
 
     <!-- CTA Desktop -->
-    <a routerLink="/contact" class="btn-primary hidden lg:inline-flex">
-      Prendre rendez-vous
-    </a>
+    <a routerLink="/contact" class="btn-primary navbar__cta-desktop"> Prendre rendez-vous </a>
 
     <!-- Burger Button -->
     <button
@@ -56,9 +49,9 @@
       [attr.aria-label]="menuAriaLabel()"
       (click)="toggleMenu()"
     >
-      <span class="navbar__burger-line" [ngClass]="{ 'rotate-45 translate-y-2': isMenuOpen() }"></span>
-      <span class="navbar__burger-line" [ngClass]="{ 'opacity-0': isMenuOpen() }"></span>
-      <span class="navbar__burger-line" [ngClass]="{ '-rotate-45 -translate-y-2': isMenuOpen() }"></span>
+      <span class="navbar__burger-line" [class.navbar__burger-line--open-top]="isMenuOpen()"></span>
+      <span class="navbar__burger-line" [class.navbar__burger-line--open-mid]="isMenuOpen()"></span>
+      <span class="navbar__burger-line" [class.navbar__burger-line--open-bottom]="isMenuOpen()"></span>
     </button>
   </div>
 
@@ -66,7 +59,7 @@
   <div
     id="mobile-menu"
     class="navbar__mobile-menu"
-    [ngClass]="{ 'navbar__mobile-menu--open': isMenuOpen() }"
+    [class.navbar__mobile-menu--open]="isMenuOpen()"
     role="region"
     aria-label="Menu mobile"
   >
@@ -76,7 +69,9 @@
           <a
             [routerLink]="link.path"
             routerLinkActive="navbar__mobile-link--active"
+            #rlMobile="routerLinkActive"
             [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+            [attr.aria-current]="rlMobile.isActive ? 'page' : null"
             class="navbar__mobile-link"
             (click)="closeMenu()"
           >
@@ -85,9 +80,7 @@
         </li>
       }
       <li>
-        <a routerLink="/contact" class="btn-primary w-full text-center mt-4" (click)="closeMenu()">
-          Prendre rendez-vous
-        </a>
+        <a routerLink="/contact" class="btn-primary navbar__mobile-cta" (click)="closeMenu()"> Prendre rendez-vous </a>
       </li>
     </ul>
   </div>

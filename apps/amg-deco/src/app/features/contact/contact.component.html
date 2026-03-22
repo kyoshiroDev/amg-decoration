@@ -1,5 +1,5 @@
-<header class="page-header bg-amg-dark" aria-label="En-tête de page Contact">
-  <div class="container-amg text-center">
+<header class="page-header page-header--dark" aria-label="En-tête de page Contact">
+  <div class="container-amg">
     <p class="page-header__eyebrow">Parlons de votre projet</p>
     <h1 class="page-header__title">Contact</h1>
     <span class="divider-gold"></span>
@@ -9,13 +9,12 @@
 <section class="section-padding" aria-label="Formulaire de contact et informations">
   <div class="container-amg">
     <div class="contact__grid">
-
       <!-- Infos contact -->
       <div class="contact__info">
         <h2 class="contact__info-title">Prenons contact</h2>
         <p class="contact__info-text">
-          Vous avez un projet de décoration ? Une question sur mes prestations ?
-          Je vous répondrai dans les <strong>48 heures ouvrées</strong>.
+          Vous avez un projet de décoration ? Une question sur mes prestations ? Je vous répondrai dans les
+          <strong>48 heures ouvrées</strong>.
         </p>
 
         <address class="contact__details">
@@ -45,9 +44,27 @@
         <div class="contact__social">
           <p class="contact__social-title">Me suivre</p>
           <div class="contact__social-links">
-            <a href="https://www.instagram.com/amgdecorationdinterieur/" target="_blank" rel="noopener noreferrer" class="contact__social-link">Instagram</a>
-            <a href="https://www.behance.net/amandinegaury" target="_blank" rel="noopener noreferrer" class="contact__social-link">Behance</a>
-            <a href="https://www.linkedin.com/in/amandine-gaury-97a263193/" target="_blank" rel="noopener noreferrer" class="contact__social-link">LinkedIn</a>
+            <a
+              href="https://www.instagram.com/amgdecorationdinterieur/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact__social-link"
+              >Instagram</a
+            >
+            <a
+              href="https://www.behance.net/amandinegaury"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact__social-link"
+              >Behance</a
+            >
+            <a
+              href="https://www.linkedin.com/in/amandine-gaury-97a263193/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact__social-link"
+              >LinkedIn</a
+            >
           </div>
         </div>
       </div>
@@ -71,48 +88,44 @@
           >
             <!-- Nom -->
             <div class="form-field">
-              <label for="name" class="form-label">
-                Nom complet <span aria-label="obligatoire">*</span>
-              </label>
+              <label for="name" class="form-label"> Nom complet <span aria-label="obligatoire">*</span> </label>
               <input
                 type="text"
                 id="name"
                 name="name"
                 formControlName="name"
                 class="form-input"
-                [ngClass]="{ 'form-input--error': isFieldInvalid('name') }"
+                [class.form-input--error]="nameState().invalid"
                 autocomplete="name"
                 placeholder="Jean Dupont"
-                [attr.aria-describedby]="isFieldInvalid('name') ? 'name-error' : null"
-                [attr.aria-invalid]="isFieldInvalid('name')"
+                [attr.aria-describedby]="nameState().invalid ? 'name-error' : null"
+                [attr.aria-invalid]="nameState().invalid"
               />
-              @if (hasError('name', 'required')) {
+              @if (nameState().requiredError) {
                 <p id="name-error" class="form-error" role="alert">Le nom est obligatoire.</p>
-              } @else if (hasError('name', 'minlength')) {
+              } @else if (nameState().minlengthError) {
                 <p id="name-error" class="form-error" role="alert">Le nom doit contenir au moins 2 caractères.</p>
               }
             </div>
 
             <!-- Email -->
             <div class="form-field">
-              <label for="email" class="form-label">
-                Email <span aria-label="obligatoire">*</span>
-              </label>
+              <label for="email" class="form-label"> Email <span aria-label="obligatoire">*</span> </label>
               <input
                 type="email"
                 id="email"
                 name="email"
                 formControlName="email"
                 class="form-input"
-                [ngClass]="{ 'form-input--error': isFieldInvalid('email') }"
+                [class.form-input--error]="emailState().invalid"
                 autocomplete="email"
                 placeholder="jean.dupont@email.com"
-                [attr.aria-describedby]="isFieldInvalid('email') ? 'email-error' : null"
-                [attr.aria-invalid]="isFieldInvalid('email')"
+                [attr.aria-describedby]="emailState().invalid ? 'email-error' : null"
+                [attr.aria-invalid]="emailState().invalid"
               />
-              @if (hasError('email', 'required')) {
+              @if (emailState().requiredError) {
                 <p id="email-error" class="form-error" role="alert">L'email est obligatoire.</p>
-              } @else if (hasError('email', 'email')) {
+              } @else if (emailState().emailError) {
                 <p id="email-error" class="form-error" role="alert">Veuillez saisir un email valide.</p>
               }
             </div>
@@ -133,24 +146,24 @@
 
             <!-- Message -->
             <div class="form-field">
-              <label for="message" class="form-label">
-                Votre message <span aria-label="obligatoire">*</span>
-              </label>
+              <label for="message" class="form-label"> Votre message <span aria-label="obligatoire">*</span> </label>
               <textarea
                 id="message"
                 name="message"
                 formControlName="message"
                 class="form-input form-textarea"
-                [ngClass]="{ 'form-input--error': isFieldInvalid('message') }"
+                [class.form-input--error]="messageState().invalid"
                 rows="5"
                 placeholder="Décrivez votre projet (type de pièce, superficie, délai souhaité...)"
-                [attr.aria-describedby]="isFieldInvalid('message') ? 'message-error' : null"
-                [attr.aria-invalid]="isFieldInvalid('message')"
+                [attr.aria-describedby]="messageState().invalid ? 'message-error' : null"
+                [attr.aria-invalid]="messageState().invalid"
               ></textarea>
-              @if (hasError('message', 'required')) {
+              @if (messageState().requiredError) {
                 <p id="message-error" class="form-error" role="alert">Le message est obligatoire.</p>
-              } @else if (hasError('message', 'minlength')) {
-                <p id="message-error" class="form-error" role="alert">Le message doit contenir au moins 10 caractères.</p>
+              } @else if (messageState().minlengthError) {
+                <p id="message-error" class="form-error" role="alert">
+                  Le message doit contenir au moins 10 caractères.
+                </p>
               }
             </div>
 
@@ -162,18 +175,17 @@
                   id="gdpr"
                   formControlName="gdprAccepted"
                   class="form-checkbox"
-                  [ngClass]="{ 'form-checkbox--error': isFieldInvalid('gdprAccepted') }"
-                  [attr.aria-describedby]="isFieldInvalid('gdprAccepted') ? 'gdpr-error' : null"
-                  [attr.aria-invalid]="isFieldInvalid('gdprAccepted')"
+                  [class.form-checkbox--error]="gdprState().invalid"
+                  [attr.aria-describedby]="gdprState().invalid ? 'gdpr-error' : null"
+                  [attr.aria-invalid]="gdprState().invalid"
                 />
                 <label for="gdpr" class="form-checkbox-label">
-                  J'accepte que mes données soient utilisées pour traiter ma demande de contact,
-                  conformément à la
+                  J'accepte que mes données soient utilisées pour traiter ma demande de contact, conformément à la
                   <a href="/mentions-legales" class="form-link">politique de confidentialité</a>.
                   <span aria-label="obligatoire">*</span>
                 </label>
               </div>
-              @if (isFieldInvalid('gdprAccepted')) {
+              @if (gdprState().invalid) {
                 <p id="gdpr-error" class="form-error" role="alert">Vous devez accepter les conditions RGPD.</p>
               }
             </div>
@@ -188,7 +200,7 @@
             <!-- Submit -->
             <button
               type="submit"
-              class="btn-primary w-full justify-center py-4"
+              class="btn-primary btn-primary--block"
               [disabled]="submitState() === 'loading'"
               [attr.aria-busy]="submitState() === 'loading'"
             >

@@ -20,57 +20,37 @@ export class ExternalAccountsApiService {
   private readonly supabase = inject(SupabaseService);
 
   getAll$(): Observable<ExternalAccount[]> {
-    return from(
-      this.supabase
-        .from('external_accounts')
-        .select('*')
-        .order('compte')
-    ).pipe(
+    return from(this.supabase.from('external_accounts').select('*').order('compte')).pipe(
       map(({ data, error }) => {
         if (error) throw error;
         return (data ?? []) as ExternalAccount[];
-      })
+      }),
     );
   }
 
   create$(account: CreateExternalAccount): Observable<ExternalAccount> {
-    return from(
-      this.supabase
-        .from('external_accounts')
-        .insert(account)
-        .select()
-        .single()
-    ).pipe(
+    return from(this.supabase.from('external_accounts').insert(account).select().single()).pipe(
       map(({ data, error }) => {
         if (error) throw error;
         return data as ExternalAccount;
-      })
+      }),
     );
   }
 
   update$(id: string, account: Partial<CreateExternalAccount>): Observable<ExternalAccount> {
-    return from(
-      this.supabase
-        .from('external_accounts')
-        .update(account)
-        .eq('id', id)
-        .select()
-        .single()
-    ).pipe(
+    return from(this.supabase.from('external_accounts').update(account).eq('id', id).select().single()).pipe(
       map(({ data, error }) => {
         if (error) throw error;
         return data as ExternalAccount;
-      })
+      }),
     );
   }
 
   delete$(id: string): Observable<void> {
-    return from(
-      this.supabase.from('external_accounts').delete().eq('id', id)
-    ).pipe(
+    return from(this.supabase.from('external_accounts').delete().eq('id', id)).pipe(
       map(({ error }) => {
         if (error) throw error;
-      })
+      }),
     );
   }
 }

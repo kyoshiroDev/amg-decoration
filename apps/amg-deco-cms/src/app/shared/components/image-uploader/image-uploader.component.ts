@@ -1,10 +1,4 @@
-import {
-  Component,
-  input,
-  output,
-  signal,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, input, output, signal, ChangeDetectionStrategy } from '@angular/core';
 export interface UploadedImage {
   file: File;
   preview: string;
@@ -35,9 +29,7 @@ export class ImageUploaderComponent {
   onDrop(event: DragEvent): void {
     event.preventDefault();
     this.isDragOver.set(false);
-    const files = Array.from(event.dataTransfer?.files ?? []).filter(f =>
-      f.type.startsWith('image/')
-    );
+    const files = Array.from(event.dataTransfer?.files ?? []).filter(f => f.type.startsWith('image/'));
     if (files.length) this.processFiles(files);
   }
 
@@ -57,11 +49,8 @@ export class ImageUploaderComponent {
   private processFiles(files: File[]): void {
     files.forEach(file => {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        this.previews.update(list => [
-          ...list,
-          { file, preview: e.target?.result as string },
-        ]);
+      reader.onload = e => {
+        this.previews.update(list => [...list, { file, preview: e.target?.result as string }]);
       };
       reader.readAsDataURL(file);
     });

@@ -1,5 +1,10 @@
 .page-header {
   padding: 8rem 0 4rem;
+  text-align: center;
+
+  &--dark {
+    background-color: var(--color-dark);
+  }
 
   &__eyebrow {
     font-family: var(--font-body);
@@ -190,7 +195,9 @@
   color: var(--color-dark);
   background-color: var(--color-white);
   border: 1px solid rgba(0, 0, 0, 0.2);
-  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+  transition:
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
   appearance: none;
 
   &:focus {

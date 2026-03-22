@@ -44,7 +44,7 @@ export class AuthService {
       }),
       catchError(err => {
         throw new Error(err.message ?? 'Erreur de connexion');
-      })
+      }),
     );
   }
 

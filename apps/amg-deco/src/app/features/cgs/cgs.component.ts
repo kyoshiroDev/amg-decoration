@@ -9,10 +9,10 @@ import { SeoService } from '../../core/services/seo.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CgsComponent implements OnInit {
-  private readonly seo = inject(SeoService);
+  private readonly _seo = inject(SeoService);
 
   ngOnInit(): void {
-    this.seo.setPage({
+    this._seo.setPage({
       title: "Conditions Générales de Services — AMG Décoration d'Intérieur",
       description:
         "Conditions Générales de Services d'AMG Décoration d'Intérieur — Amandine Gaury, décoratrice d'intérieur 3D.",

@@ -1,4 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { sendContactEmail } from './_contact-handler';
+
+// Vercel serverless function — chargée par convention de fichier, pas par import
+// eslint-disable-next-line import/no-unused-modules
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -6,51 +10,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  const { name, email, phone, message, gdprAccepted } = req.body ?? {};
-
-  if (!name || !email || !message || !gdprAccepted) {
-    res.status(400).json({ error: 'Données manquantes.' });
-    return;
-  }
-
-  const apiKey = process.env['CONTACT_EMAIL_API_KEY'];
-  const recipient = process.env['CONTACT_FORM_RECIPIENT'] ?? 'am.gaury@gmail.com';
-
-  if (!apiKey) {
-    console.log('[ContactAPI] Message reçu (pas de clé API) :', { name, email, message });
-    res.status(200).json({ success: true });
-    return;
-  }
-
   try {
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        from: 'AMG Décoration <contact@amgdecorationdinterieur.com>',
-        to: [recipient],
-        reply_to: email,
-        subject: `Nouveau message de ${name} — AMG Décoration`,
-        html: `<h2>Nouveau message de contact</h2>
-<p><strong>Nom :</strong> ${name}</p>
-<p><strong>Email :</strong> ${email}</p>
-${phone ? `<p><strong>Téléphone :</strong> ${phone}</p>` : ''}
-<p><strong>Message :</strong></p>
-<p>${String(message).replace(/\n/g, '<br>')}</p>`,
-      }),
-    });
-
-    if (!response.ok) {
-      const err = await response.text();
-      console.error('[ContactAPI] Resend error:', err);
-      res.status(500).json({ error: "Erreur lors de l'envoi." });
-      return;
-    }
-
-    res.status(200).json({ success: true });
+    const { status, json } = await sendContactEmail(req.body ?? {});
+    res.status(status).json(json);
   } catch (err) {
     console.error('[ContactAPI] Error:', err);
     res.status(500).json({ error: 'Erreur serveur.' });

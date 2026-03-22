@@ -13,7 +13,7 @@
         "outputPath": "dist/apps/amg-deco",
         "index": "apps/amg-deco/src/index.html",
         "browser": "apps/amg-deco/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [],
         "tsConfig": "apps/amg-deco/tsconfig.app.json",
         "assets": [
           {
@@ -45,8 +45,8 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumWarning": "1mb",
+              "maximumError": "1.5mb"
             },
             {
               "type": "anyComponentStyle",
@@ -71,7 +71,8 @@
           "buildTarget": "amg-deco:build:production"
         },
         "development": {
-          "buildTarget": "amg-deco:build:development"
+          "buildTarget": "amg-deco:build:development",
+          "hmr": false
         }
       },
       "defaultConfiguration": "development"
@@ -84,6 +85,13 @@
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "reportsDirectory": "../../coverage/apps/amg-deco"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/amg-deco/**/*.ts", "apps/amg-deco/**/*.html"]
       }
     }
   }

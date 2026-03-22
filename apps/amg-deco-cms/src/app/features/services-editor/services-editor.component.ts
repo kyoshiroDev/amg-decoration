@@ -2,7 +2,7 @@ import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/cor
 import { ReactiveFormsModule, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ServicesApiService } from '../../core/services/services-api.service';
-import { Service, ServiceOffer } from '@amg/data-access';
+import { Service, ServicePrice } from '@amg/data-access';
 
 @Component({
   selector: 'cms-services-editor',
@@ -19,7 +19,6 @@ export class ServicesEditorComponent {
   readonly saveState = signal<Record<string, 'idle' | 'loading' | 'success' | 'error'>>({});
   readonly saveError = signal<Record<string, string>>({});
 
-  // Track which service card is being edited
   readonly editingId = signal<string | null>(null);
   readonly editForm = signal<ReturnType<typeof this.buildForm> | null>(null);
 
@@ -30,15 +29,24 @@ export class ServicesEditorComponent {
       description: [service.description, Validators.required],
       note: [service.note ?? ''],
       includes: this.fb.array(
-        service.includes.map(inc => this.fb.control(inc, Validators.required))
+        service.includes.map(inc =>
+          this.fb.group({
+            id: [inc.id],
+            text: [inc.text, Validators.required],
+            order_index: [inc.order_index],
+          }),
+        ),
       ),
-      offers: this.fb.array(
-        service.offers.map(offer => this.fb.group({
-          id: [offer.id],
-          label: [offer.label, Validators.required],
-          price: [offer.price, [Validators.required, Validators.min(0)]],
-          unit: [offer.unit ?? ''],
-        }))
+      prices: this.fb.array(
+        service.prices.map(price =>
+          this.fb.group({
+            id: [price.id],
+            label: [price.label, Validators.required],
+            price: [price.price, [Validators.required, Validators.min(0)]],
+            unit: [price.unit ?? ''],
+            order_index: [price.order_index],
+          }),
+        ),
       ),
     });
   }
@@ -57,31 +65,38 @@ export class ServicesEditorComponent {
     return this.editForm()?.get('includes') as FormArray;
   }
 
-  getOffersArray() {
-    return this.editForm()?.get('offers') as FormArray;
+  getPricesArray() {
+    return this.editForm()?.get('prices') as FormArray;
   }
 
   addInclude(): void {
-    this.getIncludesArray()?.push(this.fb.control('', Validators.required));
+    this.getIncludesArray()?.push(
+      this.fb.group({
+        id: [`inc-${Date.now()}`],
+        text: ['', Validators.required],
+        order_index: [this.getIncludesArray().length],
+      }),
+    );
   }
 
   removeInclude(index: number): void {
     this.getIncludesArray()?.removeAt(index);
   }
 
-  addOffer(): void {
-    this.getOffersArray()?.push(
+  addPrice(): void {
+    this.getPricesArray()?.push(
       this.fb.group({
-        id: [`offer-${Date.now()}`],
+        id: [`price-${Date.now()}`],
         label: ['', Validators.required],
         price: [0, [Validators.required, Validators.min(0)]],
         unit: [''],
-      })
+        order_index: [this.getPricesArray().length],
+      }),
     );
   }
 
-  removeOffer(index: number): void {
-    this.getOffersArray()?.removeAt(index);
+  removePrice(index: number): void {
+    this.getPricesArray()?.removeAt(index);
   }
 
   saveService(): void {
@@ -99,8 +114,23 @@ export class ServicesEditorComponent {
       subtitle: raw.subtitle || undefined,
       description: raw.description ?? '',
       note: raw.note || undefined,
-      includes: raw.includes as string[],
-      offers: raw.offers as ServiceOffer[],
+      includes: (raw.includes as { id: string; text: string; order_index: number }[]).map((inc, i) => ({
+        id: inc.id,
+        service_id: id,
+        text: inc.text,
+        order_index: i,
+      })),
+      prices: (raw.prices as { id: string; label: string; price: number; unit: string; order_index: number }[]).map(
+        (p, i) =>
+          ({
+            id: p.id,
+            service_id: id,
+            label: p.label,
+            price: p.price,
+            unit: p.unit || undefined,
+            order_index: i,
+          }) as ServicePrice,
+      ),
     };
 
     this.servicesApi.update$(id, patch).subscribe({

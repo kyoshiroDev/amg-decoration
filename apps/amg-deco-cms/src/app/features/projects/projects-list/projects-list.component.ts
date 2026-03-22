@@ -1,6 +1,7 @@
 import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { BehaviorSubject, switchMap, catchError, of } from 'rxjs';
 import { Project } from '@amg/data-access';
 import { ProjectsApiService } from '../../../core/services/projects-api.service';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
@@ -15,7 +16,12 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
 export class ProjectsListComponent {
   private readonly projectsApi = inject(ProjectsApiService);
 
-  readonly projects = toSignal(this.projectsApi.getAll$(), { initialValue: [] as Project[] });
+  private readonly refresh$ = new BehaviorSubject<void>(undefined);
+
+  readonly projects = toSignal(
+    this.refresh$.pipe(switchMap(() => this.projectsApi.getAll$().pipe(catchError(() => of([] as Project[]))))),
+    { initialValue: [] as Project[] },
+  );
   readonly confirmDeleteId = signal<string | null>(null);
   readonly deleteError = signal('');
 
@@ -33,10 +39,7 @@ export class ProjectsListComponent {
     this.confirmDeleteId.set(null);
 
     this.projectsApi.delete$(id).subscribe({
-      next: () => {
-        // Reload via re-subscription — toSignal will refetch
-        window.location.reload();
-      },
+      next: () => this.refresh$.next(),
       error: (err: Error) => this.deleteError.set(err.message),
     });
   }

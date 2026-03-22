@@ -1,0 +1,40 @@
+name: Auto-merge on CI success
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  auto-merge:
+    name: Auto-merge PR
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request' }}
+
+    permissions:
+      pull-requests: write
+      contents: write
+
+    steps:
+      - name: Auto-merge PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER=$(gh api \
+            "repos/${{ github.repository }}/pulls" \
+            --jq "[.[] | select(.head.sha == \"${{ github.event.workflow_run.head_sha }}\") | .number] | first")
+
+          if [ -z "$PR_NUMBER" ] || [ "$PR_NUMBER" = "null" ]; then
+            echo "Aucune PR trouvée pour ce commit — skip."
+            exit 0
+          fi
+
+          echo "Auto-merge de la PR #$PR_NUMBER"
+          gh pr merge "$PR_NUMBER" \
+            --repo "${{ github.repository }}" \
+            --squash \
+            --auto \
+            --delete-branch

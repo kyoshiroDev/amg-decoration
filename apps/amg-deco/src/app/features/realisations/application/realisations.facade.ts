@@ -5,9 +5,9 @@ import { GetAllProjectsUseCase } from '../domain/use-cases/get-all-projects.use-
 
 @Injectable({ providedIn: 'root' })
 export class RealisationsFacade {
-  private readonly getAllProjects = inject(GetAllProjectsUseCase);
+  private readonly _getAllProjects = inject(GetAllProjectsUseCase);
 
   getAll$(): Observable<Project[]> {
-    return this.getAllProjects.execute();
+    return this._getAllProjects.execute();
   }
 }

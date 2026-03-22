@@ -8,84 +8,84 @@ const SERVICES_FALLBACK: Service[] = [
   {
     id: '1',
     title: 'Book Esquisses & Conseils Déco',
-    subtitle: 'Pour visualiser votre projet',
-    description: 'Un accompagnement personnalisé avec esquisses dessinées à la main et conseils de décoration adaptés à votre espace et vos envies.',
+    subtitle: undefined,
+    description:
+      "Une première approche créative de votre projet d'intérieur. Je vous remets des esquisses dessinées à la main et des conseils personnalisés pour orienter vos choix de décoration.",
     includes: [
-      'Consultation à distance (visio ou téléphone)',
-      'Analyse de votre espace (plans, photos)',
-      'Esquisses et propositions de mobilier',
-      'Conseils matériaux, couleurs et textiles',
-      'Moodboard thématique',
-      'Récapitulatif PDF complet',
+      { id: '1-1', service_id: '1', text: 'Analyse de votre espace et de vos besoins', order_index: 0 },
+      { id: '1-2', service_id: '1', text: 'Esquisses dessinées de votre pièce', order_index: 1 },
+      { id: '1-3', service_id: '1', text: 'Conseils personnalisés sur les couleurs et matériaux', order_index: 2 },
+      { id: '1-4', service_id: '1', text: 'Liste de recommandations mobilier', order_index: 3 },
     ],
-    offers: [
-      { id: '1-1', label: 'Forfait unique', price: 480, unit: 'pièce' },
-    ],
+    prices: [{ id: '1-p1', service_id: '1', label: 'Forfait unique', price: 480, unit: undefined, order_index: 0 }],
     image: '/assets/images/services/moodboard-chambre.webp',
+    note: undefined,
+    order_index: 0,
   },
   {
     id: '2',
     title: 'Book Déco 3D',
-    subtitle: 'Visualisez avant de décider',
-    description: "Le service phare d'AMG. Un rendu 3D photoréaliste de votre pièce pour tout visualiser avant d'acheter. Économisez temps et argent.",
+    subtitle: 'Notre prestation phare',
+    description:
+      "La prestation complète pour visualiser votre futur intérieur avec des rendus 3D photoréalistes avant d'acheter quoi que ce soit. Un book PDF haute résolution vous est remis à la livraison.",
     includes: [
-      'Modélisation 3D complète de la pièce',
-      'Plusieurs vues (perspectives, vues de face)',
-      'Sélection mobilier et matériaux',
-      'Palette de couleurs personnalisée',
-      'Liste de courses détaillée avec liens',
-      'Fichier PDF haute résolution',
+      { id: '2-1', service_id: '2', text: 'Modélisation 3D complète de votre pièce', order_index: 0 },
+      { id: '2-2', service_id: '2', text: 'Rendus photoréalistes (vues multiples)', order_index: 1 },
+      { id: '2-3', service_id: '2', text: 'Sélection mobilier, couleurs et matériaux', order_index: 2 },
+      { id: '2-4', service_id: '2', text: 'Book PDF haute résolution', order_index: 3 },
+      { id: '2-5', service_id: '2', text: "Liste de courses avec liens d'achat", order_index: 4 },
+      { id: '2-6', service_id: '2', text: 'Une session de retouches incluse', order_index: 5 },
     ],
-    offers: [
-      { id: '2-1', label: 'Pièce moins de 15m²', price: 520, unit: 'pièce' },
-      { id: '2-2', label: 'Pièce entre 16 et 45m²', price: 720, unit: 'pièce' },
-      { id: '2-3', label: 'Pièce entre 46 et 90m²', price: 1120, unit: 'pièce' },
+    prices: [
+      { id: '2-p1', service_id: '2', label: 'Pièce < 15 m²', price: 520, unit: undefined, order_index: 0 },
+      { id: '2-p2', service_id: '2', label: 'Pièce 16 – 45 m²', price: 720, unit: undefined, order_index: 1 },
+      { id: '2-p3', service_id: '2', label: 'Pièce 46 – 90 m²', price: 1120, unit: undefined, order_index: 2 },
     ],
     image: '/assets/images/services/planche-mobilier.webp',
-    note: 'Le Book Déco 3D est le service le plus demandé. Il permet de visualiser votre intérieur avant tout achat.',
+    note: 'Tarif dégressif pour plusieurs pièces — contactez-moi pour un devis personnalisé.',
+    order_index: 1,
   },
   {
     id: '3',
-    title: 'Meuble Sur-Mesure 3D',
-    subtitle: 'Un meuble unique pour votre espace',
-    description: "Création d'un meuble 100% sur-mesure en 3D. Du plan à la réalisation, chaque détail est pensé pour s'adapter parfaitement à votre espace.",
+    title: 'Meuble Sur-Mesure',
+    subtitle: undefined,
+    description:
+      "Conception en 3D d'un meuble entièrement sur-mesure, adapté à votre espace et à votre style. Plans techniques fournis pour la réalisation par votre artisan.",
     includes: [
-      'Analyse des besoins et contraintes',
-      'Conception 3D du meuble sur-mesure',
-      'Choix des matériaux et finitions',
-      'Plans techniques pour artisan',
-      'Suivi de réalisation',
+      { id: '3-1', service_id: '3', text: 'Conception 3D du meuble sur-mesure', order_index: 0 },
+      { id: '3-2', service_id: '3', text: 'Plans techniques cotés', order_index: 1 },
+      { id: '3-3', service_id: '3', text: 'Vues 3D photoréalistes du rendu final', order_index: 2 },
+      { id: '3-4', service_id: '3', text: 'Conseils sur les matériaux et finitions', order_index: 3 },
     ],
-    offers: [
-      { id: '3-1', label: 'Forfait meuble sur-mesure', price: 400, unit: 'meuble' },
-    ],
+    prices: [{ id: '3-p1', service_id: '3', label: 'Forfait par meuble', price: 400, unit: undefined, order_index: 0 }],
     image: '/assets/images/services/meuble-sur-mesure.webp',
+    note: undefined,
+    order_index: 2,
   },
   {
     id: '4',
     title: 'Offre Professionnels',
     subtitle: 'Investisseurs & agents immobiliers',
-    description: "Solution dédiée aux professionnels de l'immobilier souhaitant valoriser leurs biens avec des rendus 3D attractifs pour la vente ou la location.",
+    description:
+      "Une offre dédiée aux professionnels de l'immobilier pour valoriser vos biens avec des projections 3D attrayantes et convaincantes.",
     includes: [
-      'Rendu 3D d\'une pièce clé (salon ou chambre)',
-      'Photos et visuels haute résolution',
-      'Délai express sous 5 jours ouvrés',
-      'Formats adaptés pour annonces immobilières',
-      'Tarif dégressif à partir de 3 biens',
+      { id: '4-1', service_id: '4', text: 'Rendu 3D du bien meublé et décoré', order_index: 0 },
+      { id: '4-2', service_id: '4', text: 'Mise en valeur pour annonces et supports de vente', order_index: 1 },
+      { id: '4-3', service_id: '4', text: 'Livraison rapide sous 5 jours ouvrés', order_index: 2 },
+      { id: '4-4', service_id: '4', text: 'Tarif dégressif à partir de 3 biens', order_index: 3 },
     ],
-    offers: [
-      { id: '4-1', label: 'Offre professionnels', price: 149, unit: 'bien' },
-    ],
+    prices: [{ id: '4-p1', service_id: '4', label: 'Par bien', price: 149, unit: undefined, order_index: 0 }],
     image: '/assets/images/services/pro-visuel.webp',
-    note: 'Tarif dégressif à partir de 3 biens. Contactez-moi pour un devis personnalisé.',
+    note: undefined,
+    order_index: 3,
   },
 ];
 
 @Injectable({ providedIn: 'root' })
 export class InMemoryServicesGateway implements ServicesGateway {
-  private readonly services$ = of(SERVICES_FALLBACK).pipe(shareReplay(1));
+  private readonly _services$ = of(SERVICES_FALLBACK).pipe(shareReplay(1));
 
   getAll(): Observable<Service[]> {
-    return this.services$;
+    return this._services$;
   }
 }

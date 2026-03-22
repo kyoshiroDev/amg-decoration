@@ -4,8 +4,8 @@
     <h1 class="page-header__title">Réalisations</h1>
     <span class="divider-gold"></span>
     <p class="page-header__subtitle">
-      Découvrez mes projets de décoration 3D. Chaque réalisation est unique et
-      pensée pour refléter la personnalité de mes clients.
+      Découvrez mes projets de décoration 3D. Chaque réalisation est unique et pensée pour refléter la personnalité de
+      mes clients.
     </p>
   </div>
 </header>
@@ -18,7 +18,7 @@
         <button
           type="button"
           class="realisations__filter-btn"
-          [ngClass]="{ 'realisations__filter-btn--active': activeFilter() === filter.value }"
+          [class.realisations__filter-btn--active]="activeFilter() === filter.value"
           [attr.aria-pressed]="activeFilter() === filter.value"
           (click)="setFilter(filter.value)"
         >
@@ -36,6 +36,7 @@
               [ngSrc]="project.images[0]"
               [alt]="project.title + ' — rendu 3D AMG Décoration d\'Intérieur'"
               fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
               class="realisations__card-image"
             />
             <div class="realisations__card-overlay" aria-hidden="true">
@@ -44,13 +45,16 @@
               <p class="realisations__card-description">{{ project.description }}</p>
             </div>
           } @placeholder {
-            <div class="realisations__skeleton" role="status" aria-busy="true" aria-label="Chargement du projet..."></div>
+            <div
+              class="realisations__skeleton"
+              role="status"
+              aria-busy="true"
+              aria-label="Chargement du projet..."
+            ></div>
           }
         </article>
       } @empty {
-        <p class="realisations__empty" role="status">
-          Aucun projet dans cette catégorie pour le moment.
-        </p>
+        <p class="realisations__empty" role="status">Aucun projet dans cette catégorie pour le moment.</p>
       }
     </div>
   </div>

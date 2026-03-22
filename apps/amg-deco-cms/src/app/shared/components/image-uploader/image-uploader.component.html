@@ -1,5 +1,7 @@
 <div class="uploader">
-  <label class="drop-zone" [class.drag-over]="isDragOver()"
+  <label
+    class="drop-zone"
+    [class.drag-over]="isDragOver()"
     (drop)="onDrop($event)"
     (dragover)="onDragOver($event)"
     (dragleave)="onDragLeave()"
@@ -27,7 +29,9 @@
             class="remove-btn"
             (click)="removePreview(i)"
             [attr.aria-label]="'Supprimer image ' + (i + 1)"
-          >×</button>
+          >
+            ×
+          </button>
         </div>
       }
     </div>

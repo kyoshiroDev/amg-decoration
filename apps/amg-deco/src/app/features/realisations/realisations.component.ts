@@ -1,13 +1,6 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  inject,
-  OnInit,
-  signal,
-  computed,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, OnInit, signal, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { NgClass, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { SeoService } from '../../core/services/seo.service';
 import { RealisationsFacade } from './application/realisations.facade';
 import { ProjectCategory } from '@amg/data-access';
@@ -16,16 +9,16 @@ type FilterCategory = ProjectCategory | 'all';
 
 @Component({
   selector: 'amg-realisations',
-  imports: [NgClass, NgOptimizedImage],
+  imports: [NgOptimizedImage],
   templateUrl: './realisations.component.html',
   styleUrl: './realisations.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RealisationsComponent implements OnInit {
-  private readonly seo = inject(SeoService);
-  private readonly facade = inject(RealisationsFacade);
+  private readonly _seo = inject(SeoService);
+  private readonly _facade = inject(RealisationsFacade);
 
-  readonly allProjects = toSignal(this.facade.getAll$(), {
+  readonly allProjects = toSignal(this._facade.getAll$(), {
     initialValue: [],
   });
 
@@ -48,7 +41,7 @@ export class RealisationsComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.seo.setPage({
+    this._seo.setPage({
       title: "Réalisations — AMG Décoration d'Intérieur",
       description:
         "Découvrez les réalisations 3D d'Amandine Gaury, décoratrice d'intérieur certifiée. Salons, chambres, terrasses et bureaux en région parisienne.",

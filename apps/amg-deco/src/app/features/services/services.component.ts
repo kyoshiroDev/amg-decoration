@@ -15,24 +15,48 @@ import { Service } from '@amg/data-access';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServicesComponent implements OnInit {
-  private readonly seo = inject(SeoService);
-  private readonly facade = inject(ServicesFacade);
+  private readonly _seo = inject(SeoService);
+  private readonly _facade = inject(ServicesFacade);
 
-  readonly services = toSignal(this.facade.getAll$(), {
+  readonly services = toSignal(this._facade.getAll$(), {
     initialValue: [] as Service[],
   });
 
   readonly processSteps = [
-    { number: '01', title: 'Premier contact', description: 'Un échange par téléphone ou visio pour comprendre votre projet, vos goûts et vos contraintes.' },
-    { number: '02', title: 'Devis personnalisé', description: "Envoi d'un devis détaillé et d'un contrat de prestation sous 48h." },
-    { number: '03', title: 'Collecte des informations', description: 'Vous me transmettez les plans de votre pièce, des photos et vos inspirations.' },
-    { number: '04', title: 'Création 3D', description: "Je modélise votre espace en 3D et sélectionne mobilier, matériaux et couleurs selon vos envies." },
-    { number: '05', title: 'Présentation & ajustements', description: "Présentation du projet en visio avec possibilité d'ajustements inclus." },
-    { number: '06', title: 'Livraison du book', description: "Vous recevez votre book PDF haute résolution avec la liste de courses et les liens d'achat." },
+    {
+      number: '01',
+      title: 'Premier contact',
+      description: 'Un échange par téléphone ou visio pour comprendre votre projet, vos goûts et vos contraintes.',
+    },
+    {
+      number: '02',
+      title: 'Devis personnalisé',
+      description: "Envoi d'un devis détaillé et d'un contrat de prestation sous 48h.",
+    },
+    {
+      number: '03',
+      title: 'Collecte des informations',
+      description: 'Vous me transmettez les plans de votre pièce, des photos et vos inspirations.',
+    },
+    {
+      number: '04',
+      title: 'Création 3D',
+      description: 'Je modélise votre espace en 3D et sélectionne mobilier, matériaux et couleurs selon vos envies.',
+    },
+    {
+      number: '05',
+      title: 'Présentation & ajustements',
+      description: "Présentation du projet en visio avec possibilité d'ajustements inclus.",
+    },
+    {
+      number: '06',
+      title: 'Livraison du book',
+      description: "Vous recevez votre book PDF haute résolution avec la liste de courses et les liens d'achat.",
+    },
   ];
 
   ngOnInit(): void {
-    this.seo.setPage({
+    this._seo.setPage({
       title: "Prestations — AMG Décoration d'Intérieur",
       description:
         "Découvrez les prestations de décoration d'intérieur 3D d'Amandine Gaury : Book Esquisses, Book Déco 3D, Meuble Sur-Mesure et offre Professionnels.",
