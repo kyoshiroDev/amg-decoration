@@ -1,11 +1,9 @@
 <nav
   role="navigation"
   aria-label="Navigation principale"
-  [ngClass]="{
-    'navbar--scrolled': isScrolled(),
-    'navbar--menu-open': isMenuOpen(),
-  }"
   class="navbar"
+  [class.navbar--scrolled]="isScrolled()"
+  [class.navbar--menu-open]="isMenuOpen()"
   (keydown)="onKeydown($event)"
 >
   <div class="container-amg navbar__inner">
@@ -51,9 +49,9 @@
       [attr.aria-label]="menuAriaLabel()"
       (click)="toggleMenu()"
     >
-      <span class="navbar__burger-line" [ngClass]="{ 'navbar__burger-line--open-top': isMenuOpen() }"></span>
-      <span class="navbar__burger-line" [ngClass]="{ 'navbar__burger-line--open-mid': isMenuOpen() }"></span>
-      <span class="navbar__burger-line" [ngClass]="{ 'navbar__burger-line--open-bottom': isMenuOpen() }"></span>
+      <span class="navbar__burger-line" [class.navbar__burger-line--open-top]="isMenuOpen()"></span>
+      <span class="navbar__burger-line" [class.navbar__burger-line--open-mid]="isMenuOpen()"></span>
+      <span class="navbar__burger-line" [class.navbar__burger-line--open-bottom]="isMenuOpen()"></span>
     </button>
   </div>
 
@@ -61,7 +59,7 @@
   <div
     id="mobile-menu"
     class="navbar__mobile-menu"
-    [ngClass]="{ 'navbar__mobile-menu--open': isMenuOpen() }"
+    [class.navbar__mobile-menu--open]="isMenuOpen()"
     role="region"
     aria-label="Menu mobile"
   >
