@@ -125,6 +125,22 @@ readonly currentProject = computed(() => this.projects()[this.activeSlide()]);
 
 **Templates :** nouvelle syntaxe Angular 17+ (`@if`, `@for`, `@defer`) · sélecteurs en `amg-kebab-case`.
 
+**Bindings de classe et de style :**
+
+- ❌ Ne jamais utiliser `ngClass` ni `ngStyle`
+- ✅ Toujours utiliser les bindings natifs `[class.foo]` et `[style.prop]`
+- Retirer `NgClass` / `NgStyle` des imports du composant TS
+
+```html
+<!-- ❌ -->
+[ngClass]="{ 'block--modifier': condition }"
+[ngStyle]="{ color: value }"
+
+<!-- ✅ -->
+[class.block--modifier]="condition"
+[style.color]="value"
+```
+
 ---
 
 ## Flux de données
@@ -225,6 +241,7 @@ Config complète → `vercel.json` à la racine. Variables d'env → settings Ve
 - [ ] `ChangeDetectionStrategy.OnPush` sur chaque nouveau composant
 - [ ] Subscriptions gérées (`toSignal()` ou `takeUntilDestroyed()`)
 - [ ] `prefers-reduced-motion` respecté
+- [ ] Pas de `ngClass` ni `ngStyle` → `[class.x]` et `[style.x]` uniquement
 
 ---
 

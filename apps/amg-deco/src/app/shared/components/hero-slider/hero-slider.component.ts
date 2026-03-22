@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal, computed, OnDestroy, afterNextRender, input } from '@angular/core';
-import { NgClass, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 export interface SlideItem {
@@ -22,7 +22,7 @@ export interface SlideItem {
  */
 @Component({
   selector: 'amg-hero-slider',
-  imports: [NgClass, NgOptimizedImage, RouterLink],
+  imports: [NgOptimizedImage, RouterLink],
   templateUrl: './hero-slider.component.html',
   styleUrl: './hero-slider.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

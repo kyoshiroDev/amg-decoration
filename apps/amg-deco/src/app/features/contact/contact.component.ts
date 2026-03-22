@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit, signal, computed, DestroyRef } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { NgClass } from '@angular/common';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SeoService } from '../../core/services/seo.service';
 import { ContactService } from '../../core/services/contact.service';
@@ -10,7 +9,7 @@ type SubmitState = 'idle' | 'loading' | 'success' | 'error';
 
 @Component({
   selector: 'amg-contact',
-  imports: [ReactiveFormsModule, NgClass],
+  imports: [ReactiveFormsModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

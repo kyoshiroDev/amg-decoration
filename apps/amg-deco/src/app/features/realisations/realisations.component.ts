@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit, signal, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { NgClass, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { SeoService } from '../../core/services/seo.service';
 import { RealisationsFacade } from './application/realisations.facade';
 import { ProjectCategory } from '@amg/data-access';
@@ -9,7 +9,7 @@ type FilterCategory = ProjectCategory | 'all';
 
 @Component({
   selector: 'amg-realisations',
-  imports: [NgClass, NgOptimizedImage],
+  imports: [NgOptimizedImage],
   templateUrl: './realisations.component.html',
   styleUrl: './realisations.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

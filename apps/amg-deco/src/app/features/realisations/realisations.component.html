@@ -18,7 +18,7 @@
         <button
           type="button"
           class="realisations__filter-btn"
-          [ngClass]="{ 'realisations__filter-btn--active': activeFilter() === filter.value }"
+          [class.realisations__filter-btn--active]="activeFilter() === filter.value"
           [attr.aria-pressed]="activeFilter() === filter.value"
           (click)="setFilter(filter.value)"
         >
